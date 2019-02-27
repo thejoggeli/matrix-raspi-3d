@@ -1,0 +1,64 @@
+# rpi-rgb-led-matrix
+https://github.com/hzeller/rpi-rgb-led-matrix
+run $ make
+copy include contents to /usr/local/include/rgbmatrix
+copy lib contents to /usr/local/lib
+
+# libseasocks
+https://github.com/mattgodbolt/seasocks
+$ mkdir build
+$ cd build
+$ sudo cmake ..
+$ sudo make install
+copy include files to /usr/local/include/seasocks
+copy libseasocks.so.1.4.1 and libseasocks.so to /usr/local/lib/
+
+# other libraries
+sudo apt-get install libgles2-mesa-dev # DO NOT INSTALL THIS ON RASPBERRY
+sudo apt-get install libglm-dev
+sudo apt-get install libx11-dev
+
+# on Raspberry
+/opt/vc/include/interface/vcos/vcos_types.h
+go to line 205: #define countof(x) (sizeof((x)) / sizeof((x)[0]))
+and comment it out
+
+# enable opengl
+sudo raspi-config
+enable OpenGL (full KMS)
+
+# disable sound module (copy paste)
+cat <<EOF | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf
+blacklist snd_bcm2835
+EOF
+
+sudo update-initramfs -u
+
+# mks
+sudo nano /boot/config.txt
+remove the following lines:
+vc4-kms-v3d
+vc4-fkms-v3d
+dtparam=audio=on
+
+# HEADLESS OPENGL ON RASPBERRY PI
+in file /etc/rc.local add this line: 
+sudo X :0 &
+in file ~/.bashrc add this line:
+export DISPLAY=:0.0
+
+(reboot now)
+
+# vchiq
+sudo chmod -R 777 /dev/vchiq
+
+# matlib config (build/matlib/matlib.usr.cfg)
+opengl_api = opengl_es
+resources_path = /home/pi/repos/matrix-raspi/resources
+insrv_static_path = /home/pi/repos/matrix-raspi/web
+display_mode = mat
+mat_orientation = 0 # (0=landscape, 1=portrait)
+mat_rotation_landscape = 0 # (0, 90, 180, 270)
+mat_rotation_portrait = 90 # (0, 90, 180, 270)
+
+

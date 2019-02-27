@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="ISO-8859-1"> 
+	<title>Matrix-Raspi</title>
+	<link rel="icon" href="swiss.ico">
+	<link rel="stylesheet" type="text/css" href="haf.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="jquery-3.2.1.min.js"></script>
+	<script src="haf.js"></script>
+	<script src="app.js"></script>
+	<script src="sfx.js"></script>
+	<script src="gamepad.js"></script>
+	<script src="matrix-client.js"></script>
+	<meta name="viewport" content="minimal-ui, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head><body>	
+	<div class="home-screen">		
+		<div class="header">
+			Matrix-Raspi:
+			<span class="connected-state">disconnected</span>
+		</div>		
+		<div class="button-row">
+			<button class="set-screen" data-screen="gamepad">Gamepad</button>
+			<button class="set-fullscreen" data-mode="enter">Fullscreen +</button>
+			<button class="set-fullscreen" data-mode="leave">Fullscreen -</button>
+		</div>
+		<div class="button-row">
+			<input type="range" min="1" max="100" value="50" class="brightness-slider">
+			<span class="brightness-label"><span class="value">0</span>%</span>
+		</div>
+		<div class="button-row">			
+			<button class="msg-btn" data-msg="launch_app" data-params='flappy-bird'>Flappy Bird</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='tetris'>Tetris</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='pong'>Pong</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='camera-3d'>3D</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='opengl-test'>OpenGL Test</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='compile-test'>Compile Test</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='states-test'>States Test</button>
+			<button class="msg-btn" data-msg="launch_app" data-params='camera-test'>Camera Test</button>
+		</div>
+		<div class="button-row">
+			<button class="msg-btn" data-msg="quit">Quit</button>
+			<button class="msg-btn" data-msg="test">Test</button>
+		</div>
+	</div>	
+</body></html>

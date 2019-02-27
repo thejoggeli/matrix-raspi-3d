@@ -1,0 +1,1 @@
+/usr/bin/g++    -rdynamic CMakeFiles/Ledlib_Test.dir/main.cpp.o  -o Ledlib_Test -Wl,-rpath,/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib ../../Ledlib/libLedlib.so 

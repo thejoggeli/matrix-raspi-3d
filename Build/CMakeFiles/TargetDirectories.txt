@@ -1,0 +1,10 @@
+/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles/rebuild_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles/edit_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/rebuild_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/edit_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Urho3d_Test/CMakeFiles/rebuild_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Urho3d_Test/CMakeFiles/edit_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Ledlib_Test/CMakeFiles/rebuild_cache.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir
+/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Ledlib_Test/CMakeFiles/edit_cache.dir

@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././Ledlib/Display/DisplayManager.h
+vector
+-
+stdint.h
+-
+
+.././Ledlib/Ledlib.h
+string
+-
+
+.././Ledlib/Log.h
+sstream
+-
+
+/home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test/main.cpp
+iostream
+-
+Ledlib/Ledlib.h
+/home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test/Ledlib/Ledlib.h
+Ledlib/Log.h
+/home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test/Ledlib/Log.h
+Ledlib/Display/DisplayManager.h
+/home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test/Ledlib/Display/DisplayManager.h
+
