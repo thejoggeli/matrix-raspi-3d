@@ -13,10 +13,10 @@ public:
 	Server();
 	virtual ~Server();
 	virtual bool Init();
-    virtual void Poll() = 0;
-    virtual int GetNumConnections() = 0;
-    virtual int GetPort() = 0;
-    virtual std::string GetLocalUrl() = 0;
+	virtual void Poll() = 0;
+	virtual int GetNumConnections() = 0;
+	virtual int GetPort() = 0;
+	virtual std::string GetLocalUrl() = 0;
 	virtual std::string GetGlobalUrl() = 0;
 	virtual void Send(std::string& string) = 0;
 	virtual void SendMessage(ServerMessage& message, int clientId = 0) = 0;

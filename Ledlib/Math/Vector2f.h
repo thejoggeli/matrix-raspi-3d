@@ -11,19 +11,19 @@ public:
 	static const Vector2f DOWN;
 	static const Vector2f LEFT;
 	static const Vector2f RIGHT;
-    float x, y;
+	float x, y;
 	Vector2f();
 	Vector2f(float x, float y);
-    void Set(float x, float y);
+	void Set(float x, float y);
 	void Set(const Vector2f& v);
-    void Normalize();
+	void Normalize();
 	Vector2f Normalized();
-    float GetLength();
-    float GetAngle();
-    void SetAngle(float a);
-    void SetAngle(float a, float length);
+	float GetLength();
+	float GetAngle();
+	void SetAngle(float a);
+	void SetAngle(float a, float length);
 
-    // static functions
+	// static functions
 	static float GetDistance(Vector2f &v1, Vector2f &v2);
 	static float GetAngleBetween(Vector2f &v1, Vector2f &v2);
 
