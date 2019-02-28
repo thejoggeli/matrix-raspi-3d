@@ -51,7 +51,7 @@ string GetExecDir(){
 
 
 string GetAppConfigPath(const std::string& filename){
-	return GetExecDir() + filename;
+	return GetExecDir() + "/" + filename;
 }
 string GetLedlibConfigPath(const std::string& filename){
 	string dir = LEDLIB_CONFIG_PATH;
