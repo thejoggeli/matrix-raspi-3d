@@ -6,33 +6,29 @@
 
 namespace Ledlib {
 
+class ClientJoinerSlot;
 class ClientJoinerListener;
-
-struct JoinedClient {
-	int id;
-	bool ready;
-	int slot;
-};
 
 class ClientJoiner {
 private:
 	static int initCounter;
 	ClientJoiner();
 public:
-	static bool Init(unsigned int maxClients, bool autoReady = true);
+	static bool Init(unsigned int numSlots, bool autoReady = true);
 	static void SetJoinKey(KeyCode code);
+	static void SetReadyKey(KeyCode code);
 	static void SetLeaveKey(KeyCode code);
 	static void Reset();
 	static void Update();
-	static const std::vector<std::shared_ptr<JoinedClient>>& GetJoinedClients();
-	static const std::vector<std::shared_ptr<JoinedClient>>& GetSlots();
-	static std::shared_ptr<JoinedClient> FindJoinedClient(int id);
-	static std::shared_ptr<JoinedClient> AddJoinedClient(int id);
-	static void RemoveJoinedClient(int id);
+	static const std::vector<std::shared_ptr<ClientJoinerSlot>>& GetAllSlots();
+	static const std::vector<std::shared_ptr<ClientJoinerSlot>>& GetTakenSlots();
+	static std::shared_ptr<ClientJoinerSlot> FindClient(int id);
+	static std::shared_ptr<ClientJoinerSlot> AddClient(int id);
+	static void RemoveClient(int id);
 	static bool IsEveryoneReady();
 	static void AddListener(const std::shared_ptr<ClientJoinerListener>& listener);
-	static bool MaxClientsReached();
-	static int GetNumClients();
+	static bool AllSlotsTaken();
+	static int GetNumTakenSlots();
 };
 
 

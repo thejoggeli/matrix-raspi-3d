@@ -6,8 +6,8 @@ struct ClientJoinerListener {
 	ClientJoinerListener();
 	virtual ~ClientJoinerListener();
 	virtual void OnEveryoneReady(int numClients);
-	virtual void OnClientJoined(int id);
-	virtual void OnClientLeft(bool disconnected);
+	virtual void OnClientJoined(int clientId, int slotId);
+	virtual void OnClientLeft(int clientId, int slotId, bool disconnected);
 };
 
 }

@@ -11,6 +11,7 @@ set(
 	"Util/Strings.cpp"
 	"Util/Timer.cpp"
 	"Util/ClientJoiner.cpp"
+	"Util/ClientJoinerSlot.cpp"
 	"Util/ClientJoinerListener.cpp"
 	"Remote/Client.cpp"
 	"Remote/ClientManager.cpp"

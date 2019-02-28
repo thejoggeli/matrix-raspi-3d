@@ -1,4 +1,5 @@
 #include "ClientJoiner.h"
+#include "ClientJoinerSlot.h"
 #include "ClientJoinerListener.h"
 #include "../Remote/ClientManager.h"
 #include "../Remote/Client.h"
@@ -9,35 +10,34 @@ using namespace std;
 
 namespace Ledlib {
 
-static vector<shared_ptr<JoinedClient>> joinedClients;
-static vector<shared_ptr<JoinedClient>> slots;
+static vector<shared_ptr<ClientJoinerSlot>> takenSlots;
+static vector<shared_ptr<ClientJoinerSlot>> slots;
 static vector<shared_ptr<ClientJoinerListener>> listeners;
 static bool readyFlag = false;
 static bool autoReady = false;
-static unsigned int maxClients;
+static unsigned int numSlots;
 
 static KeyCode joinKey = KeyCode::Start;
+static KeyCode readyKey = KeyCode::Start;
 static KeyCode leaveKey = KeyCode::B;
 
 int ClientJoiner::initCounter = 0;
 
-bool ClientJoiner::Init(unsigned int maxClients, bool autoReady){
+bool ClientJoiner::Init(unsigned int numSlots_, bool autoReady_){
 	if(++initCounter > 1) return false;
 	Log(LOG_INFO, "ClientJoiner", "Initializing");
-	maxClients = maxClients;
-	autoReady = autoReady;
+	numSlots = numSlots_;
+	autoReady = autoReady_;
 	Reset();
 	return true;
 }
 
 void ClientJoiner::Reset(){
-	for(auto const& client: joinedClients){
-		RemoveJoinedClient(client->id);
-	}
-	joinedClients.clear();
+	takenSlots.clear();
 	slots.clear();
-	for(int i = 0; i < maxClients; i++){
-		slots[i] = nullptr;
+	slots.reserve(numSlots);
+	for(int i = 0; i < numSlots; i++){
+		slots.push_back(make_shared<ClientJoinerSlot>(i));
 	}
 	readyFlag = false;
 }
@@ -46,6 +46,9 @@ void ClientJoiner::Reset(){
 void ClientJoiner::SetJoinKey(KeyCode code){
 	joinKey = code;
 }
+void ClientJoiner::SetReadyKey(KeyCode code){
+	readyKey = code;
+}
 void ClientJoiner::SetLeaveKey(KeyCode code){
 	leaveKey = code;
 }
@@ -53,47 +56,51 @@ void ClientJoiner::SetLeaveKey(KeyCode code){
 void ClientJoiner::Update(){
 	for(auto const& client: ClientManager::GetAllCients()){
 		if((client->OnKeyDown(joinKey))){
-			shared_ptr<JoinedClient> joinedClient = FindJoinedClient(client->id);
-			if(joinedClient){
-				// client is ready
-				if(!joinedClient->ready){
-					joinedClient->ready = true;
-					Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (" << client->id << ") is ready");
-				}
-			} else if(joinedClients.size() < maxClients) {
-				// client joined
-				shared_ptr<JoinedClient> jc = AddJoinedClient(client->id);
+			shared_ptr<ClientJoinerSlot> slot = FindClient(client->id);
+			if(slot){
+				// nothing
+			} else if(takenSlots.size() < numSlots) {
+				// joined
+				slot = AddClient(client->id);
 				for(auto const& listener: listeners){
-					listener->OnClientJoined(client->id);
+					listener->OnClientJoined(client->id, slot->slotId);
 				}
-				Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (" << client->id << ") joined in slot [" << jc->slot << "]");
+				Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") joined in slot [" << slot->slotId << "]");
+			}
+		} else if(client->OnKeyDown(readyKey)){
+			shared_ptr<ClientJoinerSlot> slot = FindClient(client->id);
+			if(slot && !slot->ready){
+				// ready
+				slot->SetReady(true);
+				Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") is ready");
 			}
 		} else if(client->OnKeyDown(leaveKey)){
-			shared_ptr<JoinedClient> joinedClient = FindJoinedClient(client->id);
-			if(joinedClient){
-				if(joinedClient->ready && !autoReady){
+			shared_ptr<ClientJoinerSlot> slot = FindClient(client->id);
+			if(slot){
+				if(slot->ready && !autoReady){
 					// client is no longer ready
-					joinedClient->ready = false;
-					Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (" << client->id << ") is no long ready");
+					slot->SetReady(false);
+					Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") is no long ready");
 				} else {
 					// client left
-					RemoveJoinedClient(client->id);
+					RemoveClient(client->id);
 					for(auto const& listener: listeners){
-						listener->OnClientLeft(false);
+						listener->OnClientLeft(client->id, slot->slotId, false);
 					}
-					Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (" << client->id << ") left");
+					Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") left in slot [" << slot->slotId << "]");
 				}
 			}
 		}
 	}
 	// remove old clients
-	for(auto const& joinedClient: joinedClients){
-		if(!ClientManager::GetClient(joinedClient->id)){
-			RemoveJoinedClient(joinedClient->id);
+	for(auto const& slot: takenSlots){
+		if(!ClientManager::GetClient(slot->clientId)){
+			int clientId = slot->clientId;
+			RemoveClient(slot->clientId);
 			for(auto const& listener: listeners){
-				listener->OnClientLeft(true);
+				listener->OnClientLeft(clientId, slot->slotId, true);
 			}
-			Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (" << joinedClient->id << ") was disconnected");
+			Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (" << clientId << ") was disconnected in slot [" << slot->slotId << "]");
 		}
 	}
 	// listeners
@@ -101,57 +108,60 @@ void ClientJoiner::Update(){
 		if(!readyFlag){
 			readyFlag = true;
 			for(auto const& listener: listeners){
-				listener->OnEveryoneReady(static_cast<int>(joinedClients.size()));
+				listener->OnEveryoneReady(static_cast<int>(takenSlots.size()));
 			}
-			Log(LOG_DEBUG, "ClientJoiner", iLog << "Everyone is ready (" << joinedClients.size() << ")");
+			Log(LOG_DEBUG, "ClientJoiner", iLog << "Everyone is ready (n=" << takenSlots.size() << ")");
 		}
 	} else if(readyFlag) {
 		readyFlag = false;
-		Log(LOG_DEBUG, "ClientJoiner", iLog << "Everyone is no longer ready");
+		Log(LOG_DEBUG, "ClientJoiner", iLog << "No longer ready");
 	}
 }
 
-shared_ptr<JoinedClient> ClientJoiner::FindJoinedClient(int id){
-	for(shared_ptr<JoinedClient> jc: joinedClients){
-		if(jc->id == id) return jc;
+shared_ptr<ClientJoinerSlot> ClientJoiner::FindClient(int id){
+	for(shared_ptr<ClientJoinerSlot> slot: takenSlots){
+		if(slot->clientId == id) return slot;
 	}
 	return nullptr;
 }
 
-shared_ptr<JoinedClient> ClientJoiner::AddJoinedClient(int id){
-	shared_ptr<JoinedClient> jc = make_shared<JoinedClient>();
-	jc->id = id;
-	jc->ready = autoReady ? true : false;
-	for(jc->slot = 0; jc->slot < maxClients; jc->slot++){
-		if(slots[jc->slot] == nullptr){
-			slots[jc->slot] = jc;
-			break;
-		};
+shared_ptr<ClientJoinerSlot> ClientJoiner::AddClient(int id){
+	unsigned int slotId;
+	for(slotId = 0; slotId < numSlots; slotId++){
+		if(!slots[slotId]->IsTaken()) break;
 	}
-	joinedClients.push_back(jc);
-	return jc;
+	if(slotId < numSlots){
+		shared_ptr<ClientJoinerSlot> slot = slots[slotId];
+		slot->SetClientId(id);
+		slot->SetReady(autoReady ? true : false);
+		takenSlots.push_back(slot);
+		return slot;
+	}
+	return nullptr;
+}
+void ClientJoiner::RemoveClient(int id){
+	shared_ptr<ClientJoinerSlot> slot = FindClient(id);
+	if(slot){
+		slot->SetClientId(0);
+		slot->SetReady(false);
+		takenSlots.erase(remove_if(takenSlots.begin(), takenSlots.end(),
+			[&slot](auto const& f){return f->slotId == slot->slotId;}
+		));
+	}
 }
 
-void ClientJoiner::RemoveJoinedClient(int id){
-	shared_ptr<JoinedClient> jc = FindJoinedClient(id);
-	slots[jc->slot] = nullptr;
-	joinedClients.erase(remove_if(joinedClients.begin(), joinedClients.end(),
-		[&id](auto const& f){return f->id == id;}
-	));
-}
-
-const vector<shared_ptr<JoinedClient>>& ClientJoiner::GetJoinedClients(){
-	return joinedClients;
-}
-
-const vector<shared_ptr<JoinedClient>>& ClientJoiner::GetSlots(){
+const vector<shared_ptr<ClientJoinerSlot>>& ClientJoiner::GetAllSlots(){
 	return slots;
 }
 
+const vector<shared_ptr<ClientJoinerSlot>>& ClientJoiner::GetTakenSlots(){
+	return takenSlots;
+}
+
 bool ClientJoiner::IsEveryoneReady(){
-	if(joinedClients.size() < 1) return false;
-	for(auto const& joinedClient: joinedClients){
-		if(!joinedClient->ready) return false;
+	if(takenSlots.size() < 1) return false;
+	for(auto const& slot: takenSlots){
+		if(!slot->ready) return false;
 	}
 	return true;
 }
@@ -160,15 +170,12 @@ void ClientJoiner::AddListener(const shared_ptr<ClientJoinerListener>& listener)
 	listeners.push_back(listener);
 }
 
-int ClientJoiner::GetNumClients(){
-	return joinedClients.size();
+int ClientJoiner::GetNumTakenSlots(){
+	return takenSlots.size();
 }
 
-bool ClientJoiner::MaxClientsReached(){
-	return joinedClients.size() == maxClients;
+bool ClientJoiner::AllSlotsTaken(){
+	return takenSlots.size() == numSlots;
 }
-
-
-
 
 }
