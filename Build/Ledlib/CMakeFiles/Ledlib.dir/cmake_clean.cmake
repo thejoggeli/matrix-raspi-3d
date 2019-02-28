@@ -23,6 +23,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o"
   "CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o"
   "CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o"
+  "CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o"
+  "CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o"
   "libLedlib.pdb"
   "libLedlib.so"
 )

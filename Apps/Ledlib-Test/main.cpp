@@ -5,6 +5,7 @@
 #include "Ledlib/Display/DisplayManager.h"
 #include "Ledlib/Time.h"
 #include "Ledlib/Remote/ClientManager.h"
+#include "Ledlib/Sfx/RemoteSfx.h"
 
 using namespace std;
 using namespace Ledlib;
@@ -16,6 +17,9 @@ int main(){
 	std::vector<uint8_t> pixels;
 	pixels.assign(DisplayManager::width*DisplayManager::height*3, 0);
 	DisplayManager::SetPixelsPointer(&pixels, 3);
+
+	RemoteSfx::AddFile("tetris", "tetris/a-theme.mp3");
+	RemoteSfx::StartMusic(0, "tetris");
 
 	while(!LedMatrixLibrary::exitRequested){
 		LedMatrixLibrary::Update();

@@ -40,8 +40,8 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/cmake_install.cmake")
-  include("/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Urho3d_Test/cmake_install.cmake")
-  include("/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Ledlib_Test/cmake_install.cmake")
+  include("/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Urho3D-Test/cmake_install.cmake")
+  include("/home/michael/Documents/repos/matrix-raspi-3d/Build/Apps/Ledlib-Test/cmake_install.cmake")
 
 endif()
 

@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = -DLEDLIB_CONFIG_PATH=\"/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib\" -DLEDLIB_LAUNCHER_ARGS_PATH=\"/home/michael/Documents/repos/matrix-raspi-3d/Build/launcher/args.txt\"
 
-CXX_INCLUDES = -I/home/michael/Documents/repos/matrix-raspi-3d/. -I/home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test/. 
+CXX_INCLUDES = -I/home/michael/Documents/repos/matrix-raspi-3d/. -I/home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib-Test/. 
 

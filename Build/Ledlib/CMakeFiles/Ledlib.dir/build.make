@@ -633,6 +633,54 @@ Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o.provides: Ledlib/CMakeF
 Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o
 
 
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Sfx/RemoteSfx.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.cpp
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.i"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.cpp > CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.i
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.s"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.cpp -o CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.s
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.requires:
+
+.PHONY : Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.requires
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.provides: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.requires
+	$(MAKE) -f Ledlib/CMakeFiles/Ledlib.dir/build.make Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.provides.build
+.PHONY : Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.provides
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o
+
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Sfx/RemoteSfxEventListener.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.cpp
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.i"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.cpp > CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.i
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.s"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.cpp -o CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.s
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.requires:
+
+.PHONY : Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.requires
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.provides: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.requires
+	$(MAKE) -f Ledlib/CMakeFiles/Ledlib.dir/build.make Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.provides.build
+.PHONY : Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.provides
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o
+
+
 # Object files for target Ledlib
 Ledlib_OBJECTS = \
 "CMakeFiles/Ledlib.dir/Ledlib.cpp.o" \
@@ -658,7 +706,9 @@ Ledlib_OBJECTS = \
 "CMakeFiles/Ledlib.dir/Display/Display.cpp.o" \
 "CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o" \
 "CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o" \
-"CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o"
+"CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o" \
+"CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o" \
+"CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o"
 
 # External object files for target Ledlib
 Ledlib_EXTERNAL_OBJECTS =
@@ -687,12 +737,14 @@ Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o
+Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o
+Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/build.make
 Ledlib/libLedlib.so: /usr/local/lib/librgbmatrix.so.1
 Ledlib/libLedlib.so: /usr/local/lib/libseasocks.so
 Ledlib/libLedlib.so: /usr/lib/x86_64-linux-gnu/libX11.so
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX shared library libLedlib.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Linking CXX shared library libLedlib.so"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Ledlib.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -724,6 +776,8 @@ Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Display/Disp
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o.requires
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o.requires
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o.requires
+Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o.requires
+Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o.requires
 
 .PHONY : Ledlib/CMakeFiles/Ledlib.dir/requires
 

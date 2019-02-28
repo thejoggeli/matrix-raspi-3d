@@ -12,7 +12,7 @@ std::string Event::ToString(){
 }
 std::string Event::GetToStringPart(){
 	if(fromClient){
-		return EventTypeToString(type) + " (" + std::to_string(clientId) + ")";
+		return EventTypeToString(type) + " (id=" + std::to_string(clientId) + ")";
 	} else {
 		return EventTypeToString(type) + " (System)";
 	}

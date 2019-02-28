@@ -25,6 +25,8 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/Server.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o"
   "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerManager.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o"
   "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerMessage.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o"
+  "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o"
+  "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o"
   "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Time.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o"
   "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Util/Strings.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.o"
   "/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Util/Timer.cpp" "/home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.o"

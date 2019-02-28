@@ -24,6 +24,8 @@ set(
 	"Display/DisplayManager.cpp"
 	"Display/X11Display.cpp"
 	"Display/MatrixDisplay.cpp"
+	"Sfx/RemoteSfx.cpp"
+	"Sfx/RemoteSfxEventListener.cpp"
 )
 
 find_library(

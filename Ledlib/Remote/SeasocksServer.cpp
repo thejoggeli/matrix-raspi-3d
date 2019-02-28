@@ -48,13 +48,12 @@ void SeasocksServer::Send(std::string& string){
 }
 void SeasocksServer::SendMessage(ServerMessage& message, int clientId){
 	string& str = message.GetJsonString();
+	Log(LOG_DEBUG, "SeasocksServer", iLog << "Send (id=" << clientId << ") " << str);
 	if(clientId == 0){
-		Log(LOG_DEBUG, "SeasocksServer", iLog << "Sending Message to all clients:");
 		for(auto const& it: handler->connections){
 			it->send(str);
 		}
 	} else {
-		Log(LOG_DEBUG, "SeasocksServer", iLog << "Sending Message to client (" << clientId << "):");
 		for(auto const& it: handler->connections){
 			shared_ptr<Client> c = handler->GetClientByConnection(it);
 			if(c && c->id == clientId){
@@ -62,7 +61,6 @@ void SeasocksServer::SendMessage(ServerMessage& message, int clientId){
 			}
 		}
 	}
-	Log(LOG_DEBUG, "SeasocksServer", str);
 }
 
 void SeasocksServer::Poll(){

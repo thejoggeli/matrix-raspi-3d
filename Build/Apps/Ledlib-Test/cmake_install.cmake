@@ -1,4 +1,4 @@
-# Install script for directory: /home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test
+# Install script for directory: /home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib-Test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

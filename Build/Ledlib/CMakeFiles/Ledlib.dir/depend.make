@@ -137,6 +137,25 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Remote/Server
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o: ../Ledlib/Remote/ServerMessage.cpp
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o: ../Ledlib/Remote/ServerMessage.h
 
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Events/Event.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Events/EventListener.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Log.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Math/Vector2f.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Remote/Keys.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Remote/ServerManager.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Remote/ServerMessage.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Sfx/RemoteSfx.cpp
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Sfx/RemoteSfx.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o: ../Ledlib/Sfx/RemoteSfxEventListener.h
+
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Events/Event.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Events/EventListener.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Math/Vector2f.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Remote/Keys.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Sfx/RemoteSfx.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Sfx/RemoteSfxEventListener.cpp
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o: ../Ledlib/Sfx/RemoteSfxEventListener.h
+
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Log.h
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Time.cpp
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Time.h

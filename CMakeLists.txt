@@ -30,5 +30,5 @@ function(add_app app_name)
 	add_subdirectory("Apps/${app_name}")
 endfunction(add_app)
 
-add_app("Urho3d_Test")
-add_app("Ledlib_Test")
+add_app("Urho3D-Test")
+add_app("Ledlib-Test")

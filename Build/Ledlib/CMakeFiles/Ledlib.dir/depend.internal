@@ -137,6 +137,25 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o
  /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerMessage.cpp
  /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerMessage.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfx.cpp.o
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/Event.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/EventListener.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Log.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Math/Vector2f.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/Keys.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerManager.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerMessage.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.cpp
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.h
+Ledlib/CMakeFiles/Ledlib.dir/Sfx/RemoteSfxEventListener.cpp.o
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/Event.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/EventListener.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Math/Vector2f.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/Keys.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfx.h
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.cpp
+ /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Sfx/RemoteSfxEventListener.h
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o
  /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Log.h
  /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Time.cpp
