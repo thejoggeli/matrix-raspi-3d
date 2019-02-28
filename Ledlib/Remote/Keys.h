@@ -9,7 +9,8 @@ enum class KeyCode {
         Up = 10, Down = 11, Left = 12, Right = 13,
 		LeftJoystick = 18, RightJoystick = 19,
         Start = 20, Select = 21,
-        KEY_CODE_MAX = 24
+	    None = 23,
+	    KEY_CODE_MAX = 24,
 };
 
 enum class KeyState {

@@ -10,6 +10,8 @@ set(
 	"Math/Vector2i.cpp"
 	"Util/Strings.cpp"
 	"Util/Timer.cpp"
+	"Util/ClientJoiner.cpp"
+	"Util/ClientJoinerListener.cpp"
 	"Remote/Client.cpp"
 	"Remote/ClientManager.cpp"
 	"Remote/Server.cpp"
