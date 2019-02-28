@@ -76,9 +76,9 @@ void X11Display::Sync() {
 		XNextEvent(display, &event);
 		switch  (event.type){
 		case ClientMessage:
-			Log(LOG_DEBUG, "DisplaX11", "ClientMessage received");
+			Log(LOG_DEBUG, "X11Display", "ClientMessage received");
 			if(event.xclient.data.l[0] == wmDeleteMessage){
-				Log(LOG_DEBUG, "DisplaX11", "Close window requested");
+				Log(LOG_DEBUG, "X11Display", "Close window requested");
 				LedMatrixLibrary::RequestExit();
 			}
 			break;

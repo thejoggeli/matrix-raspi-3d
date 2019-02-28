@@ -19,6 +19,7 @@ int Config::initCounter = 0;
 
 bool Config::Init(){
 	if(++initCounter > 1) return false;
+	Log(LOG_INFO, "Config", "Initializing");
 	ReadFile(TargetToPath(Target::Default), map_all);
 	ReadFile(TargetToPath(Target::User), map_all);
 	ReadFile(TargetToPath(Target::App), map_all);

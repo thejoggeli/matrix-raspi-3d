@@ -1,10 +1,13 @@
 #include "Time.h"
+#include "Log.h"
 #include <time.h>
 #include <iostream>
+#include <math.h>
 
 namespace Ledlib {
 
-uint32_t Time::startTimeOffset = 0;
+uint32_t Time::startTimeOffsetInt = 0;
+float Time::startTimeOffsetFloat = 0;
 float Time::deltaTime = 0;
 float Time::deltaTimeUnscaled;
 float Time::currentTime = 0;
@@ -16,7 +19,11 @@ float Time::timeScale = 1.0f;
 
 void Time::Start(){
 	// time offset
-	startTimeOffset = GetRealTimeSecondsInt();
+	struct timespec spec;
+	clock_gettime(CLOCK_REALTIME, &spec);
+	startTimeOffsetInt = static_cast<uint32_t>(spec.tv_sec);
+	startTimeOffsetFloat = static_cast<float>(spec.tv_nsec/1e6)/1.0e3f;
+
 	// start
 	startTime = GetOffsetTimeSecondsFloat();
 	currentTime = startTime;
@@ -35,7 +42,7 @@ void Time::Update(){
 float Time::GetOffsetTimeSecondsFloat(){
 	struct timespec spec;
 	clock_gettime(CLOCK_REALTIME, &spec);
-	return static_cast<float>(spec.tv_sec-startTimeOffset) + static_cast<float>(spec.tv_nsec) / 1.0e9f;
+	return static_cast<float>(spec.tv_sec-startTimeOffsetInt) + static_cast<float>(spec.tv_nsec) / 1.0e9f - startTimeOffsetFloat;
 }
 
 float Time::GetRealTimeSecondsFloat(){

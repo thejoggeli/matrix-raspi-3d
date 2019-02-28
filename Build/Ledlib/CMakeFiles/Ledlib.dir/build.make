@@ -81,9 +81,33 @@ Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o.provides: Ledlib/CMakeFiles/Ledlib.dir
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o
 
 
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/LedlibEventHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/LedlibEventHandler.cpp
+
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.i"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/LedlibEventHandler.cpp > CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.i
+
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.s"
+	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/LedlibEventHandler.cpp -o CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.s
+
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.requires:
+
+.PHONY : Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.requires
+
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.provides: Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.requires
+	$(MAKE) -f Ledlib/CMakeFiles/Ledlib.dir/build.make Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.provides.build
+.PHONY : Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.provides
+
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o
+
+
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Time.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Time.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Time.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.i: cmake_force
@@ -107,7 +131,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib
 
 Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o: ../Ledlib/Log.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Log.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Log.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.i: cmake_force
@@ -131,7 +155,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o.provides.build: Ledlib/CMakeFiles/Ledlib.
 
 Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o: ../Ledlib/Config.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Config.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Config.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.i: cmake_force
@@ -155,7 +179,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o.provides.build: Ledlib/CMakeFiles/Ledl
 
 Ledlib/CMakeFiles/Ledlib.dir/Math/Numbers.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Math/Numbers.cpp.o: ../Ledlib/Math/Numbers.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Math/Numbers.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Math/Numbers.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Math/Numbers.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Math/Numbers.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Math/Numbers.cpp.i: cmake_force
@@ -179,7 +203,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Math/Numbers.cpp.o.provides.build: Ledlib/CMakeFile
 
 Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.o: ../Ledlib/Math/Vector2f.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Math/Vector2f.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.i: cmake_force
@@ -203,7 +227,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2f.cpp.o.provides.build: Ledlib/CMakeFil
 
 Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.o: ../Ledlib/Math/Vector2i.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Math/Vector2i.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.i: cmake_force
@@ -227,7 +251,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Math/Vector2i.cpp.o.provides.build: Ledlib/CMakeFil
 
 Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.o: ../Ledlib/Util/Strings.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Util/Strings.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Util/Strings.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.i: cmake_force
@@ -251,7 +275,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Util/Strings.cpp.o.provides.build: Ledlib/CMakeFile
 
 Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.o: ../Ledlib/Util/Timer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Util/Timer.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Util/Timer.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.i: cmake_force
@@ -275,7 +299,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Util/Timer.cpp.o.provides.build: Ledlib/CMakeFiles/
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Client.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Client.cpp.o: ../Ledlib/Remote/Client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/Client.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/Client.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/Client.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/Client.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Client.cpp.i: cmake_force
@@ -299,7 +323,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/Client.cpp.o.provides.build: Ledlib/CMakeFil
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.o: ../Ledlib/Remote/ClientManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ClientManager.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.i: cmake_force
@@ -323,7 +347,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/ClientManager.cpp.o.provides.build: Ledlib/C
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o: ../Ledlib/Remote/Server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/Server.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/Server.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.i: cmake_force
@@ -347,7 +371,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o.provides.build: Ledlib/CMakeFil
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.o: ../Ledlib/Remote/SeasocksServer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/SeasocksServer.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.i: cmake_force
@@ -371,7 +395,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/SeasocksServer.cpp.o.provides.build: Ledlib/
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Remote/ServerManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerManager.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.i: cmake_force
@@ -395,7 +419,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o.provides.build: Ledlib/C
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o: ../Ledlib/Remote/ServerMessage.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/ServerMessage.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.i: cmake_force
@@ -419,7 +443,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o.provides.build: Ledlib/C
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Keys.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Keys.cpp.o: ../Ledlib/Remote/Keys.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/Keys.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Remote/Keys.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Remote/Keys.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Remote/Keys.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Keys.cpp.i: cmake_force
@@ -443,7 +467,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/Keys.cpp.o.provides.build: Ledlib/CMakeFiles
 
 Ledlib/CMakeFiles/Ledlib.dir/Events/Event.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Events/Event.cpp.o: ../Ledlib/Events/Event.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Events/Event.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Events/Event.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Events/Event.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/Event.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Events/Event.cpp.i: cmake_force
@@ -467,7 +491,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Events/Event.cpp.o.provides.build: Ledlib/CMakeFile
 
 Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o: ../Ledlib/Events/EventManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/EventManager.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.i: cmake_force
@@ -491,7 +515,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o.provides.build: Ledlib/CM
 
 Ledlib/CMakeFiles/Ledlib.dir/Events/EventListener.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Events/EventListener.cpp.o: ../Ledlib/Events/EventListener.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Events/EventListener.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Events/EventListener.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Events/EventListener.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Events/EventListener.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Events/EventListener.cpp.i: cmake_force
@@ -515,7 +539,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Events/EventListener.cpp.o.provides.build: Ledlib/C
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.o: ../Ledlib/Display/Display.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Display/Display.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Display/Display.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.i: cmake_force
@@ -539,7 +563,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Display/Display.cpp.o.provides.build: Ledlib/CMakeF
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o: ../Ledlib/Display/DisplayManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Display/DisplayManager.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.i: cmake_force
@@ -563,7 +587,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Display/DisplayManager.cpp.o.provides.build: Ledlib
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o: ../Ledlib/Display/X11Display.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Display/X11Display.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.i: cmake_force
@@ -587,7 +611,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Display/X11Display.cpp.o.provides.build: Ledlib/CMa
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o: Ledlib/CMakeFiles/Ledlib.dir/flags.make
 Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o: ../Ledlib/Display/MatrixDisplay.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o -c /home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Display/MatrixDisplay.cpp
 
 Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.i: cmake_force
@@ -612,6 +636,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Display/MatrixDisplay.cpp.o.provides.build: Ledlib/
 # Object files for target Ledlib
 Ledlib_OBJECTS = \
 "CMakeFiles/Ledlib.dir/Ledlib.cpp.o" \
+"CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o" \
 "CMakeFiles/Ledlib.dir/Time.cpp.o" \
 "CMakeFiles/Ledlib.dir/Log.cpp.o" \
 "CMakeFiles/Ledlib.dir/Config.cpp.o" \
@@ -639,6 +664,7 @@ Ledlib_OBJECTS = \
 Ledlib_EXTERNAL_OBJECTS =
 
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o
+Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o
@@ -666,7 +692,7 @@ Ledlib/libLedlib.so: /usr/local/lib/librgbmatrix.so.1
 Ledlib/libLedlib.so: /usr/local/lib/libseasocks.so
 Ledlib/libLedlib.so: /usr/lib/x86_64-linux-gnu/libX11.so
 Ledlib/libLedlib.so: Ledlib/CMakeFiles/Ledlib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Linking CXX shared library libLedlib.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/michael/Documents/repos/matrix-raspi-3d/Build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX shared library libLedlib.so"
 	cd /home/michael/Documents/repos/matrix-raspi-3d/Build/Ledlib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Ledlib.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -675,6 +701,7 @@ Ledlib/CMakeFiles/Ledlib.dir/build: Ledlib/libLedlib.so
 .PHONY : Ledlib/CMakeFiles/Ledlib.dir/build
 
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o.requires
+Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o.requires
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o.requires
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o.requires
 Ledlib/CMakeFiles/Ledlib.dir/requires: Ledlib/CMakeFiles/Ledlib.dir/Config.cpp.o.requires

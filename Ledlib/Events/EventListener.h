@@ -1,14 +1,18 @@
 #pragma once
 
+#include <memory>
+
 namespace Ledlib {
 
 class Event;
 
-class EventListener {
+class EventListener : public std::enable_shared_from_this<EventListener> {
 public:
 	EventListener();
 	virtual ~EventListener();
-	virtual void OnEvent(Event& event);
+	void StartListening();
+	void StopListening();
+	virtual void OnEvent(Event& event) = 0;
 };
 
 }

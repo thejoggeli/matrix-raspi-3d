@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Keys.h"
+#include <memory>
 
 namespace Ledlib {
 
@@ -14,10 +15,10 @@ private:
 public:
 	static bool Init();
 	static void Update();
-	static void AddClient(Client *client);
+	static void AddClient(std::shared_ptr<Client> client);
 	static void RemoveClient(int id);
-	static Client* GetClient(int id);
-	static const std::vector<Client*> & GetAllCients();
+	static std::shared_ptr<Client> GetClient(int id);
+	static const std::vector<std::shared_ptr<Client>>& GetAllCients();
 
 	static bool IsKeyDown(KeyCode code);
 	static bool OnKeyDown(KeyCode code);

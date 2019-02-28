@@ -3,6 +3,8 @@
 #include "Ledlib/Ledlib.h"
 #include "Ledlib/Log.h"
 #include "Ledlib/Display/DisplayManager.h"
+#include "Ledlib/Time.h"
+#include "Ledlib/Remote/ClientManager.h"
 
 using namespace std;
 using namespace Ledlib;
@@ -16,8 +18,11 @@ int main(){
 	DisplayManager::SetPixelsPointer(&pixels, 3);
 
 	while(!LedMatrixLibrary::exitRequested){
-		pixels[0] = (pixels[0]+1)%256u;
 		LedMatrixLibrary::Update();
+		pixels[0] = (pixels[0]+1)%256u;
+		pixels[4] = (pixels[0]+1)%256u;
+		pixels[8] = (pixels[0]+1)%256u;
+		LedMatrixLibrary::Render();
 	}
 	LedMatrixLibrary::Exit();
 

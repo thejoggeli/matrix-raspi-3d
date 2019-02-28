@@ -1,5 +1,6 @@
 #include "ServerManager.h"
 #include "SeasocksServer.h"
+#include "../Log.h"
 
 namespace Ledlib {
 
@@ -11,6 +12,7 @@ ServerManager::ServerManager(){}
 
 bool ServerManager::Init(){
 	if(++initCounter > 1) return false;
+	Log(LOG_INFO, "ServerManager", "Initializing");
 	instance = new SeasocksServer();
 	return instance->Init();
 }

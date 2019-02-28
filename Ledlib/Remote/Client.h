@@ -3,6 +3,7 @@
 #include "../Math/Vector2f.h"
 #include "Keys.h"
 #include <vector>
+#include <memory>
 
 namespace Ledlib {
 
@@ -13,8 +14,8 @@ public:
 	int id;
 	uint32_t flags = 0;
 	bool connected;
-	std::vector<Event*> events;
-	std::vector<Event*> newEvents;
+	std::vector<std::shared_ptr<Event>> events;
+	std::vector<std::shared_ptr<Event>> newEvents;
 
 	Client(int id);
 	void Update();

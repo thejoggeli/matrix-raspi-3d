@@ -20,7 +20,7 @@ private:
 	std::string localUrl;
 	std::string globalUrl;
 public:
-	seasocks::Server* server;
+	std::shared_ptr<seasocks::Server> server;
 	std::shared_ptr<seasocks::PrintfLogger> logger;
 	std::shared_ptr<SeasocksHandler> handler;
     SeasocksServer();
@@ -40,14 +40,14 @@ private:
 	bool logInput = false;
 	bool logOutput = false;
 public:
-	seasocks::Server* server;
+	std::shared_ptr<seasocks::Server> server;
 	std::vector<seasocks::WebSocket*> connections;
-	std::unordered_map<seasocks::WebSocket*, Client*> clientMap;
-	explicit SeasocksHandler(seasocks::Server* server);
+	std::unordered_map<seasocks::WebSocket*, std::shared_ptr<Client>> clientMap;
+	explicit SeasocksHandler(std::shared_ptr<seasocks::Server> server);
 	virtual void onConnect(seasocks::WebSocket* connection) override;
 	virtual void onData(seasocks::WebSocket* connection, const char* data) override;
 	virtual void onDisconnect(seasocks::WebSocket* connection) override;
-	Client* GetClientByConnection(seasocks::WebSocket* connection);
+	std::shared_ptr<Client> GetClientByConnection(seasocks::WebSocket* connection);
 };
 
 }

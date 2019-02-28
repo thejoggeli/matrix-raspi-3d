@@ -3,12 +3,15 @@
 
 namespace Ledlib {
 
-EventListener::EventListener(){
-	EventManager::AddEventListener(this);
+EventListener::EventListener(){}
+EventListener::~EventListener(){}
+
+void EventListener::StartListening(){
+	EventManager::AddEventListener(shared_from_this());
 }
-EventListener::~EventListener(){
-	EventManager::RemoveEventListener(this);
+
+void EventListener::StopListening(){
+	EventManager::RemoveEventListener(shared_from_this());
 }
-void EventListener::OnEvent(Event& event){}
 
 }

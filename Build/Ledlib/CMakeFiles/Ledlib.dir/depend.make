@@ -52,11 +52,11 @@ Ledlib/CMakeFiles/Ledlib.dir/Events/EventManager.cpp.o: ../Ledlib/Remote/Keys.h
 
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Config.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Display/DisplayManager.h
-Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Events/Event.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Events/EventListener.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Events/EventManager.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Ledlib.cpp
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Ledlib.h
+Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/LedlibEventHandler.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Log.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Math/Numbers.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Math/Vector2f.h
@@ -64,9 +64,22 @@ Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Remote/Client.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Remote/ClientManager.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Remote/Keys.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Remote/ServerManager.h
-Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Remote/ServerMessage.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Time.h
 Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Util/Strings.h
+Ledlib/CMakeFiles/Ledlib.dir/Ledlib.cpp.o: ../Ledlib/Util/Timer.h
+
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Config.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Display/DisplayManager.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Events/Event.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Events/EventListener.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Ledlib.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/LedlibEventHandler.cpp
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/LedlibEventHandler.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Math/Vector2f.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Remote/Keys.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Remote/ServerManager.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Remote/ServerMessage.h
+Ledlib/CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o: ../Ledlib/Util/Strings.h
 
 Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o: ../Ledlib/Config.h
 Ledlib/CMakeFiles/Ledlib.dir/Log.cpp.o: ../Ledlib/Log.cpp
@@ -115,6 +128,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o: ../Ledlib/Config.h
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o: ../Ledlib/Remote/Server.cpp
 Ledlib/CMakeFiles/Ledlib.dir/Remote/Server.cpp.o: ../Ledlib/Remote/Server.h
 
+Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Log.h
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Remote/SeasocksServer.h
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Remote/Server.h
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Remote/ServerManager.cpp
@@ -123,6 +137,7 @@ Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerManager.cpp.o: ../Ledlib/Remote/Server
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o: ../Ledlib/Remote/ServerMessage.cpp
 Ledlib/CMakeFiles/Ledlib.dir/Remote/ServerMessage.cpp.o: ../Ledlib/Remote/ServerMessage.h
 
+Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Log.h
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Time.cpp
 Ledlib/CMakeFiles/Ledlib.dir/Time.cpp.o: ../Ledlib/Time.h
 

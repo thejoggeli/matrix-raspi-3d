@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Ledlib.dir/Ledlib.cpp.o"
+  "CMakeFiles/Ledlib.dir/LedlibEventHandler.cpp.o"
   "CMakeFiles/Ledlib.dir/Time.cpp.o"
   "CMakeFiles/Ledlib.dir/Log.cpp.o"
   "CMakeFiles/Ledlib.dir/Config.cpp.o"

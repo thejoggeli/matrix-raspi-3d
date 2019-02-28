@@ -2,6 +2,8 @@
 #include "../Events/EventManager.h"
 #include "../Events/Event.h"
 
+using namespace std;
+
 namespace Ledlib {
 
 Client::Client(int id){
@@ -14,8 +16,8 @@ Client::Client(int id){
 	}
 }
 
-void Client::AddMessage(const std::string& str){
-	Event* event = EventManager::ParseMessage(str);
+void Client::AddMessage(const string& str){
+	shared_ptr<Event> event = EventManager::ParseMessage(str);
 	if(event != nullptr){
 		event->fromClient = true;
 		event->clientId = this->id;
@@ -31,7 +33,7 @@ void Client::Update(){
 	for(auto const &value: events){
 		switch(value->type){
 		case EventType::Input: {
-			InputEvent* inputEvent = static_cast<InputEvent*>(value);
+			shared_ptr<InputEvent> inputEvent = static_pointer_cast<InputEvent>(value);
 			switch(inputEvent->state){
 				case KeyState::Pressed: {
 					isDownMap[static_cast<int>(inputEvent->code)] = true;
@@ -48,7 +50,7 @@ void Client::Update(){
 			break;
 		}
 		case EventType::Joystick: {
-			JoystickEvent *joy = static_cast<JoystickEvent*>(value);
+			shared_ptr<JoystickEvent> joy = static_pointer_cast<JoystickEvent>(value);
 			switch(joy->state){
 				case KeyState::JoystickMove: {
 					break;

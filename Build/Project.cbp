@@ -199,6 +199,12 @@
 		<Unit filename="/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Ledlib.h">
 			<Option target="Ledlib"/>
 		</Unit>
+		<Unit filename="/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/LedlibEventHandler.cpp">
+			<Option target="Ledlib"/>
+		</Unit>
+		<Unit filename="/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/LedlibEventHandler.h">
+			<Option target="Ledlib"/>
+		</Unit>
 		<Unit filename="/home/michael/Documents/repos/matrix-raspi-3d/Ledlib/Log.cpp">
 			<Option target="Ledlib"/>
 		</Unit>

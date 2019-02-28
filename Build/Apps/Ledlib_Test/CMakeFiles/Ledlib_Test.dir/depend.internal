@@ -5,4 +5,7 @@ Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o
  .././Ledlib/Display/DisplayManager.h
  .././Ledlib/Ledlib.h
  .././Ledlib/Log.h
+ .././Ledlib/Remote/ClientManager.h
+ .././Ledlib/Remote/Keys.h
+ .././Ledlib/Time.h
  /home/michael/Documents/repos/matrix-raspi-3d/Apps/Ledlib_Test/main.cpp

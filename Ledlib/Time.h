@@ -7,7 +7,8 @@ namespace Ledlib {
 
 class Time {
 public:
-	static uint32_t startTimeOffset;
+	static uint32_t startTimeOffsetInt;
+	static float startTimeOffsetFloat;
 	static float deltaTime;
 	static float deltaTimeUnscaled;
 	static float currentTime;

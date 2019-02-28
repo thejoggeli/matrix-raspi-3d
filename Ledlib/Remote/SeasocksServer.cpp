@@ -27,7 +27,7 @@ bool SeasocksServer::Init(){
 
 	// server
 	std::string staticPath = Config::GetString("insrv_static_path");
-	server = new seasocks::Server(logger);
+	server = make_shared<seasocks::Server>(logger);
 	server->setStaticPath(staticPath.c_str());
 	handler = make_shared<SeasocksHandler>(server);
 	server->addWebSocketHandler(websocketPath.c_str(), handler);
@@ -56,7 +56,7 @@ void SeasocksServer::SendMessage(ServerMessage& message, int clientId){
 	} else {
 		Log(LOG_DEBUG, "SeasocksServer", iLog << "Sending Message to client (" << clientId << "):");
 		for(auto const& it: handler->connections){
-			Client* c = handler->GetClientByConnection(it);
+			shared_ptr<Client> c = handler->GetClientByConnection(it);
 			if(c && c->id == clientId){
 				it->send(str);
 			}
@@ -89,10 +89,10 @@ void SeasocksServer::Shutdown(){
 		it->close();
 	}
 	server->terminate();
-	delete server;
+	server = nullptr;
 }
 
-SeasocksHandler::SeasocksHandler(seasocks::Server* server){
+SeasocksHandler::SeasocksHandler(shared_ptr<seasocks::Server> server){
 	this->server = server;
 	logInput = Config::GetBool("log_info_server_input", true);
 	logOutput = Config::GetBool("log_info_server_output", true);
@@ -101,11 +101,11 @@ SeasocksHandler::SeasocksHandler(seasocks::Server* server){
 void SeasocksHandler::onConnect(WebSocket* connection) {
 	int clientId = ClientManager::GenerateId();
 	// alloc memory for client
-	Client *client = new Client(clientId);
+	shared_ptr<Client> client = make_shared<Client>(clientId);
 	// add client to client manager
 	ClientManager::AddClient(client);
 	// broadcast client connected event
-	Event* event = new Event(EventType::ClientConnected);
+	shared_ptr<Event> event = make_shared<Event>(EventType::ClientConnected);
 	event->clientId = client->id;
 	event->fromClient = true;
 	EventManager::AddEvent(event);
@@ -119,12 +119,12 @@ void SeasocksHandler::onData(WebSocket* connection, const char* data) {
 	if(logInput){
 		Log(LOG_INFO, "SeasocksServer", iLog << "OnData: " << data);
 	}
-	Client *client = GetClientByConnection(connection);
+	shared_ptr<Client> client = GetClientByConnection(connection);
 	client->AddMessage(data);
 };
 
 void SeasocksHandler::onDisconnect(WebSocket* connection) {
-	Client* client = GetClientByConnection(connection);
+	shared_ptr<Client> client = GetClientByConnection(connection);
 	if(client == nullptr){
 		Log(LOG_ERROR, "SeasocksServer", "Client not found in client map");
 		return;
@@ -132,7 +132,7 @@ void SeasocksHandler::onDisconnect(WebSocket* connection) {
 	// remove client from client manager
 	ClientManager::RemoveClient(client->id);
 	// broadcast client connected event
-	Event* event = new Event(EventType::ClientDisconnected);
+	shared_ptr<Event> event = make_shared<Event>(EventType::ClientDisconnected);
 	event->clientId = client->id;
 	event->fromClient = true;
 	EventManager::AddEvent(event);
@@ -141,11 +141,9 @@ void SeasocksHandler::onDisconnect(WebSocket* connection) {
 	connections.erase(it);
 	// remove connection from map
 	clientMap.erase(connection);
-	// free client memory
-	delete client;
 };
 
-Client* SeasocksHandler::GetClientByConnection(WebSocket* connection){
+shared_ptr<Client> SeasocksHandler::GetClientByConnection(WebSocket* connection){
 	auto search = clientMap.find(connection);
 	if(search == clientMap.end()){
 		return nullptr;

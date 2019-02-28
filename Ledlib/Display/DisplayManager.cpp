@@ -19,6 +19,7 @@ DisplayManager::DisplayManager(){}
 
 bool DisplayManager::Init(){
 	if(++initCounter > 1) return false;
+	Log(LOG_INFO, "DisplayManager", "Initializing");
 	// display mode
 	std::string displayMode = Config::GetString("display_mode");
 	if(displayMode == "sim"){

@@ -1,6 +1,7 @@
 set(
 	MATLIB_SOURCE_FILES
 	"Ledlib.cpp"
+	"LedlibEventHandler.cpp"
 	"Time.cpp"
 	"Log.cpp"
 	"Config.cpp"

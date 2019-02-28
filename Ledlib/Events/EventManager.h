@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace Ledlib {
 
@@ -15,13 +16,13 @@ private:
 	EventManager();
 public:
 	static bool Init();
-	static void AddEvent(Event* event);
+	static void AddEvent(const std::shared_ptr<Event>& event);
 	static void NextGeneration();
-	static Event* ParseMessage(std::string str);
-	static MessageEvent* GetMessageEvent(const std::string& str);
-	static std::vector<Event*>& GetAllEvents();
-	static void AddEventListener(EventListener* listener);
-	static void RemoveEventListener(EventListener* listener);
+	static std::shared_ptr<Event> ParseMessage(const std::string& str);
+	static std::shared_ptr<MessageEvent> GetMessageEvent(const std::string& str);
+	static std::vector<std::shared_ptr<Event>>& GetAllEvents();
+	static void AddEventListener(const std::shared_ptr<EventListener>& listener);
+	static void RemoveEventListener(const std::shared_ptr<EventListener>& listener);
 	static void Update();
 };
 

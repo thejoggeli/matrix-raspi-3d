@@ -4,5 +4,8 @@
 Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: .././Ledlib/Display/DisplayManager.h
 Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: .././Ledlib/Ledlib.h
 Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: .././Ledlib/Log.h
+Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: .././Ledlib/Remote/ClientManager.h
+Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: .././Ledlib/Remote/Keys.h
+Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: .././Ledlib/Time.h
 Apps/Ledlib_Test/CMakeFiles/Ledlib_Test.dir/main.cpp.o: ../Apps/Ledlib_Test/main.cpp
 

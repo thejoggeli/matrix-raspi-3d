@@ -6,19 +6,22 @@
 #include <algorithm>
 #include <unordered_map>
 
+using namespace std;
+
 namespace Ledlib {
 
 static bool logEvents = false;
 
 int EventManager::initCounter = 0;
 
-static std::vector<EventListener*> listeners;
-static std::vector<Event*> events;
-static std::vector<Event*> newEvents;
-static std::unordered_map<std::string, EventType> KeyCode;
+static vector<shared_ptr<EventListener>> listeners;
+static vector<shared_ptr<Event>> events;
+static vector<shared_ptr<Event>> newEvents;
+static unordered_map<string, EventType> KeyCode;
 
 bool EventManager::Init(){
 	if(++initCounter > 1) return false;
+	Log(LOG_INFO, "EventManager", "Initializing");
 	KeyCode.insert({"msg", EventType::Message});
 	KeyCode.insert({"inp", EventType::Input});
 	KeyCode.insert({"joy", EventType::Joystick});
@@ -26,7 +29,7 @@ bool EventManager::Init(){
 	return true;
 }
 
-void EventManager::AddEvent(Event* event){
+void EventManager::AddEvent(const shared_ptr<Event>& event){
 	if(logEvents){
 		Log(LOG_INFO, "EventManager", event->ToString());
 	}
@@ -34,9 +37,6 @@ void EventManager::AddEvent(Event* event){
 }
 
 void EventManager::NextGeneration(){
-	for(auto const &event: events){
-		delete event;
-	}
 	events.clear();
 	events.insert(events.end(), newEvents.begin(), newEvents.end());
 	newEvents.clear();
@@ -50,22 +50,22 @@ void EventManager::Update(){
 	}
 }
 
-std::vector<Event*>& EventManager::GetAllEvents(){
+vector<shared_ptr<Event>>& EventManager::GetAllEvents(){
 	return events;
 }
 
-MessageEvent* EventManager::GetMessageEvent(const std::string& str){
+shared_ptr<MessageEvent> EventManager::GetMessageEvent(const string& str){
 	for(auto const &event: events){
 		if(event->type == EventType::Message){
-			MessageEvent* e = static_cast<MessageEvent*>(event);
+			shared_ptr<MessageEvent> e = static_pointer_cast<MessageEvent>(event);
 			if(e->message == str) return e;
 		}
 	}
 	return nullptr;
 }
 
-Event* EventManager::ParseMessage(std::string str){
-	Event* event = nullptr;
+shared_ptr<Event> EventManager::ParseMessage(const string& str){
+	shared_ptr<Event> event = nullptr;
 	// check if string length is at least 3
 	int strlen = str.length();
 	if(strlen < 3){
@@ -73,7 +73,7 @@ Event* EventManager::ParseMessage(std::string str){
 		return nullptr;
 	}
 	// get event type
-	std::string sType = str.substr(0,3);
+	string sType = str.substr(0,3);
 	auto search = KeyCode.find(sType);
 	if(search == KeyCode.end()){
 		Log(LOG_ERROR, "EventManager", "Invalid event type: " + sType);
@@ -85,19 +85,19 @@ Event* EventManager::ParseMessage(std::string str){
 	case EventType::Message: {
 		// get command
 		unsigned long pos = str.find(":");
-		std::string message = str.substr(3, pos-3);
-		MessageEvent* messageEvent = new MessageEvent(message);
+		string message = str.substr(3, pos-3);
+		shared_ptr<MessageEvent> messageEvent = make_shared<MessageEvent>(message);
 		// get parameters
-		std::string remaining = str.substr(pos+1);
+		string remaining = str.substr(pos+1);
 		pos = remaining.find("/");
 		while(pos < remaining.size()){
 			unsigned long length = stoul(remaining.substr(0, pos));
-			std::string param = remaining.substr(pos+1, length);
+			string param = remaining.substr(pos+1, length);
 			remaining = remaining.substr(pos+1+length);
 			pos = remaining.find("/");
 			messageEvent->AddParam(param);
 		}
-		event = static_cast<Event*>(messageEvent);
+		event = messageEvent;
 		break;
 	}
 	case EventType::Input: {
@@ -109,8 +109,8 @@ Event* EventManager::ParseMessage(std::string str){
 			Log(LOG_ERROR, "EventManager", "Input event too short");
 			return nullptr;
 		}
-		int state = std::stoi(str.substr(3,1));
-		int code = std::stoi(str.substr(4));
+		int state = stoi(str.substr(3,1));
+		int code = stoi(str.substr(4));
 		if(state < 0 || state > 1){
 			Log(LOG_ERROR, "EventManager", "Invalid input key state value");
 			return nullptr;
@@ -119,7 +119,7 @@ Event* EventManager::ParseMessage(std::string str){
 			Log(LOG_ERROR, "EventManager", "Invalid input key code value");
 			return nullptr;
 		}
-		event = new InputEvent(static_cast<enum KeyCode>(code), static_cast<KeyState>(state));
+		event = make_shared<InputEvent>(static_cast<enum KeyCode>(code), static_cast<KeyState>(state));
 		break;
 	}
 	case EventType::Joystick: {
@@ -131,13 +131,13 @@ Event* EventManager::ParseMessage(std::string str){
 		// [6-14] x position
 		// [15] Delimiter
 		// [16-24] y position
-		int state = std::stoi(str.substr(3,1));
-		int code = std::stoi(str.substr(4,1));
+		int state = stoi(str.substr(3,1));
+		int code = stoi(str.substr(4,1));
 		enum KeyCode keyCode = (code == 0) ? KeyCode::LeftJoystick : KeyCode::RightJoystick;
-		JoystickEvent* jev = new JoystickEvent(keyCode, static_cast<KeyState>(state));
+		shared_ptr<JoystickEvent> jev = make_shared<JoystickEvent>(keyCode, static_cast<KeyState>(state));
 		if(state == 2){
-			float x = std::stof(str.substr(6,9));
-			float y = std::stof(str.substr(16,9));
+			float x = stof(str.substr(6,9));
+			float y = stof(str.substr(16,9));
 			jev->position = Vector2f(x, y);
 		} else {
 			jev->position = Vector2f(0, 0);
@@ -151,11 +151,12 @@ Event* EventManager::ParseMessage(std::string str){
 	return event;
 }
 
-void EventManager::AddEventListener(EventListener *listener){
+void EventManager::AddEventListener(const shared_ptr<EventListener>& listener){
 	listeners.push_back(listener);
+	Log(LOG_DEBUG, "EventManager", "Event listener added. Size is now ");
 }
-void EventManager::RemoveEventListener(EventListener *listener){
-	listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
+void EventManager::RemoveEventListener(const shared_ptr<EventListener>& listener){
+	listeners.erase(remove(listeners.begin(), listeners.end(), listener), listeners.end());
 }
 
 

@@ -14,6 +14,7 @@ public:
 	static bool Init();
 	static void Start();
 	static void Update();
+	static void Render();
 	static void Exit();
 	static void RequestExit();
 };
