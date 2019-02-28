@@ -15,6 +15,8 @@ private:
 	static int initCounter;
 	EventManager();
 public:
+	static unsigned int eventCounterTemp;
+	static unsigned int eventCounterTotal;
 	static bool Init();
 	static void AddEvent(const std::shared_ptr<Event>& event);
 	static void NextGeneration();

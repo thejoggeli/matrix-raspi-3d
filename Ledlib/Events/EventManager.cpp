@@ -13,6 +13,8 @@ namespace Ledlib {
 static bool logEvents = false;
 
 int EventManager::initCounter = 0;
+unsigned int EventManager::eventCounterTemp = 0;
+unsigned int EventManager::eventCounterTotal = 0;
 
 static vector<shared_ptr<EventListener>> listeners;
 static vector<shared_ptr<Event>> events;
@@ -33,6 +35,8 @@ void EventManager::AddEvent(const shared_ptr<Event>& event){
 	if(logEvents){
 		Log(LOG_INFO, "EventManager", event->ToString());
 	}
+	eventCounterTemp++;
+	eventCounterTotal++;
 	newEvents.push_back(event);
 }
 
@@ -153,10 +157,11 @@ shared_ptr<Event> EventManager::ParseMessage(const string& str){
 
 void EventManager::AddEventListener(const shared_ptr<EventListener>& listener){
 	listeners.push_back(listener);
-	Log(LOG_DEBUG, "EventManager", "Event listener added. Size is now ");
+	Log(LOG_DEBUG, "EventManager", iLog << "EventListener added (size=" << listeners.size() << ")");
 }
 void EventManager::RemoveEventListener(const shared_ptr<EventListener>& listener){
 	listeners.erase(remove(listeners.begin(), listeners.end(), listener), listeners.end());
+	Log(LOG_DEBUG, "EventManager", iLog << "EventListener removed (size=" << listeners.size() << ")");
 }
 
 

@@ -29,39 +29,45 @@ static float fpsInterval = 5.0f;
 
 bool LedMatrixLibrary::Init(){
 	if(++initCounter > 1) return false;
-	// event handler
-	Log(LOG_INFO, "Ledlib", "Initializing LedlibEventHandler");
-	eventHandler = make_shared<LedlibEventHandler>();
-	eventHandler->StartListening();
 	// components
 	if(!Config::Init()){
 		Log(LOG_ERROR, "Ledlib", "Config initialization failed");
 		return false;
 	}
+	// log levels
 	if(!LogLevels::Init()){
 		Log(LOG_ERROR, "Ledlib", "LogLevels initialization failed");
 		return false;
 	}
+	// numbers
 	if(!Numbers::Init()){
 		Log(LOG_ERROR, "Ledlib", "Numbers initialization failed");
 		return false;
 	}
+	// display manager
 	if(!DisplayManager::Init()){
 		Log(LOG_ERROR, "Ledlib", "DisplayManager initialization failed");
 		return false;
 	}
+	// event manager
 	if(!EventManager::Init()){
 		Log(LOG_ERROR, "Ledlib", "EventManager initialization failed");
 		return false;
 	}
+	// client manager
 	if(!ClientManager::Init()){
 		Log(LOG_ERROR, "Ledlib", "ClientManager initialization failed");
 		return false;
 	}
+	// server manager
 	if(!ServerManager::Init()){
 		Log(LOG_ERROR, "Ledlib", "ServerManager initialization failed");
 		return false;
 	}
+	// ledlib event handler
+	Log(LOG_INFO, "Ledlib", "Initializing LedlibEventHandler");
+	eventHandler = make_shared<LedlibEventHandler>();
+	eventHandler->StartListening();
 	return true;
 }
 void LedMatrixLibrary::Start(){
@@ -76,22 +82,6 @@ void LedMatrixLibrary::Start(){
 void LedMatrixLibrary::Update(){
 	// poll network input
 	ServerManager::Poll();
-	// time
-	Time::Update();
-	// fps counter
-	fpsCounter++;
-	if(fpsTimer.IsFinished()){
-		int fps = static_cast<int>(static_cast<float>(fpsCounter)/fpsInterval);
-		Log(LOG_INFO, "Matlib", iLog
-			<< "Fps: " << fps
-			<< " / Clients: " << ClientManager::GetAllCients().size()
-			<< " / Connections: " << ServerManager::GetNumConnections()
-			<< " / Events: " << EventManager::GetAllEvents().size()
-		);
-
-		fpsTimer.Restart();
-		fpsCounter = 0;
-	}
 	// clear events from last tick
 	for(auto const &client: ClientManager::GetAllCients()){
 		client->NextGeneration();
@@ -101,6 +91,22 @@ void LedMatrixLibrary::Update(){
 	ClientManager::Update();
 	// fire events
 	EventManager::Update();
+	// time
+	Time::Update();
+	// fps counter
+	fpsCounter++;
+	if(fpsTimer.IsFinished()){
+		int fps = static_cast<int>(static_cast<float>(fpsCounter)/fpsInterval);
+		Log(LOG_INFO, "Matlib", iLog
+			<< "Fps=" << fps << " / "
+			<< "Clients=" << ClientManager::GetAllCients().size() << " / "
+			<< "Connections=" << ServerManager::GetNumConnections() << " / "
+			<< "Events=" << EventManager::eventCounterTemp << "/" << EventManager::eventCounterTotal
+		);
+		EventManager::eventCounterTemp = 0;
+		fpsTimer.Restart();
+		fpsCounter = 0;
+	}
 }
 void LedMatrixLibrary::Render(){
 	DisplayManager::Sync();

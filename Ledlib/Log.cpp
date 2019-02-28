@@ -10,9 +10,9 @@ namespace Ledlib {
 LogConcator LogConcator::instance = LogConcator();
 
 int LogLevels::initCounter = 0;
-bool LogLevels::error = 0;
-bool LogLevels::debug = 0;
-bool LogLevels::info = 0;
+bool LogLevels::error = true;
+bool LogLevels::debug = true;
+bool LogLevels::info = true;
 
 bool LogLevels::Init(){
 	if(++initCounter > 1) return false;
