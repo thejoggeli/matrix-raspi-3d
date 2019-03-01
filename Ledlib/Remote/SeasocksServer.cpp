@@ -18,7 +18,7 @@ SeasocksServer::SeasocksServer(){}
 bool SeasocksServer::Init(){
 	Logger::Level loggerLevel = static_cast<Logger::Level>(Config::GetInt("insrv_logger_level"));
 	port = Config::GetInt("insrv_port");
-	websocketPath = Config::GetString("insrv_websocket_path");
+	websocketPath = "/ws";
 	localUrl = "ws://localhost:" + to_string(port) + websocketPath;
 	globalUrl = "undefined";
 
@@ -26,7 +26,7 @@ bool SeasocksServer::Init(){
 	logger = std::make_shared<PrintfLogger>(loggerLevel);
 
 	// server
-	std::string staticPath = Config::GetString("insrv_static_path");
+	std::string staticPath = LEDLIB_WEB_PATH;
 	server = make_shared<seasocks::Server>(logger);
 	server->setStaticPath(staticPath.c_str());
 	handler = make_shared<SeasocksHandler>(server);
