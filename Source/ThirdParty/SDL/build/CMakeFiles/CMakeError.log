@@ -1,0 +1,503 @@
+Performing C SOURCE FILE Test HAVE_GCC_PREFERRED_STACK_BOUNDARY failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1a1d3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1a1d3.dir/build.make CMakeFiles/cmTC_1a1d3.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1a1d3.dir/src.c.o
+/usr/bin/cc   -DHAVE_GCC_PREFERRED_STACK_BOUNDARY -mpreferred-stack-boundary=2   -o CMakeFiles/cmTC_1a1d3.dir/src.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c
+cc1: error: -mpreferred-stack-boundary=2 is not between 3 and 12
+CMakeFiles/cmTC_1a1d3.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_1a1d3.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_1a1d3.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_1a1d3/fast' failed
+make: *** [cmTC_1a1d3/fast] Error 2
+
+Source file was:
+int x = 0; int main(int argc, char **argv) {}
+Determining if the include file libunwind.h exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_67dfd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_67dfd.dir/build.make CMakeFiles/cmTC_67dfd.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_67dfd.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_67dfd.dir/CheckIncludeFile.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: libunwind.h: No such file or directory
+ #include <libunwind.h>
+          ^~~~~~~~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_67dfd.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_67dfd.dir/CheckIncludeFile.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_67dfd.dir/CheckIncludeFile.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_67dfd/fast' failed
+make: *** [cmTC_67dfd/fast] Error 2
+
+
+Determining if the function strlcpy exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ca18f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ca18f.dir/build.make CMakeFiles/cmTC_ca18f.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ca18f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=strlcpy   -o CMakeFiles/cmTC_ca18f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ca18f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ca18f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=strlcpy    -rdynamic CMakeFiles/cmTC_ca18f.dir/CheckFunctionExists.c.o  -o cmTC_ca18f 
+CMakeFiles/cmTC_ca18f.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `strlcpy'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_ca18f.dir/build.make:97: recipe for target 'cmTC_ca18f' failed
+make[1]: *** [cmTC_ca18f] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_ca18f/fast' failed
+make: *** [cmTC_ca18f/fast] Error 2
+
+
+Determining if the function strlcat exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a9d66/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a9d66.dir/build.make CMakeFiles/cmTC_a9d66.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a9d66.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=strlcat   -o CMakeFiles/cmTC_a9d66.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_a9d66
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9d66.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=strlcat    -rdynamic CMakeFiles/cmTC_a9d66.dir/CheckFunctionExists.c.o  -o cmTC_a9d66 
+CMakeFiles/cmTC_a9d66.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `strlcat'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_a9d66.dir/build.make:97: recipe for target 'cmTC_a9d66' failed
+make[1]: *** [cmTC_a9d66] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_a9d66/fast' failed
+make: *** [cmTC_a9d66/fast] Error 2
+
+
+Determining if the function _strrev exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2ee60/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2ee60.dir/build.make CMakeFiles/cmTC_2ee60.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2ee60.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_strrev   -o CMakeFiles/cmTC_2ee60.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_2ee60
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2ee60.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_strrev    -rdynamic CMakeFiles/cmTC_2ee60.dir/CheckFunctionExists.c.o  -o cmTC_2ee60 
+CMakeFiles/cmTC_2ee60.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_strrev'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_2ee60.dir/build.make:97: recipe for target 'cmTC_2ee60' failed
+make[1]: *** [cmTC_2ee60] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_2ee60/fast' failed
+make: *** [cmTC_2ee60/fast] Error 2
+
+
+Determining if the function _strupr exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_58f56/fast"
+/usr/bin/make -f CMakeFiles/cmTC_58f56.dir/build.make CMakeFiles/cmTC_58f56.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_58f56.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_strupr   -o CMakeFiles/cmTC_58f56.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_58f56
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58f56.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_strupr    -rdynamic CMakeFiles/cmTC_58f56.dir/CheckFunctionExists.c.o  -o cmTC_58f56 
+CMakeFiles/cmTC_58f56.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_strupr'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_58f56.dir/build.make:97: recipe for target 'cmTC_58f56' failed
+make[1]: *** [cmTC_58f56] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_58f56/fast' failed
+make: *** [cmTC_58f56/fast] Error 2
+
+
+Determining if the function _strlwr exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b31f5/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b31f5.dir/build.make CMakeFiles/cmTC_b31f5.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b31f5.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_strlwr   -o CMakeFiles/cmTC_b31f5.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_b31f5
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b31f5.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_strlwr    -rdynamic CMakeFiles/cmTC_b31f5.dir/CheckFunctionExists.c.o  -o cmTC_b31f5 
+CMakeFiles/cmTC_b31f5.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_strlwr'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_b31f5.dir/build.make:97: recipe for target 'cmTC_b31f5' failed
+make[1]: *** [cmTC_b31f5] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_b31f5/fast' failed
+make: *** [cmTC_b31f5/fast] Error 2
+
+
+Determining if the function itoa exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e9962/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e9962.dir/build.make CMakeFiles/cmTC_e9962.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e9962.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=itoa   -o CMakeFiles/cmTC_e9962.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e9962
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e9962.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=itoa    -rdynamic CMakeFiles/cmTC_e9962.dir/CheckFunctionExists.c.o  -o cmTC_e9962 
+CMakeFiles/cmTC_e9962.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `itoa'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_e9962.dir/build.make:97: recipe for target 'cmTC_e9962' failed
+make[1]: *** [cmTC_e9962] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_e9962/fast' failed
+make: *** [cmTC_e9962/fast] Error 2
+
+
+Determining if the function _ltoa exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7c60b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7c60b.dir/build.make CMakeFiles/cmTC_7c60b.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7c60b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_ltoa   -o CMakeFiles/cmTC_7c60b.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7c60b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7c60b.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_ltoa    -rdynamic CMakeFiles/cmTC_7c60b.dir/CheckFunctionExists.c.o  -o cmTC_7c60b 
+CMakeFiles/cmTC_7c60b.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_ltoa'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_7c60b.dir/build.make:97: recipe for target 'cmTC_7c60b' failed
+make[1]: *** [cmTC_7c60b] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_7c60b/fast' failed
+make: *** [cmTC_7c60b/fast] Error 2
+
+
+Determining if the function _uitoa exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_16eb3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_16eb3.dir/build.make CMakeFiles/cmTC_16eb3.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_16eb3.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_uitoa   -o CMakeFiles/cmTC_16eb3.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_16eb3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_16eb3.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_uitoa    -rdynamic CMakeFiles/cmTC_16eb3.dir/CheckFunctionExists.c.o  -o cmTC_16eb3 
+CMakeFiles/cmTC_16eb3.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_uitoa'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_16eb3.dir/build.make:97: recipe for target 'cmTC_16eb3' failed
+make[1]: *** [cmTC_16eb3] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_16eb3/fast' failed
+make: *** [cmTC_16eb3/fast] Error 2
+
+
+Determining if the function _ultoa exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_59947/fast"
+/usr/bin/make -f CMakeFiles/cmTC_59947.dir/build.make CMakeFiles/cmTC_59947.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_59947.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_ultoa   -o CMakeFiles/cmTC_59947.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_59947
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_59947.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_ultoa    -rdynamic CMakeFiles/cmTC_59947.dir/CheckFunctionExists.c.o  -o cmTC_59947 
+CMakeFiles/cmTC_59947.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_ultoa'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_59947.dir/build.make:97: recipe for target 'cmTC_59947' failed
+make[1]: *** [cmTC_59947] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_59947/fast' failed
+make: *** [cmTC_59947/fast] Error 2
+
+
+Determining if the function _i64toa exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5c31e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5c31e.dir/build.make CMakeFiles/cmTC_5c31e.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5c31e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_i64toa   -o CMakeFiles/cmTC_5c31e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_5c31e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5c31e.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_i64toa    -rdynamic CMakeFiles/cmTC_5c31e.dir/CheckFunctionExists.c.o  -o cmTC_5c31e 
+CMakeFiles/cmTC_5c31e.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_i64toa'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_5c31e.dir/build.make:97: recipe for target 'cmTC_5c31e' failed
+make[1]: *** [cmTC_5c31e] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_5c31e/fast' failed
+make: *** [cmTC_5c31e/fast] Error 2
+
+
+Determining if the function _ui64toa exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_49b3c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_49b3c.dir/build.make CMakeFiles/cmTC_49b3c.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_49b3c.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_ui64toa   -o CMakeFiles/cmTC_49b3c.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_49b3c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_49b3c.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_ui64toa    -rdynamic CMakeFiles/cmTC_49b3c.dir/CheckFunctionExists.c.o  -o cmTC_49b3c 
+CMakeFiles/cmTC_49b3c.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_ui64toa'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_49b3c.dir/build.make:97: recipe for target 'cmTC_49b3c' failed
+make[1]: *** [cmTC_49b3c] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_49b3c/fast' failed
+make: *** [cmTC_49b3c/fast] Error 2
+
+
+Determining if the function _stricmp exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_02596/fast"
+/usr/bin/make -f CMakeFiles/cmTC_02596.dir/build.make CMakeFiles/cmTC_02596.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_02596.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_stricmp   -o CMakeFiles/cmTC_02596.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_02596
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_02596.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_stricmp    -rdynamic CMakeFiles/cmTC_02596.dir/CheckFunctionExists.c.o  -o cmTC_02596 
+CMakeFiles/cmTC_02596.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_stricmp'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_02596.dir/build.make:97: recipe for target 'cmTC_02596' failed
+make[1]: *** [cmTC_02596] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_02596/fast' failed
+make: *** [cmTC_02596/fast] Error 2
+
+
+Determining if the function _strnicmp exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2e2ba/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2e2ba.dir/build.make CMakeFiles/cmTC_2e2ba.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2e2ba.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=_strnicmp   -o CMakeFiles/cmTC_2e2ba.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_2e2ba
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2e2ba.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=_strnicmp    -rdynamic CMakeFiles/cmTC_2e2ba.dir/CheckFunctionExists.c.o  -o cmTC_2e2ba 
+CMakeFiles/cmTC_2e2ba.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `_strnicmp'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_2e2ba.dir/build.make:97: recipe for target 'cmTC_2e2ba' failed
+make[1]: *** [cmTC_2e2ba] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_2e2ba/fast' failed
+make: *** [cmTC_2e2ba/fast] Error 2
+
+
+Determining if the function sysctlbyname exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_251db/fast"
+/usr/bin/make -f CMakeFiles/cmTC_251db.dir/build.make CMakeFiles/cmTC_251db.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_251db.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sysctlbyname   -o CMakeFiles/cmTC_251db.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_251db
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_251db.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sysctlbyname    -rdynamic CMakeFiles/cmTC_251db.dir/CheckFunctionExists.c.o  -o cmTC_251db 
+CMakeFiles/cmTC_251db.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `sysctlbyname'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_251db.dir/build.make:97: recipe for target 'cmTC_251db' failed
+make[1]: *** [cmTC_251db] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_251db/fast' failed
+make: *** [cmTC_251db/fast] Error 2
+
+
+Determining if the function iconv_open exists in the iconv failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f1df2/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f1df2.dir/build.make CMakeFiles/cmTC_f1df2.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f1df2.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=iconv_open   -o CMakeFiles/cmTC_f1df2.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f1df2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f1df2.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=iconv_open    -rdynamic CMakeFiles/cmTC_f1df2.dir/CheckFunctionExists.c.o  -o cmTC_f1df2 -liconv 
+/usr/bin/ld: cannot find -liconv
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_f1df2.dir/build.make:97: recipe for target 'cmTC_f1df2' failed
+make[1]: *** [cmTC_f1df2] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_f1df2/fast' failed
+make: *** [cmTC_f1df2/fast] Error 2
+
+
+Determining if the function dlopen exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_538fb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_538fb.dir/build.make CMakeFiles/cmTC_538fb.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_538fb.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=dlopen   -o CMakeFiles/cmTC_538fb.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_538fb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_538fb.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=dlopen    -rdynamic CMakeFiles/cmTC_538fb.dir/CheckFunctionExists.c.o  -o cmTC_538fb 
+CMakeFiles/cmTC_538fb.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `dlopen'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_538fb.dir/build.make:97: recipe for target 'cmTC_538fb' failed
+make[1]: *** [cmTC_538fb] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_538fb/fast' failed
+make: *** [cmTC_538fb/fast] Error 2
+
+
+Performing C SOURCE FILE Test HAVE_PTHREAD_NP_H failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5d541/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5d541.dir/build.make CMakeFiles/cmTC_5d541.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5d541.dir/src.c.o
+/usr/bin/cc   -DHAVE_PTHREAD_NP_H -pthread   -o CMakeFiles/cmTC_5d541.dir/src.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c
+/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c:3:20: fatal error: pthread_np.h: No such file or directory
+           #include <pthread_np.h>
+                    ^~~~~~~~~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_5d541.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_5d541.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_5d541.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_5d541/fast' failed
+make: *** [cmTC_5d541/fast] Error 2
+
+Source file was:
+
+          #include <pthread.h>
+          #include <pthread_np.h>
+          int main(int argc, char** argv) { return 0; }
+Determining if the function pthread_set_name_np exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1a723/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1a723.dir/build.make CMakeFiles/cmTC_1a723.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1a723.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_set_name_np -pthread   -o CMakeFiles/cmTC_1a723.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_1a723
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1a723.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_set_name_np -pthread    -rdynamic CMakeFiles/cmTC_1a723.dir/CheckFunctionExists.c.o  -o cmTC_1a723 
+CMakeFiles/cmTC_1a723.dir/CheckFunctionExists.c.o: In function `main':
+CheckFunctionExists.c:(.text+0x10): undefined reference to `pthread_set_name_np'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_1a723.dir/build.make:97: recipe for target 'cmTC_1a723' failed
+make[1]: *** [cmTC_1a723] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_1a723/fast' failed
+make: *** [cmTC_1a723/fast] Error 2
+
+
+Performing C SOURCE FILE Test HAVE_VIDEO_OPENGLES_V1 failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bf96e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bf96e.dir/build.make CMakeFiles/cmTC_bf96e.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bf96e.dir/src.c.o
+/usr/bin/cc   -DHAVE_VIDEO_OPENGLES_V1   -o CMakeFiles/cmTC_bf96e.dir/src.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c
+/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c:2:16: fatal error: GLES/gl.h: No such file or directory
+       #include <GLES/gl.h>
+                ^~~~~~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_bf96e.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_bf96e.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_bf96e.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_bf96e/fast' failed
+make: *** [cmTC_bf96e/fast] Error 2
+
+Source file was:
+
+      #include <GLES/gl.h>
+      #include <GLES/glext.h>
+      int main (int argc, char** argv) {}
+Performing C SOURCE FILE Test HAVE_VIDEO_VIVANTE_VDK failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e94a5/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e94a5.dir/build.make CMakeFiles/cmTC_e94a5.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e94a5.dir/src.c.o
+/usr/bin/cc   -DHAVE_VIDEO_VIVANTE_VDK   -o CMakeFiles/cmTC_e94a5.dir/src.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c
+/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c:2:18: fatal error: gc_vdk.h: No such file or directory
+         #include <gc_vdk.h>
+                  ^~~~~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_e94a5.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_e94a5.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_e94a5.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_e94a5/fast' failed
+make: *** [cmTC_e94a5/fast] Error 2
+
+Source file was:
+
+        #include <gc_vdk.h>
+        int main(int argc, char** argv) {}
+Performing C SOURCE FILE Test HAVE_VIDEO_VIVANTE_EGL_FB failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d64f0/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d64f0.dir/build.make CMakeFiles/cmTC_d64f0.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d64f0.dir/src.c.o
+/usr/bin/cc   -DHAVE_VIDEO_VIVANTE_EGL_FB   -o CMakeFiles/cmTC_d64f0.dir/src.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c
+/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/src.c:4:18: fatal error: EGL/eglvivante.h: No such file or directory
+         #include <EGL/eglvivante.h>
+                  ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_d64f0.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_d64f0.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_d64f0.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d64f0/fast' failed
+make: *** [cmTC_d64f0/fast] Error 2
+
+Source file was:
+
+        #define LINUX
+        #define EGL_API_FB
+        #include <EGL/eglvivante.h>
+        int main(int argc, char** argv) {}
+Determining if the include file tslib.h exists failed with the following output:
+Change Dir: /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_877b9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_877b9.dir/build.make CMakeFiles/cmTC_877b9.dir/build
+make[1]: Entering directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_877b9.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_877b9.dir/CheckIncludeFile.c.o   -c /home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: tslib.h: No such file or directory
+ #include <tslib.h>
+          ^~~~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_877b9.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_877b9.dir/CheckIncludeFile.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_877b9.dir/CheckIncludeFile.c.o] Error 1
+make[1]: Leaving directory '/home/michael/repos/matrix-raspi-3d/Source/ThirdParty/SDL/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_877b9/fast' failed
+make: *** [cmTC_877b9/fast] Error 2
+
+

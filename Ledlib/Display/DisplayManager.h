@@ -18,7 +18,7 @@ public:
 	static int GetBrightness();
 	static void SetBrightness(int percent);
 	static void Shutdown();
-	static void SetPixelsPointer(std::vector<uint8_t>* pointer, int pitch);
+	static void SetPixelsPointer(void* pointer, int pitch);
 };
 
 }

@@ -1,6 +1,7 @@
 #include "DisplayManager.h"
 #include "Display.h"
 #include "MatrixDisplay.h"
+#include "DummyDisplay.h"
 #include "X11Display.h"
 #include "../Config.h"
 #include "../Log.h"
@@ -26,6 +27,8 @@ bool DisplayManager::Init(){
 		display = new X11Display();
 	} else if(displayMode == "mat"){
 		display = new MatrixDisplay();
+	} else if(displayMode == "dummy"){
+		display = new DummyDisplay();
 	} else {
 		Log(LOG_ERROR, "DisplayManager", "Invalid display mode");
 		return false;
@@ -49,8 +52,8 @@ void DisplayManager::SetBrightness(int percent){
 void DisplayManager::Shutdown(){
 	display->Shutdown();
 }
-void DisplayManager::SetPixelsPointer(std::vector<uint8_t>* pointer, int pitch){
-	display->pixels = pointer;
+void DisplayManager::SetPixelsPointer(void* pointer, int pitch){
+	display->pixels = static_cast<uint8_t*>(pointer);
 	display->pitch = pitch;
 }
 

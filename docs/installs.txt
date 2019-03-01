@@ -13,12 +13,21 @@ $ sudo make install
 copy include files to /usr/local/include/seasocks
 copy libseasocks.so.1.4.1 and libseasocks.so to /usr/local/lib/
 
+# install Urho3D SDK
+# clone Urho3D github repository
+# go to Urho3D/script directory
+sudo ./cmake_generic.sh ../build/ -DURHO3D_LIB_TYPE=SHARED
+# go to build directory
+cmake ..
+sudo make install
+
+# SDL (Urho3D dependency)
+sudo apt-get install libsdl-dev
+
 # other libraries
-sudo apt-get install libgles2-mesa-dev # DO NOT INSTALL THIS ON RASPBERRY
-sudo apt-get install libglm-dev
 sudo apt-get install libx11-dev
 
-# on Raspberry
+# on Raspberry (no longer needed?)
 /opt/vc/include/interface/vcos/vcos_types.h
 go to line 205: #define countof(x) (sizeof((x)) / sizeof((x)[0]))
 and comment it out
@@ -53,8 +62,6 @@ export DISPLAY=:0.0
 sudo chmod -R 777 /dev/vchiq
 
 # matlib config (build/matlib/matlib.usr.cfg)
-opengl_api = opengl_es
-resources_path = /home/pi/repos/matrix-raspi/resources
 insrv_static_path = /home/pi/repos/matrix-raspi/web
 display_mode = mat
 mat_orientation = 0 # (0=landscape, 1=portrait)

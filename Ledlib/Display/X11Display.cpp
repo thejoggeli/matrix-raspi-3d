@@ -18,6 +18,7 @@ X11Display::X11Display(){}
 
 
 bool X11Display::Init() {
+	if(++initCounter > 1) return false;
 
 	// read config file
 	int cols = Config::GetInt("mat_cols");
@@ -84,8 +85,6 @@ void X11Display::Sync() {
 			break;
 		}
 	}
-	(*pixels)[0];
-
 	unsigned int w = static_cast<unsigned int>(pixelScale - pixelOffset2);
 	unsigned int h = static_cast<unsigned int>(pixelScale - pixelOffset2);
 	unsigned long i = 0;
@@ -93,9 +92,9 @@ void X11Display::Sync() {
 	for(int y = 0; y < height; y++){
 		for(int x = 0; x < width; x++){
 			XSetForeground(display, gc,
-				(static_cast<uint32_t>((*pixels)[i]) << 16u) +
-				(static_cast<uint32_t>((*pixels)[i+1]) << 8u) +
-				(static_cast<uint32_t>((*pixels)[i+2]))
+				(static_cast<uint32_t>(pixels[i]) << 16u) +
+				(static_cast<uint32_t>(pixels[i+1]) << 8u) +
+				(static_cast<uint32_t>(pixels[i+2]))
 			);
 			XFillRectangle(
 				display, window, gc,

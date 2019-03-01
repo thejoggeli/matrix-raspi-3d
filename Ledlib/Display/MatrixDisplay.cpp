@@ -15,6 +15,7 @@ static std::string pixelMapperString;
 MatrixDisplay::MatrixDisplay() {}
 
 bool MatrixDisplay::Init(){
+	if(++initCounter > 1) return false;
 	matrixOptions.cols = Config::GetInt("mat_cols");
 	matrixOptions.rows = Config::GetInt("mat_rows");
 	matrixOptions.chain_length = Config::GetInt("mat_chain");
@@ -68,9 +69,9 @@ void MatrixDisplay::Sync(){
 		for(int x = 0; x < width; x++){
 			matrix->SetPixel(
 				x, y,
-				(*pixels)[i],
-				(*pixels)[i+1],
-				(*pixels)[i+2]
+				pixels[i],
+				pixels[i+1],
+				pixels[i+2]
 			);
 			i += pitch;
 		}

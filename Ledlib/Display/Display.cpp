@@ -13,6 +13,12 @@ void Display::SetDimensions(int w, int h){
 	height = h;
 	numPixels = w*h;
 }
+bool Display::Init(){
+	return true;
+}
+void Display::Sync(){
+
+}
 int Display::GetBrightness(){
 	return brightness;
 }

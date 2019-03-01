@@ -27,6 +27,7 @@ set(
 	"Display/DisplayManager.cpp"
 	"Display/X11Display.cpp"
 	"Display/MatrixDisplay.cpp"
+	"Display/DummyDisplay.cpp"
 	"Sfx/RemoteSfx.cpp"
 	"Sfx/RemoteSfxEventListener.cpp"
 )
