@@ -34,6 +34,7 @@ bool SeasocksServer::Init(){
 	server->startListening(port);
 
 	// output
+	Log(LOG_DEBUG, "SeasocksServer", iLog << "StaticPath: " << LEDLIB_WEB_PATH);
 	Log(LOG_DEBUG, "SeasocksServer", iLog << "LoggerLevel set to " << Logger::levelToString(loggerLevel));
 	Log(LOG_INFO, "SeasocksServer", iLog << "Local access: " << GetLocalUrl());
 	Log(LOG_INFO, "SeasocksServer", iLog << "Global access: " << GetGlobalUrl());

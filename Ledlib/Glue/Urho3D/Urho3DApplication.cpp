@@ -44,6 +44,7 @@ void Urho3DApplication::Start(){
 //	GetSubsystem<Input>()->SetMouseGrabbed(false);
 	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Urho3DApplication, HandlePostRenderUpdate));
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(Urho3DApplication, HandleUpdate));
+	SubscribeToEvent(E_ENDFRAME, URHO3D_HANDLER(Urho3DApplication, HandleEndFrame));
 	LedMatrixLibrary::Start();
 }
 
@@ -55,7 +56,9 @@ void Urho3DApplication::HandleUpdate(StringHash eventType,VariantMap& eventData)
 	LedMatrixLibrary::Update();
 }
 
-void Urho3DApplication::HandlePostRenderUpdate(StringHash eventType,VariantMap& eventData){
+void Urho3DApplication::HandlePostRenderUpdate(StringHash eventType,VariantMap& eventData){}
+
+void Urho3DApplication::HandleEndFrame(Urho3D::StringHash eventType, Urho3D::VariantMap &eventData){
 	GetSubsystem<Graphics>()->TakeScreenShot(*pixelsImage);
 	int i = 0;
 	for(int y = 0; y < height; y++){

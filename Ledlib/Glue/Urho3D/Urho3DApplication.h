@@ -19,6 +19,7 @@ public:
 	virtual void Stop();
 	virtual void HandleUpdate(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 	virtual void HandlePostRenderUpdate(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
+	virtual void HandleEndFrame(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 
 };
 
