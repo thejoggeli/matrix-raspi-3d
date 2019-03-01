@@ -68,4 +68,7 @@ mat_orientation = 0 # (0=landscape, 1=portrait)
 mat_rotation_landscape = 0 # (0, 90, 180, 270)
 mat_rotation_portrait = 90 # (0, 90, 180, 270)
 
+# Building on raspberry
+cmake -D RPI=true ..
+make
 
