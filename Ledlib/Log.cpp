@@ -10,7 +10,7 @@ namespace Ledlib {
 
 static char timeBuffer[32];
 static char prefixBuffer[64];
-static char prefixBufferPadding[] = "................";
+static char prefixBufferPadding[] = ".............";
 
 LogConcator LogConcator::instance = LogConcator();
 

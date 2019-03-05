@@ -16,7 +16,7 @@ App::App(Context * context) : Application(context){}
 
 void App::Setup(){
 	if(!LedMatrixLibrary::Init()){
-		Log(LOG_ERROR, "GlueApplication", "LedMatrixLibrary initialization failed");
+		Log(LOG_ERROR, "App", "LedMatrixLibrary initialization failed");
 	}
 	// engine params
 	engineParameters_["FullScreen"] = false;
@@ -28,7 +28,7 @@ void App::Setup(){
 	engineParameters_["ResourcePaths"] = "Data;CoreData";
 	engineParameters_["ResourcePrefixPaths"] = resPath.c_str();
 	engineParameters_["VSync"] = false;
-	Log(LOG_INFO, "Urho3DApplication", "ResourcePrefixPath=" + resPath);
+	Log(LOG_INFO, "App", "ResourcePrefixPath=" + resPath);
 	OnSetup();
 }
 
