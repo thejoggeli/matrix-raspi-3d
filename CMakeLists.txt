@@ -53,16 +53,16 @@ set_property(
 )
 
 # Ledlib Urho3DGlue
-add_subdirectory("Ledlib/Glue/Urho3D")
-add_library(libUrho3DGlue SHARED IMPORTED)
+add_subdirectory("Ledext/Urho")
+add_library(libLedextUrho SHARED IMPORTED)
 set_property(
-	TARGET libUrho3DGlue
+	TARGET libLedextUrho
 	PROPERTY IMPORTED_LOCATION
-	${CMAKE_CURRENT_BINARY_DIR}/Ledlib/Glue/Urho3D/libUrho3DGlue.so
+	${CMAKE_CURRENT_BINARY_DIR}/Ledext/Urho/libLedextUrho.so
 )
 
 # Ledlib Vanilla
-add_subdirectory("Ledlib/Glue/Vanilla")
+add_subdirectory("Ledext/Vanilla")
 
 function(post_app app_name app_source_dir app_binary_dir)
 	execute_process(COMMAND bash -c "touch ${app_binary_dir}/ledlib.app.cfg")

@@ -11,17 +11,15 @@
 #include "Urho3D/Resource/ResourceCache.h"
 #include "Urho3D/Graphics/Zone.h"
 #include "Urho3D/Core/Timer.h"
+#include "Ledext/Urho/AppManager.h"
 
-MainApplication::MainApplication(Context * context) : Urho3DApplication (context){
+MainApplication::MainApplication(Context* context) : App (context){}
 
-}
-
-void MainApplication::Start(){
+void MainApplication::OnStart(){
 
 	ResourceCache* cache = GetSubsystem<ResourceCache>();
 
-	scene = new Scene(context_);
-	scene->CreateComponent<Octree>();
+	scene = AppManager::GetScene();
 
 	Node* zoneNode = scene->CreateChild("Zone");
 	Zone* zone = zoneNode->CreateComponent<Zone>();
@@ -39,9 +37,9 @@ void MainApplication::Start(){
 	light->SetColor(Color(1,1,1,1));
 	light->SetCastShadows(true);
 
-	box = scene->CreateChild("Box");
-	box->SetPosition(Vector3(0,0,20));
-	box->SetScale(Vector3(10,10,10));
+	boxNode = scene->CreateChild("Box");
+	boxNode->SetPosition(Vector3(0,0,20));
+	boxNode->SetScale(Vector3(10,10,10));
 
 	Material* material = new Material(context_);
 	material->SetFillMode(FillMode::FILL_SOLID);
@@ -59,7 +57,7 @@ void MainApplication::Start(){
 		}
 	} */
 
-	StaticModel* boxObject = box->CreateComponent<StaticModel>();
+	StaticModel* boxObject = boxNode->CreateComponent<StaticModel>();
 	boxObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
 //	boxObject->SetMaterial(cache->GetResource<Material>("Materials/Stone.xml"));
 	boxObject->SetMaterial(material);
@@ -70,24 +68,17 @@ void MainApplication::Start(){
 	skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
 	skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml")); */
 
-	camera = scene->CreateChild("Camera");
-	camera->SetPosition(Vector3(0,10,0));
-	camera->LookAt(box->GetPosition()-Vector3(0,1,0), Vector3::UP);
-	Camera* c = camera->CreateComponent<Camera>();
-	c->SetFarClip(2000);
+	Camera* camera = AppManager::GetCamera();
+	cameraNode = camera->GetNode();
+	cameraNode->SetPosition(Vector3(0,10,0));
+	cameraNode->LookAt(boxNode->GetPosition()-Vector3(0,1,0), Vector3::UP);
+	camera->SetFarClip(2000);
 
-	// Now we setup the viewport. Of course, you can have more than one!
-	Renderer* renderer = GetSubsystem<Renderer>();
-	SharedPtr<Viewport> viewport(new Viewport(context_, scene, camera->GetComponent<Camera>()));
-	renderer->SetViewport(0, viewport);
-
-	Urho3DApplication::Start();
 }
 
-void MainApplication::HandleUpdate(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData){
-	Urho3DApplication::HandleUpdate(eventType, eventData);
+void MainApplication::OnUpdate(){
 	float timestep = GetSubsystem<Time>()->GetTimeStep();
 	Quaternion quat;
 	quat.FromEulerAngles(0, timestep*90.0f, 0);
-	box->Rotate(quat);
+	boxNode->Rotate(quat);
 }

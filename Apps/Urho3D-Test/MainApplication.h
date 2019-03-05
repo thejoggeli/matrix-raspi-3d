@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ledlib/Glue/Urho3D/Urho3DApplication.h"
+#include "Ledext/Urho/App.h"
 #include <memory>
 
 using namespace std;
@@ -12,14 +12,14 @@ namespace Urho3D {
 	class Node;
 }
 
-class MainApplication : public Urho3DApplication {
+class MainApplication : public App {
 public:
 	SharedPtr<Scene> scene;
-	SharedPtr<Node> box;
-	SharedPtr<Node> camera;
+	SharedPtr<Node> boxNode;
+	SharedPtr<Node> cameraNode;
 	MainApplication(Urho3D::Context * context);
-	virtual void Start();
-	virtual void HandleUpdate(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
+	virtual void OnStart();
+	virtual void OnUpdate();
 };
 
 URHO3D_DEFINE_APPLICATION_MAIN(MainApplication)
