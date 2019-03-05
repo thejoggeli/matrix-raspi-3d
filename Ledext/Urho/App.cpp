@@ -1,5 +1,6 @@
 #include "App.h"
 #include "AppManager.h"
+#include "Gfx.h"
 #include "Urho3D/Core/CoreEvents.h"
 #include "Ledlib/Ledlib.h"
 #include "Ledlib/Display/DisplayManager.h"
@@ -34,6 +35,7 @@ void App::Setup(){
 
 void App::Start(){
 	AppManager::Setup(this);
+	Gfx::Setup();
 	OnStart();
 //	GetSubsystem<Input>()->SetMouseGrabbed(false);
 	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(App, HandlePostRenderUpdate));
