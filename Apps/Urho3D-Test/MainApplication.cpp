@@ -14,8 +14,13 @@
 #include "Ledlib3d/AppManager.h"
 #include "Ledlib/Remote/ClientManager.h"
 #include "Ledlib/Remote/Client.h"
+#include "Ledlib/Log.h"
+#include "Ledlib/Math/Numbers.h"
 
-static float rotationSpeed = 1.0f;
+static float brightness = 1.0f;
+static float rotx = 0,  roty = 0;
+static Node* lightNode;
+static Light* light;
 
 MainApplication::MainApplication(Context* context) : App (context){}
 
@@ -28,14 +33,14 @@ void MainApplication::OnStart(){
 	Node* zoneNode = scene->CreateChild("Zone");
 	Zone* zone = zoneNode->CreateComponent<Zone>();
 	zone->SetBoundingBox(BoundingBox(-10000.0f, 10000.0f));
-	zone->SetAmbientColor(Color(0.5f,0.5f,0.5f));
+	zone->SetAmbientColor(Color(0.25f,0.25f,0.25f));
 	zone->SetFogColor(Color(0,0,0,1));
 
-	Node* lightNode = scene->CreateChild();
+	lightNode = scene->CreateChild();
 	lightNode->SetDirection(Vector3::FORWARD);
 	lightNode->Yaw(50);     // horizontal
 	lightNode->Pitch(10);   // vertical
-	Light* light=lightNode->CreateComponent<Light>();
+	light=lightNode->CreateComponent<Light>();
 	light->SetLightType(LIGHT_DIRECTIONAL);
 	light->SetBrightness(1.0f);
 	light->SetColor(Color(1,1,1,1));
@@ -82,13 +87,25 @@ void MainApplication::OnStart(){
 
 void MainApplication::OnUpdate(){
 	float timestep = GetSubsystem<Time>()->GetTimeStep();
-	if(ClientManager::IsKeyDown(KeyCode::Left)){
-		rotationSpeed -= timestep*2.0f;
+	if(ClientManager::IsKeyDown(KeyCode::Up)){
+		brightness = Numbers::Clamp(0.0f, 2.0f, brightness + timestep);
+		light->SetBrightness(brightness);
 	}
-	if(ClientManager::IsKeyDown(KeyCode::Right)){
-		rotationSpeed += timestep*2.0f;
+	if(ClientManager::IsKeyDown(KeyCode::Down)){
+		brightness = Numbers::Clamp(0.0f, 2.0f, brightness - timestep);
+		light->SetBrightness(brightness);
+	}
+	for(auto& client: ClientManager::GetAllCients()){
+		if(client->IsKeyDown(KeyCode::LeftJoystick)){
+			Vector2f joy = client->GetJoystickPosition(KeyCode::LeftJoystick);
+			roty += joy.x * timestep * 360.0f;
+			rotx += joy.y * timestep * 360.0f;
+			Log(iLog << rotx << " / " << roty);
+		//	Log(iLog << joy.x << " / " << joy.y);
+			break;
+		}
 	}
 	Quaternion quat;
-	quat.FromEulerAngles(0, timestep*90.0f*rotationSpeed, 0);
-	boxNode->Rotate(quat);
+	quat.FromEulerAngles(rotx, roty, 0);
+	boxNode->SetRotation(quat);
 }
