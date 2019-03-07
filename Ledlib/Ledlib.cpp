@@ -99,6 +99,7 @@ void LedMatrixLibrary::Update(){
 		int fps = static_cast<int>(static_cast<float>(fpsCounter)/fpsInterval);
 		Log(LOG_INFO, "Matlib", iLog
 			<< "Fps=" << fps << " / "
+			<< "Dt=" << Time::deltaTime << " / "
 			<< "Clients=" << ClientManager::GetAllCients().size() << " / "
 			<< "Connections=" << ServerManager::GetNumConnections() << " / "
 			<< "Events=" << EventManager::eventCounterTemp << "/" << EventManager::eventCounterTotal

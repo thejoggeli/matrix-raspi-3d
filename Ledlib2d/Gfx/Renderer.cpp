@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Gfx.h"
+#include "Transform.h"
 #include "Ledlib/Util/ColorRgb.h"
 #include "Ledlib/Display/DisplayManager.h"
 #include "Ledlib/Log.h"
@@ -13,6 +14,7 @@ namespace Gfx {
 
 static ColorRgb _clearColor;
 static uint8_t* pixels;
+static bool _autoClear = true;
 
 void InitRenderer(int width, int height){
 	// display
@@ -22,11 +24,25 @@ void InitRenderer(int width, int height){
 
 }
 
+void SetAutoClear(bool autoClear){
+	_autoClear = autoClear;
+}
+
 void Render(Scene* scene, Camera* camera){
+	if(_autoClear){
+		Clear();
+	}
+	Save();
+	Transform(glm::inverse(camera->GetEntity()->GetWorldMatrix()));
 	std::vector<Entity*>& entities = scene->GetEntities();
 	for(auto& entity: entities){
+		Save();
+		const glm::mat4& modelMatrix = entity->GetWorldMatrix();
+		Transform(modelMatrix);
 		entity->OnRender();
+		Restore();
 	}
+	Restore();
 }
 
 void UpdatePixelBuffer(){

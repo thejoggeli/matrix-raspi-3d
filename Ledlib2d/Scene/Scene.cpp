@@ -25,14 +25,12 @@ std::shared_ptr<Scene> Scene::Create(){
 	return scene;
 }
 
-void Scene::RegisterEntity(const std::shared_ptr<Entity>& entity){
-	_entities.push_back(entity.get());
-	entity->OnStart();
+void Scene::OnEntityCreated(const std::shared_ptr<Entity> &entity){
+	_addedEntities.push_back(entity.get());
 }
 
-void Scene::UnregisterEntity(const std::shared_ptr<Entity>& entity){
-	entity->OnEnd();
-	_entities.erase(std::remove(_entities.begin(), _entities.end(), entity.get()), _entities.end());
+void Scene::OnEntityDestroyed(const std::shared_ptr<Entity>& entity){
+	_destroyedEntities.push_back(entity.get());
 }
 
 std::vector<Entity*>& Scene::GetEntities(){
@@ -49,6 +47,32 @@ void Scene::Update(){
 	}
 	for(auto& entity: _entities){
 		entity->OnLateUpdate();
+	}
+	if(_addedEntities.size() > 0){
+		for(auto& entity: _addedEntities){
+			_entities.push_back(entity);
+		}
+		for(auto& entity: _addedEntities){
+			entity->OnStart();
+		}
+		_addedEntities.clear();
+	}
+	if(_destroyedEntities.size() > 0){
+		for(auto& entity: _destroyedEntities){
+			entity->OnEnd();
+		}
+		for(auto& entity: _destroyedEntities){
+			for(auto& child: entity->GetChildren()){
+				child->SetParent(_root);
+			}
+		}
+		for(auto& entity: _destroyedEntities){
+			_entities.erase(std::remove(_entities.begin(), _entities.end(), entity), _entities.end());
+		}
+		for(auto& entity: _destroyedEntities){
+			entity->SetParent(nullptr);
+		}
+		_destroyedEntities.clear();
 	}
 }
 

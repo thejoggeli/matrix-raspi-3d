@@ -7,8 +7,8 @@ namespace Ledlib {
 class BaseFont;
 class ColorRgb;
 
-enum class TextBaseline {TOP, MIDDLE, ALPHABETIC, BOTTOM};
-enum class TextAlign {LEFT, CENTER, RIGHT};
+enum class TextBaseline {Top, Middle, Alphabetic, Bottom};
+enum class TextAlign {Left, Right, Center};
 
 namespace Gfx {
 

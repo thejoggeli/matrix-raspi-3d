@@ -32,6 +32,8 @@ public:
 	}
 };
 
+void Log(LogConcator& log);
+void Log(const std::string& str);
 void Log(LogLevel level, const std::string& source, LogConcator& log);
 void Log(LogLevel level, const std::string& source, const std::string& str);
 

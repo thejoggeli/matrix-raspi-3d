@@ -8,6 +8,8 @@ class ColorRgb;
 
 namespace Gfx {
 
+void SetAutoClear(bool autoClear);
+
 void InitRenderer(int width, int height);
 
 // clear

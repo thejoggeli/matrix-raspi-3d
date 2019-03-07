@@ -92,6 +92,11 @@ AppManager.apps = {
 			AppManager.setScreen("gamepad");
 		},
 	},
+	"Ledlib2d-Test": {
+		"welcome": function(){
+			AppManager.setScreen("gamepad");
+		},
+	},
 };
 AppManager.setScreen = function(screen){
 	Gamepad.close();

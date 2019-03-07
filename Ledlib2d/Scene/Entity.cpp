@@ -20,8 +20,8 @@ int Entity::aliveCounter;
 
 Entity::Entity(){
 	_id = idCounter++;
-	Log(LOG_DEBUG, "Entity", iLog << "Entity created (id=" << _id << "), " << aliveCounter << " alive");
 	aliveCounter++;
+	Log(LOG_DEBUG, "Entity", iLog << "Entity created (id=" << _id << "), " << aliveCounter << " alive");
 }
 Entity::~Entity(){
 	aliveCounter--;
@@ -36,14 +36,15 @@ std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, cons
 		root->_children.push_back(entity);
 	} else {
 		entity->_parent = parent;
+		parent->_children.push_back(entity);
 	}
-	scene->RegisterEntity(entity);
+	scene->OnEntityCreated(entity);
 	return entity;
 }
 std::shared_ptr<Entity> Entity::CreateRoot(const std::shared_ptr<Scene> &scene){
 	std::shared_ptr<Entity> entity = std::make_shared<Entity>();
 	entity->_scene = scene;
-	scene->RegisterEntity(entity);
+	scene->OnEntityCreated(entity);
 	return entity;
 }
 
@@ -65,7 +66,22 @@ void Entity::SetPosition(const vec3& v){
 	_position = v;
 	SetNeedsUpdate();
 }
+void Entity::Translate(float x, float y, float z){
+	_position.x += x;
+	_position.y += y;
+	_position.z += z;
+	SetNeedsUpdate();
+}
+void Entity::Translate(const glm::vec3 &v){
+	_position += v;
+	SetNeedsUpdate();
+}
 
+void Entity::SetScale(float s){
+	_scale.x = s;
+	_scale.y = s;
+	SetNeedsUpdate();
+}
 void Entity::SetScale(float x, float y, float z){
 	_scale.x = x;
 	_scale.y = y;
@@ -89,17 +105,21 @@ void Entity::SetRotation(const quat& rotation){
 	_rotation = rotation;
 	SetNeedsUpdate();
 }
+void Entity::Rotate(float z){
+	_rotation = glm::rotate(_rotation, z, vec3(0,0,1));
+	SetNeedsUpdate();
+}
+float Entity::GetAngle(){
+	return glm::angle(_rotation);
+}
 
 void Entity::AddChild(std::shared_ptr<Entity> child){
 	std::shared_ptr<Entity> childsParent = child->GetParent();
 	if(childsParent){
-		childsParent->RemoveChild(child);
+		childsParent->_children.erase(std::remove(childsParent->_children.begin(), childsParent->_children.end(), child), childsParent->_children.end());
 	}
 	_children.push_back(child);
 	child->SetNeedsUpdate();
-}
-void Entity::RemoveChild(std::shared_ptr<Entity> child){ // this will destroy the child
-	_children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
 }
 
 std::vector<std::shared_ptr<Entity>>& Entity::GetChildren(){
@@ -115,15 +135,35 @@ std::shared_ptr<Entity> Entity::GetParent(){
 }
 
 void Entity::SetParent(std::shared_ptr<Entity> parent){
-	parent->AddChild(shared_from_this());
+	if(parent == GetParent()){
+		Log(LOG_DEBUG, "Entity", "Same parent");
+		return;
+	}
+	if(!parent){
+		if(_destroyed){
+			auto& pChildren = GetParent()->_children;
+			pChildren.erase(std::remove(pChildren.begin(), pChildren.end(), shared_from_this()), pChildren.end());
+			Log("time to destroy");
+		} else {
+			Destroy();
+		}
+	} else {
+		// add this entity to new parent
+		parent->_children.push_back(shared_from_this());
+		// remove this entity from old parent's children list
+		auto& pChildren = GetParent()->_children;
+		pChildren.erase(std::remove(pChildren.begin(), pChildren.end(), shared_from_this()), pChildren.end());
+		// set new parent
+		_parent = parent;
+		// update matrix
+		SetNeedsUpdate();
+	}
 }
 
 void Entity::Destroy(){
-	for(auto& child: GetChildren()){
-		child->Destroy();
-	}
-	GetParent()->RemoveChild(shared_from_this());
-	GetScene()->UnregisterEntity(shared_from_this());
+	if(_destroyed) return;
+	_destroyed = true;
+	GetScene()->OnEntityDestroyed(shared_from_this());
 }
 
 void Entity::SetNeedsUpdate(){
@@ -133,21 +173,21 @@ void Entity::SetNeedsUpdate(){
 	}
 }
 
-mat4 Entity::GetWorldMatrix(){
+mat4& Entity::GetWorldMatrix(){
 	if(_needsUpdate){
 		UpdateWorldMatrix();
 	}
 	return _worldMatrix;
 }
 
-mat4 Entity::GetMatrix(){
+mat4& Entity::GetMatrix(){
 	if(_needsUpdate){
 		UpdateMatrix();
 	}
 	return _matrix;
 }
 
-quat Entity::GetWorldRotation(){
+quat& Entity::GetWorldRotation(){
 	if(_needsUpdate){
 		UpdateWorldMatrix();
 	}

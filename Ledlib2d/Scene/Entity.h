@@ -16,11 +16,12 @@ private:
 	static int aliveCounter;
 	int _id;
 
+	bool _destroyed = false;
 	std::weak_ptr<Entity> _parent;
 	std::vector<std::shared_ptr<Entity>> _children;
-	glm::vec3 _position = glm::vec3(1,1,1);
+	glm::vec3 _position = glm::vec3(0,0,0);
 	glm::vec3 _scale = glm::vec3(1,1,1);
-	glm::quat _rotation;
+	glm::quat _rotation = glm::quat(1, 0, 0, 0);
 	glm::mat4 _matrix = glm::mat4(1.0);
 	glm::mat4 _worldMatrix = glm::mat4(1.0);
 	glm::quat _worldRotation;
@@ -31,9 +32,10 @@ public:
 	Entity();
 	virtual ~Entity();
 
-	const glm::vec3 position = _position;
-	const glm::vec3 scale = _scale;
-	const glm::quat rotation = _rotation;
+	const bool &destroyed = _destroyed;
+	const glm::vec3& position = _position;
+	const glm::vec3& scale = _scale;
+	const glm::quat& rotation = _rotation;
 	const int& id = _id;
 
 	template<typename T, typename std::enable_if<std::is_base_of<Entity, T>::value>::type* = nullptr>
@@ -47,16 +49,20 @@ public:
 
 	void SetPosition(float x, float y, float z = 0);
 	void SetPosition(const glm::vec3& v);
+	void Translate(float x, float y, float z = 0);
+	void Translate(const glm::vec3& v);
 
+	void SetScale(float s);
 	void SetScale(float x, float y, float z = 1);
 	void SetScale(const glm::vec3& v);
 
 	void SetRotation(float z);
 	void SetRotation(const glm::mat4& rotation);
 	void SetRotation(const glm::quat& rotation);
+	void Rotate(float z);
+	float GetAngle();
 
 	void AddChild(std::shared_ptr<Entity> child);
-	void RemoveChild(std::shared_ptr<Entity> child);
 	void SetParent(std::shared_ptr<Entity> parent);
 	std::vector<std::shared_ptr<Entity>>& GetChildren();
 	std::shared_ptr<Entity> GetParent();
@@ -65,9 +71,9 @@ public:
 
 	void Destroy();
 
-	glm::mat4 GetWorldMatrix();
-	glm::mat4 GetMatrix();
-	glm::quat GetWorldRotation();
+	glm::mat4& GetWorldMatrix();
+	glm::mat4& GetMatrix();
+	glm::quat& GetWorldRotation();
 	glm::vec3 GetWorldPosition();
 	glm::vec3 GetWorldScale();
 	void UpdateMatrix();

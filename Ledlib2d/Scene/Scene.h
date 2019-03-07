@@ -15,6 +15,8 @@ private:
 	int _id;
 	std::shared_ptr<Entity> _root;
 	std::vector<Entity*> _entities;
+	std::vector<Entity*> _addedEntities;
+	std::vector<Entity*> _destroyedEntities;
 public:
 	Scene();
 	virtual ~Scene();
@@ -25,8 +27,8 @@ public:
 	std::shared_ptr<T> CreateEntity(const std::shared_ptr<Entity>& parent = nullptr){
 		return Entity::Create<T>(shared_from_this(), parent);
 	}
-	void RegisterEntity(const std::shared_ptr<Entity>& entity);
-	void UnregisterEntity(const std::shared_ptr<Entity>& entity);
+	void OnEntityCreated(const std::shared_ptr<Entity>& entity);
+	void OnEntityDestroyed(const std::shared_ptr<Entity>& entity);
 	std::vector<Entity*>& GetEntities();
 
 	std::shared_ptr<Entity> GetRoot();

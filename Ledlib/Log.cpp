@@ -28,6 +28,13 @@ bool LogLevels::Init(){
 	return true;
 }
 
+void Log(LogConcator& log){
+	Log(LOG_DEBUG, "Debug", log);
+}
+void Log(const std::string& str){
+	Log(LOG_DEBUG, "Debug", str);
+}
+
 void Log(LogLevel level, const std::string& source, LogConcator& log){
 	Log(level, source, log.stringStream.str());
 	log.stringStream.str(std::string());

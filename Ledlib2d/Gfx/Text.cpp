@@ -17,8 +17,8 @@ static ColorRgb _textColor = ColorRgb::WHITE;
 namespace Gfx {
 
 bool antiKerning = true;
-TextBaseline textBaseline = TextBaseline::TOP;
-TextAlign textAlign = TextAlign::LEFT;
+TextBaseline textBaseline = TextBaseline::Middle;
+TextAlign textAlign = TextAlign::Center;
 int textCharacterSpacing = 0;
 
 
@@ -47,22 +47,22 @@ void DrawText(std::string str, float x, float y){
 	int width = _font->GetTextWidth(str, textCharacterSpacing, antiKerning);
 
 	switch(textAlign){
-	case TextAlign::LEFT:
+	case TextAlign::Left:
 		cursor_x += 0; break;
-	case TextAlign::RIGHT:
+	case TextAlign::Right:
 		cursor_x += -width;
 		break;
-	case TextAlign::CENTER:
+	case TextAlign::Center:
 		cursor_x += -width/2.0f; break;
 	}
 	switch(textBaseline){
-	case TextBaseline::TOP:
+	case TextBaseline::Top:
 		cursor_y += -_font->baselineOffset.top; break;
-	case TextBaseline::MIDDLE:
+	case TextBaseline::Middle:
 		cursor_y += -_font->baselineOffset.middle; break;
-	case TextBaseline::ALPHABETIC:
+	case TextBaseline::Alphabetic:
 		cursor_y += -_font->baselineOffset.alphabetic; break;
-	case TextBaseline::BOTTOM:
+	case TextBaseline::Bottom:
 		cursor_y += -_font->baselineOffset.bottom; break;
 	}
 
