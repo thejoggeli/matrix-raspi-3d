@@ -1,8 +1,14 @@
 project(${app_name})
+add_executable(
+	${app_name}
+	"main.cpp"
+	"TestEntity.cpp"
+	"TestGame.cpp"
+	"MenuState.cpp"
+)
 include_directories(".")
-urho3d_setup(${app_name})
 target_link_libraries(
 	${app_name}
-	libLedlib3d
+	libLedlib2d
 )
 post_app(${app_name} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR})

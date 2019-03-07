@@ -8,6 +8,7 @@
 #include "Ledlib/Util/Strings.h"
 #include "Urho3D/Graphics/Graphics.h"
 #include "Urho3D/Graphics/Texture2D.h"
+#include "Urho3D/Input/Input.h"
 
 using namespace Urho3D;
 
@@ -37,7 +38,7 @@ void App::Start(){
 	AppManager::Setup(this);
 	Gfx::Setup();
 	OnStart();
-//	GetSubsystem<Input>()->SetMouseGrabbed(false);
+	GetSubsystem<Input>()->SetMouseGrabbed(false);
 	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(App, HandlePostRenderUpdate));
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(App, HandleUpdate));
 	LedMatrixLibrary::Start();
@@ -50,7 +51,11 @@ void App::Stop(){
 
 void App::HandleUpdate(StringHash eventType,VariantMap& eventData){
 	LedMatrixLibrary::Update();
-	OnUpdate();
+	if(LedMatrixLibrary::exitRequested){
+		context_->GetSubsystem<Engine>()->Exit();
+	} else {
+		OnUpdate();
+	}
 }
 
 void App::HandlePostRenderUpdate(StringHash eventType,VariantMap& eventData){

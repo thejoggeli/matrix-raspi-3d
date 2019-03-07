@@ -8,11 +8,11 @@ set(
 )
 
 # make library
-add_library(LedextUrho SHARED ${URHO3D_GLUE_SOURCE_FILES})
-set_property(TARGET LedextUrho PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+add_library(libLedlib3d SHARED ${URHO3D_GLUE_SOURCE_FILES})
+set_property(TARGET libLedlib3d PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
 target_link_libraries(
-	LedextUrho
+	libLedlib3d
 	libLedlib
 )
 

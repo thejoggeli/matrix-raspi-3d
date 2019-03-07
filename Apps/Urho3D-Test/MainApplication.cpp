@@ -11,7 +11,7 @@
 #include "Urho3D/Resource/ResourceCache.h"
 #include "Urho3D/Graphics/Zone.h"
 #include "Urho3D/Core/Timer.h"
-#include "Ledext/Urho/AppManager.h"
+#include "Ledlib3d/AppManager.h"
 
 MainApplication::MainApplication(Context* context) : App (context){}
 

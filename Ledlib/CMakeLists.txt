@@ -13,6 +13,8 @@ set(
 	"Util/ClientJoiner.cpp"
 	"Util/ClientJoinerSlot.cpp"
 	"Util/ClientJoinerListener.cpp"
+	"Util/ColorRgb.cpp"
+	"Util/ColorHsl.cpp"
 	"Remote/Client.cpp"
 	"Remote/ClientManager.cpp"
 	"Remote/Server.cpp"
@@ -76,11 +78,11 @@ set_property(
 )
 
 # make library
-add_library(Ledlib SHARED ${MATLIB_SOURCE_FILES})
-set_property(TARGET Ledlib PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+add_library(libLedlib SHARED ${MATLIB_SOURCE_FILES})
+set_property(TARGET libLedlib PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
 target_link_libraries(
-	Ledlib
+	libLedlib
 	libseasocks
 	librgbmatrix
 	libx11

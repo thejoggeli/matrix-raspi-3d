@@ -41,28 +41,25 @@ add_definitions(
 include_directories(
 	"."
 	"${URHO3D_HOME}/build/include/Urho3D/ThirdParty"
+	"${URHO3D_HOME}/build/include/Urho3D/ThirdParty/SDL"
 )
 
 # Ledlib
 add_subdirectory("Ledlib")
-add_library(libLedlib SHARED IMPORTED)
-set_property(
-	TARGET libLedlib
-	PROPERTY IMPORTED_LOCATION
-	${CMAKE_CURRENT_BINARY_DIR}/Ledlib/libLedlib.so
-)
 
 # Ledlib Urho3DGlue
-add_subdirectory("Ledext/Urho")
-add_library(libLedextUrho SHARED IMPORTED)
+add_subdirectory("Ledlib3d")
+#[[
+add_library(libLedlib3d SHARED IMPORTED)
 set_property(
-	TARGET libLedextUrho
+	TARGET libLedlib3d
 	PROPERTY IMPORTED_LOCATION
 	${CMAKE_CURRENT_BINARY_DIR}/Ledext/Urho/libLedextUrho.so
 )
+]]
 
 # Ledlib Vanilla
-add_subdirectory("Ledext/Vanilla")
+add_subdirectory("Ledlib2d")
 
 function(post_app app_name app_source_dir app_binary_dir)
 	execute_process(COMMAND bash -c "touch ${app_binary_dir}/ledlib.app.cfg")
@@ -75,16 +72,18 @@ endfunction(add_app)
 
 function(urho3d_setup app_name)
 	# Define target name
-	set (TARGET_NAME ${app_name})
+	set(TARGET_NAME ${app_name})
+	set(DEST_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/Apps/${app_name}")
 	# Include Urho3D Cmake common module
-	include (UrhoCommon)
+	include(UrhoCommon)
 	# Define source files
-	define_source_files ()
+	define_source_files()
 	# Setup target with resource copying
-	setup_main_executable ()
+	setup_main_executable()
 endfunction(urho3d_setup)
 
 
 # add apps
 add_app("Urho3D-Test")
 add_app("Ledlib-Test")
+add_app("Ledlib2d-Test")
