@@ -12,6 +12,10 @@
 #include "Urho3D/Graphics/Zone.h"
 #include "Urho3D/Core/Timer.h"
 #include "Ledlib3d/AppManager.h"
+#include "Ledlib/Remote/ClientManager.h"
+#include "Ledlib/Remote/Client.h"
+
+static float rotationSpeed = 1.0f;
 
 MainApplication::MainApplication(Context* context) : App (context){}
 
@@ -78,7 +82,13 @@ void MainApplication::OnStart(){
 
 void MainApplication::OnUpdate(){
 	float timestep = GetSubsystem<Time>()->GetTimeStep();
+	if(ClientManager::IsKeyDown(KeyCode::Left)){
+		rotationSpeed -= timestep*2.0f;
+	}
+	if(ClientManager::IsKeyDown(KeyCode::Right)){
+		rotationSpeed += timestep*2.0f;
+	}
 	Quaternion quat;
-	quat.FromEulerAngles(0, timestep*90.0f, 0);
+	quat.FromEulerAngles(0, timestep*90.0f*rotationSpeed, 0);
 	boxNode->Rotate(quat);
 }

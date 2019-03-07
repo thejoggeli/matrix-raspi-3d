@@ -25,6 +25,8 @@ void MenuState::OnStart(){
 }
 
 void MenuState::OnUpdate(){
+
+
 	if(auto p = entities[0].lock()){
 		p->Rotate(Time::deltaTime);
 		p->SetRotation(glm::angleAxis(Time::sinceStart, glm::vec3(0, 1, 0)));
