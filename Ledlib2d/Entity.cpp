@@ -26,14 +26,13 @@ int Entity::localUpdateCounter;
 Entity::Entity(){
 	_id = idCounter++;
 	aliveCounter++;
-	Log(LOG_DEBUG, "Entity", iLog << "Entity created (id=" << _id << "), " << aliveCounter << " alive");
 }
 Entity::~Entity(){
 	aliveCounter--;
-	Log(LOG_DEBUG, "Entity", iLog << "Entity destroyed (id=" << _id << "), " << aliveCounter << " alive");
+	Log(LOG_DEBUG, "Entity", iLog << "Entity destroyed / name=" << name << " / id=" << _id << " / alive=" << aliveCounter);
 }
 
-std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, const std::shared_ptr<Scene>& scene, const std::shared_ptr<Entity>& parent){
+std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, const std::shared_ptr<Scene>& scene, const std::string& name, const std::shared_ptr<Entity>& parent){
 	entity->_scene = scene;
 	if(parent == nullptr){
 		std::shared_ptr<Entity> root = scene->GetRoot();
@@ -44,14 +43,18 @@ std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, cons
 		parent->_children.push_back(entity);
 	}
 	scene->OnEntityCreated(entity);
+	entity->name = name;
 	entity->_needsWorldUpdate = true;
 	entity->_needsLocalUpdate = true;
+	Log(LOG_DEBUG, "Entity", iLog << "Entity created / name=" << entity->name << " / id=" << entity->_id << " / alive=" << aliveCounter);
 	return entity;
 }
 std::shared_ptr<Entity> Entity::CreateRoot(const std::shared_ptr<Scene> &scene){
 	std::shared_ptr<Entity> entity = std::make_shared<Entity>();
 	entity->_scene = scene;
+	entity->name = "root";
 	scene->OnEntityCreated(entity);
+	Log(LOG_DEBUG, "Entity", iLog << "Entity created / name=" << entity->name << " / id=" << entity->_id << " / alive=" << aliveCounter);
 	return entity;
 }
 

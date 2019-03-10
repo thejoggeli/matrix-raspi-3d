@@ -22,9 +22,9 @@
 #include "Ledlib2d/Physics/PolygonCollider.h"
 
 void MenuState::OnStart(){
-	std::shared_ptr<Entity> e1 = GetScene()->CreateEntity<TestEntity>();
-	std::shared_ptr<Entity> e2 = GetScene()->CreateEntity<TestEntity>();
-	std::shared_ptr<Entity> e3 = GetScene()->CreateEntity<TestEntity>(e2);
+	std::shared_ptr<Entity> e1 = GetScene()->CreateEntity<TestEntity>("e1");
+	std::shared_ptr<Entity> e2 = GetScene()->CreateEntity<TestEntity>("e2", e1);
+	std::shared_ptr<Entity> e3 = GetScene()->CreateEntity<TestEntity>("e3", e2);
 	e1->SetScale(2.0f);
 	e2->Translate(16, 0);
 	e3->Translate(0, -16);

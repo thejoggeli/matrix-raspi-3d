@@ -32,8 +32,8 @@ public:
 	static std::shared_ptr<Scene> Create();
 
 	template<typename T, typename std::enable_if<std::is_base_of<Entity, T>::value>::type* = nullptr>
-	std::shared_ptr<T> CreateEntity(const std::shared_ptr<Entity>& parent = nullptr){
-		return Entity::Create<T>(shared_from_this(), parent);
+	std::shared_ptr<T> CreateEntity(const std::string& name, const std::shared_ptr<Entity>& parent = nullptr){
+		return Entity::Create<T>(shared_from_this(), name, parent);
 	}
 	void OnEntityCreated(const std::shared_ptr<Entity>& entity);
 	void OnEntityDestroyed(const std::shared_ptr<Entity>& entity);

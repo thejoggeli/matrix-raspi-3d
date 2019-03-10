@@ -35,6 +35,7 @@ private:
 	std::shared_ptr<Collider> _collider = nullptr;
 
 public:
+	std::string name = "unnamed";
 	std::vector<std::string> tags;
 
 	static int worldUpdateCounter;
@@ -49,10 +50,10 @@ public:
 	const int& id = _id;
 
 	template<typename T, typename std::enable_if<std::is_base_of<Entity, T>::value>::type* = nullptr>
-	static std::shared_ptr<T> Create(const std::shared_ptr<Scene>& scene, const std::shared_ptr<Entity>& parent){
-		return std::static_pointer_cast<T>(Init(std::make_shared<T>(), scene, parent));
+	static std::shared_ptr<T> Create(const std::shared_ptr<Scene>& scene, const std::string& name, const std::shared_ptr<Entity>& parent){
+		return std::static_pointer_cast<T>(Init(std::make_shared<T>(), scene, name, parent));
 	}
-	static std::shared_ptr<Entity> Init(const std::shared_ptr<Entity>& entity, const std::shared_ptr<Scene>& scene, const std::shared_ptr<Entity>& parent);
+	static std::shared_ptr<Entity> Init(const std::shared_ptr<Entity>& entity, const std::shared_ptr<Scene>& scene, const std::string& name, const std::shared_ptr<Entity>& parent);
 	static std::shared_ptr<Entity> CreateRoot(const std::shared_ptr<Scene>& scene);
 
 	std::shared_ptr<Scene> GetScene();

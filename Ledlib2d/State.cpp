@@ -44,7 +44,7 @@ void State::Start(){
 	// scene
 	_scene = Scene::Create();
 	// camera
-	std::shared_ptr<Entity> cameraEntity = _scene->CreateEntity<Entity>();
+	std::shared_ptr<Entity> cameraEntity = _scene->CreateEntity<Entity>("camera");
 	std::shared_ptr<Camera> camera = Camera::Create();
 	cameraEntity->SetCamera(camera);
 	_cameraEntity = cameraEntity;

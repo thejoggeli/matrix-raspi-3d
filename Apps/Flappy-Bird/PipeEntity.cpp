@@ -10,7 +10,7 @@ PipeEntity::PipeEntity(){}
 void PipeEntity::OnStart(){
 	bitmap = ResourceManager::GetBitmap("pipe");
 	std::shared_ptr<BoxCollider> collider = Collider::Create<BoxCollider>("pipe");
-	colliderEntity = GetScene()->CreateEntity<Entity>(shared_from_this()).get();
+	colliderEntity = GetScene()->CreateEntity<Entity>("pipe-collider", shared_from_this()).get();
 	collider->SetSize(width, 128);
 	colliderEntity->SetCollider(collider);
 	colliderEntity->Translate(0, -128/2+height/2);

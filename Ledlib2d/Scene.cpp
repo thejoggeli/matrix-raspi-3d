@@ -88,7 +88,9 @@ void Scene::Update(){
 			_destroyedEntities[i]->DestroyChildren(true);
 		}
 		for(auto& entity: _destroyedEntities){
-			entity->SetParent(GetRoot());
+			if(entity->GetParent() != GetRoot()){
+				entity->SetParent(GetRoot());
+			}
 			entity->OnEnd();
 		}
 		for(auto& entity: _destroyedEntities){

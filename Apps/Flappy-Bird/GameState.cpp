@@ -33,7 +33,7 @@ void GameState::OnStart(){
 	GetCamera()->GetEntity()->SetPosition(0, 0);
 
 	GetScene()->EnableCollision("bird", "pipe");
-	std::shared_ptr<BirdEntity> bird = GetScene()->CreateEntity<BirdEntity>();
+	std::shared_ptr<BirdEntity> bird = GetScene()->CreateEntity<BirdEntity>("bird");
 	Bitmap* bitmap = GetGame<FlappyBird>()->birdBitmap;
 	if(bitmap == nullptr) bitmap = ResourceManager::GetBitmap("bird-yellow");
 	bird->bitmap = bitmap;
@@ -64,11 +64,11 @@ void GameState::OnUpdate(){
 			int gap_top = gap%2 == 0 ? gap/2 : gap/2+1;
 			int gap_bottom = gap/2;
 			// pipe top
-			std::shared_ptr<PipeEntity> pipeTop = GetScene()->CreateEntity<PipeEntity>();
+			std::shared_ptr<PipeEntity> pipeTop = GetScene()->CreateEntity<PipeEntity>("pipe-top");
 			pipeTop->SetRotation(Numbers::Pi);
 			pipeTop->SetPosition(x, center + gap_top + pipeTop->height/2);
 			// pipe bottom
-			std::shared_ptr<PipeEntity> pipeBottom = GetScene()->CreateEntity<PipeEntity>();
+			std::shared_ptr<PipeEntity> pipeBottom = GetScene()->CreateEntity<PipeEntity>("pipe-bottom");
 			pipeBottom->SetPosition(x, center - gap_bottom - pipeBottom->height/2);
 			// invisible pipes
 			float maxPos = Gfx::top+pipeTop->height/2-2;
@@ -86,12 +86,12 @@ void GameState::OnUpdate(){
 			// next position
 			nextPipePosition += Numbers::Random(20, 28);
 		}
-	/*	for(auto const& pipe: pipes.items){
+		for(auto const& pipe: pipes.items){
 			auto p = pipe.lock();
 			if(p && p->position.x+p->width + 2 < camera->position.x + Gfx::left){
 				p->Destroy();
 			}
-		} */
+		}
 		UpdateScore();
 		birds.RemoveExpired();
 		pipes.RemoveExpired();
