@@ -85,7 +85,7 @@ void MenuState::OnBeforeRender(){
 	ColorHsl hsl = ColorHsl(0, 1.0f, 0.75f);
 	hsl.h = hsl.WrapHue(Time::sinceStart*5.0f);
 	Gfx::SetBitmapColor(hsl.GetRgb());
-	Gfx::DrawBitmap(ResourceManager::GetBitmap("selection"), selectionPos, h);
+	Gfx::DrawBitmap(ResourceManager::GetBitmap("selection"), selectionPos, h+0.5f);
 	Gfx::SetBitmapColor(1,1,1);
 	Gfx::SetDrawColor(ColorRgb::RED);
 	Gfx::StrokeRect(0, 0, Gfx::width, Gfx::height);
