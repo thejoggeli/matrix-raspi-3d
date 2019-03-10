@@ -102,7 +102,6 @@ void MenuState::OnBeforeRender(){
 		Gfx::SetTextColor(ColorRgb::WHITE);
 		Gfx::DrawText("HIGHSCORE", 0, +4);
 		int highscore = GetGame<FlappyBird>()->highscore;
-		Log(iLog << highscore);
 		Gfx::DrawText(std::to_string(highscore), 0, -4);
 	}
 

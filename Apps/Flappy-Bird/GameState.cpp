@@ -86,12 +86,12 @@ void GameState::OnUpdate(){
 			// next position
 			nextPipePosition += Numbers::Random(20, 28);
 		}
-		for(auto const& pipe: pipes.items){
+	/*	for(auto const& pipe: pipes.items){
 			auto p = pipe.lock();
 			if(p && p->position.x+p->width + 2 < camera->position.x + Gfx::left){
 				p->Destroy();
 			}
-		}
+		} */
 		UpdateScore();
 		birds.RemoveExpired();
 		pipes.RemoveExpired();
