@@ -19,11 +19,6 @@ private:
 public:
 	State();
 	virtual ~State();
-	template<typename T>
-	static std::shared_ptr<State> Create(const std::shared_ptr<Game>& game){
-		return std::static_pointer_cast<T>(Init(std::make_shared<State>(), game));
-	}
-	static std::shared_ptr<State> Init(const std::shared_ptr<State>& state, const std::shared_ptr<Game>& game);
 
 	void Start();
 	void Update();
@@ -38,12 +33,19 @@ public:
 	virtual void OnLateUpdate(){}
 
 	virtual void OnBeforeRender(){}
-	virtual void OnRender(){}
 	virtual void OnAfterRender(){}
 
 	std::shared_ptr<Scene> GetScene();
 	std::shared_ptr<Camera> GetCamera();
+	std::shared_ptr<Entity> GetCameraEntity();
 	std::shared_ptr<Game> GetGame();
+
+	void SetGame(const std::shared_ptr<Game>& game);
+
+	template<typename T, typename std::enable_if<std::is_base_of<Game, T>::value>::type* = nullptr>
+	std::shared_ptr<T> GetGame(){
+		return std::static_pointer_cast<T>(_game.lock());
+	}
 
 };
 

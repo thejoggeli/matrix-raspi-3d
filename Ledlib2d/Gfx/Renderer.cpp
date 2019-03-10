@@ -4,10 +4,11 @@
 #include "Ledlib/Util/ColorRgb.h"
 #include "Ledlib/Display/DisplayManager.h"
 #include "Ledlib/Log.h"
-#include "../Scene/Scene.h"
-#include "../Scene/Camera.h"
-#include "../Scene/Entity.h"
+#include "../Scene.h"
+#include "../Camera.h"
+#include "../Entity.h"
 #include <GLES2/gl2.h>
+#include "../Physics/Collider.h"
 
 namespace Ledlib {
 namespace Gfx {
@@ -28,10 +29,12 @@ void SetAutoClear(bool autoClear){
 	_autoClear = autoClear;
 }
 
-void Render(Scene* scene, Camera* camera){
+void RenderPrepare(){
 	if(_autoClear){
 		Clear();
 	}
+}
+void Render(Scene* scene, Camera* camera){
 	Save();
 	Transform(glm::inverse(camera->GetEntity()->GetWorldMatrix()));
 	std::vector<Entity*>& entities = scene->GetEntities();
@@ -41,6 +44,19 @@ void Render(Scene* scene, Camera* camera){
 		Transform(modelMatrix);
 		entity->OnRender();
 		Restore();
+	}
+	if(scene->debugDrawEnabled){
+		for(auto& entity: entities){
+			std::shared_ptr<Collider> collider = entity->GetCollider();
+			if(collider){
+				Save();
+				if(collider->needsUpdate){
+					collider->UpdateTransform();
+				}
+				collider->DebugDraw();
+				Restore();
+			}
+		}
 	}
 	Restore();
 }

@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "State.h"
+#include "Entity.h"
 #include "Gfx/Gfx.h"
 #include "Gfx/Renderer.h"
 #include "Resources/ResourceManager.h"
@@ -7,7 +8,8 @@
 #include "Ledlib/Log.h"
 #include "Ledlib/Display/DisplayManager.h"
 #include <stdlib.h>
-
+#include "Ledlib/Util/Timer.h"
+#include "Physics/Collider.h"
 
 namespace Ledlib {
 
@@ -35,6 +37,8 @@ void Game::Run(Game* game){
 }
 
 void Game::Loop(){
+	Timer timer;
+
 	// setup
 	OnSetup();
 	LedMatrixLibrary::Init();
@@ -51,17 +55,18 @@ void Game::Loop(){
 		return;
 	}
 	LedMatrixLibrary::Start();
+	timer.Start(10.0f);
 	while(!LedMatrixLibrary::exitRequested){
 		LedMatrixLibrary::Update();
 		activeState->Update();
 		activeState->OnUpdate();
 		activeState->OnLateUpdate();
+		Gfx::RenderPrepare();
 		activeState->OnBeforeRender();
 		Gfx::Render(activeState->GetScene().get(), activeState->GetCamera().get());
-		activeState->OnRender();
-		LedMatrixLibrary::Render();
 		activeState->OnAfterRender();
 		Gfx::UpdatePixelBuffer();
+		LedMatrixLibrary::Render();
 		if(queuedState){
 			activeState->OnEnd();
 			activeState = queuedState;
@@ -69,9 +74,18 @@ void Game::Loop(){
 			activeState->Start();
 			activeState->OnStart();
 		}
+		if(timer.IsFinished()){
+			timer.Restart(true);
+			Log(LOG_DEBUG, "Game", iLog
+				<< "Local=" << Entity::localUpdateCounter
+				<< " / World=" << Entity::worldUpdateCounter
+				<< " / Collider " << Collider::updateCounter
+			);
+			Entity::localUpdateCounter = Entity::worldUpdateCounter = Collider::updateCounter = 0;
+		}
 	}
 	activeState->OnEnd();
-	OnExit();
+	OnEnd();
 	LedMatrixLibrary::Exit();
 }
 
@@ -80,6 +94,7 @@ std::shared_ptr<Game> Game::GetInstance(){
 }
 
 std::shared_ptr<State> Game::SetState(std::shared_ptr<State> state){
+	state->SetGame(shared_from_this());
 	if(activeState == nullptr){
 		activeState = state;
 	} else {

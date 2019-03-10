@@ -23,7 +23,7 @@ public:
 
 	virtual void OnSetup(){}
 	virtual void OnStart(){}
-	virtual void OnExit(){}
+	virtual void OnEnd(){}
 
 	static void Run(Game* game);
 	static std::shared_ptr<Game> GetInstance();

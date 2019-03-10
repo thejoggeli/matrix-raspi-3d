@@ -4,7 +4,7 @@ namespace Ledlib {
 
 class ColorRgb;
 
-enum class StrokeAlign {INSIDE, OUTSIDE};
+enum class StrokeAlign {Inside, Outside};
 
 namespace Gfx {
 

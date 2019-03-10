@@ -1,13 +1,15 @@
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include <unordered_map>
 #include <glm/vec3.hpp>
 #include "Entity.h"
 
 namespace Ledlib {
 
 class Entity;
+class Collider;
 
 class Scene : public std::enable_shared_from_this<Scene> {
 private:
@@ -17,7 +19,13 @@ private:
 	std::vector<Entity*> _entities;
 	std::vector<Entity*> _addedEntities;
 	std::vector<Entity*> _destroyedEntities;
+	std::unordered_map<std::string, std::vector<Collider*>> _colliders;
+	std::vector<std::pair<std::string, std::string>> _enabledCollisions;
+	bool _debugDrawEnabled = false;
+	std::weak_ptr<Entity> camera;
 public:
+	const bool& debugDrawEnabled = _debugDrawEnabled;
+
 	Scene();
 	virtual ~Scene();
 
@@ -31,9 +39,14 @@ public:
 	void OnEntityDestroyed(const std::shared_ptr<Entity>& entity);
 	std::vector<Entity*>& GetEntities();
 
+	void EnableCollision(const std::string& group_a, const std::string& group_b);
+	void RegisterCollider(const std::shared_ptr<Collider>& collider);
+	void UnregisterCollider(const std::shared_ptr<Collider>& collider);
+
 	std::shared_ptr<Entity> GetRoot();
 
 	void Update();
+	void SetDebugDrawEnabled(bool e);
 
 };
 

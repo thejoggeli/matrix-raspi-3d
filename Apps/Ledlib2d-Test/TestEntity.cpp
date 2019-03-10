@@ -10,7 +10,7 @@
 #include "Ledlib2d/Gfx/Text.h"
 #include "Ledlib2d/Game.h"
 #include "Ledlib2d/Resources/ResourceManager.h"
-#include "Ledlib2d/Scene/Scene.h"
+#include "Ledlib2d/Scene.h"
 #include "Ledlib/Util/ColorRgb.h"
 #include "Ledlib/Util/ColorHsl.h"
 
@@ -21,7 +21,7 @@ void TestEntity::OnUpdate(){
 //	Translate(Time::deltaTime*5.0f, 0);
 //	angle += Time::deltaTime*Numbers::Pi*0.25f;
 //	SetRotation(Numbers::Stepify(angle, Numbers::Pi*2.0f/16.0f));
-	if(ClientManager::OnKeyDown(KeyCode::A)){
+/*	if(ClientManager::OnKeyDown(KeyCode::A)){
 		Game::GetInstance()->SetState<MenuState>();
 	}
 	if(ClientManager::OnKeyDown(KeyCode::Left)){
@@ -31,7 +31,7 @@ void TestEntity::OnUpdate(){
 		for(auto& entity: GetChildren()){
 			entity->Destroy();
 		}
-	}
+	} */
 	if(ClientManager::OnKeyDown(KeyCode::Down)){
 	//	Destroy();
 	}
@@ -40,7 +40,7 @@ void TestEntity::OnRender(){
 	ColorHsl hsl = ColorHsl(hue, 1.0f, 0.5f);
 	Gfx::SetDrawColor(hsl.GetRgb());
 	Gfx::FillRect(0, 0, 10, 10);
-	Gfx::strokeAlign = StrokeAlign::OUTSIDE;
+	Gfx::strokeAlign = StrokeAlign::Outside;
 	Gfx::SetDrawColor(0, 0, 1);
 	Gfx::StrokeRect(0, 0, 10, 10);
 	Gfx::SetFont(ResourceManager::GetFont("font-1"));
@@ -54,4 +54,17 @@ void TestEntity::OnRender(){
 	Gfx::SetDrawColor(ColorRgb::CYAN);
 	Gfx::FillRect(0,0,4,4);
 	Gfx::Restore();
+}
+
+void TestEntity::OnCollision(const CollisionData& data){
+	Log("Collision!");
+	if(this->HasTag("bounce")){
+		Translate(15, 0);
+	/*	auto& children = GetChildren();
+		for(auto& child: children){
+			child->Scale(1.1f, 1.1f);
+		} */
+	} else {
+		hue = Numbers::Random(0.0f, 1.0f);
+	}
 }

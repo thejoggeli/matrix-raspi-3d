@@ -1,11 +1,11 @@
 #pragma once
 
-class ColorRgb;
-
 namespace Ledlib {
-namespace Gfx {
 
+class ColorRgb;
 class Bitmap;
+
+namespace Gfx {
 
 void SetBitmapColor(float r, float g, float b, float a = 1.0f);
 void SetBitmapColor(const ColorRgb& color);

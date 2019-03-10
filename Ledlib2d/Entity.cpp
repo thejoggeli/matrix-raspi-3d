@@ -2,14 +2,16 @@
 #include "Ledlib/Log.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "Physics/Collider.h"
 #include "Component.h"
-#include "../Physics/PhysicsBody.h"
+#include "Physics/PhysicsBody.h"
 #include <algorithm>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
+#include <math.h>
 
 using namespace std;
 using namespace glm;
@@ -18,6 +20,8 @@ namespace Ledlib {
 
 int Entity::idCounter;
 int Entity::aliveCounter;
+int Entity::worldUpdateCounter;
+int Entity::localUpdateCounter;
 
 Entity::Entity(){
 	_id = idCounter++;
@@ -40,6 +44,8 @@ std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, cons
 		parent->_children.push_back(entity);
 	}
 	scene->OnEntityCreated(entity);
+	entity->_needsWorldUpdate = true;
+	entity->_needsLocalUpdate = true;
 	return entity;
 }
 std::shared_ptr<Entity> Entity::CreateRoot(const std::shared_ptr<Scene> &scene){
@@ -47,6 +53,20 @@ std::shared_ptr<Entity> Entity::CreateRoot(const std::shared_ptr<Scene> &scene){
 	entity->_scene = scene;
 	scene->OnEntityCreated(entity);
 	return entity;
+}
+
+void Entity::AddTag(const std::string& tag){
+	if(HasTag(tag)) return;
+	tags.push_back(tag);
+}
+void Entity::RemoveTag(const std::string& tag){
+	tags.erase(std::remove(tags.begin(), tags.end(), tag), tags.end());
+}
+bool Entity::HasTag(const std::string& tag){
+	if(std::find(tags.begin(), tags.end(), tag) == tags.end()){
+		return false;
+	}
+	return true;
 }
 
 std::shared_ptr<Scene> Entity::GetScene(){
@@ -57,92 +77,108 @@ std::shared_ptr<Scene> Entity::GetScene(){
 	return nullptr;
 }
 
-void Entity::CreateCamera(){
-	_camera = Camera::Create(shared_from_this());
+void Entity::SetCamera(const std::shared_ptr<Camera>& camera){
+	_camera = camera;
+	_camera->SetEntity(shared_from_this());
 }
 std::shared_ptr<Camera> Entity::GetCamera(){
 	return _camera;
+}
+
+void Entity::SetCollider(const std::shared_ptr<Collider>& collider){
+	if(_collider){
+		GetScene()->UnregisterCollider(_collider);
+	}
+	_collider = collider;
+	_collider->SetEntity(shared_from_this());
+	GetScene()->RegisterCollider(_collider);
+}
+std::shared_ptr<Collider> Entity::GetCollider(){
+	return _collider;
 }
 
 void Entity::SetPosition(float x, float y, float z){
 	_position.x = x;
 	_position.y = y;
 	_position.z = z;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::SetPosition(const vec3& v){
 	_position = v;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Translate(float x, float y, float z){
 	_position.x += x;
 	_position.y += y;
 	_position.z += z;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Translate(const glm::vec3 &v){
 	_position += v;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Move(const glm::vec3& v){
 	_position += _rotation * v;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 
 void Entity::SetScale(float s){
 	_scale.x = s;
 	_scale.y = s;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::SetScale(float x, float y, float z){
 	_scale.x = x;
 	_scale.y = y;
 	_scale.z = z;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::SetScale(const vec3& v){
 	_scale = v;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Scale(float s){
 	_scale.x *= s;
 	_scale.y *= s;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Scale(float x, float y, float z){
 	_scale.x *= x;
 	_scale.y *= y;
 	_scale.z *= z;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Scale(const glm::vec3& v){
 	_scale.x *= v.x;
 	_scale.y *= v.y;
 	_scale.z *= v.z;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 
 void Entity::SetRotation(float z){
 	_rotation = glm::angleAxis(z, vec3(0, 0, 1));
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::SetRotation(const mat4& rotation){
 	_rotation = rotation;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::SetRotation(const quat& rotation){
 	_rotation = rotation;
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Rotate(float z){
 	_rotation = glm::rotate(_rotation, z, vec3(0,0,1));
-	SetNeedsUpdate();
+	SetNeedsLocalUpdate();
 }
 void Entity::Rotate(const glm::quat& rotation){
 	_rotation = _rotation * rotation;
 }
 float Entity::GetAngle(){
-	return glm::angle(_rotation);
+	return glm::eulerAngles(_rotation)[2];
+}
+float Entity::GetWorldAngle(){
+	return glm::eulerAngles(GetWorldRotation())[2];
 }
 
 void Entity::AddChild(std::shared_ptr<Entity> child){
@@ -151,7 +187,7 @@ void Entity::AddChild(std::shared_ptr<Entity> child){
 		childsParent->_children.erase(std::remove(childsParent->_children.begin(), childsParent->_children.end(), child), childsParent->_children.end());
 	}
 	_children.push_back(child);
-	child->SetNeedsUpdate();
+	child->SetNeedsWorldUpdate();
 }
 
 std::vector<std::shared_ptr<Entity>>& Entity::GetChildren(){
@@ -162,7 +198,7 @@ std::shared_ptr<Entity> Entity::GetParent(){
 	if(auto p = _parent.lock()){
 		return p;
 	}
-	Log(LOG_ERROR, "Entity", "Parent expired");
+	Log(LOG_ERROR, "Entity", iLog << "Parent expired (id=" << id << ")");
 	return nullptr;
 }
 
@@ -175,7 +211,6 @@ void Entity::SetParent(std::shared_ptr<Entity> parent){
 		if(_destroyed){
 			auto& pChildren = GetParent()->_children;
 			pChildren.erase(std::remove(pChildren.begin(), pChildren.end(), shared_from_this()), pChildren.end());
-			Log("time to destroy");
 		} else {
 			Destroy();
 		}
@@ -188,7 +223,7 @@ void Entity::SetParent(std::shared_ptr<Entity> parent){
 		// set new parent
 		_parent = parent;
 		// update matrix
-		SetNeedsUpdate();
+		SetNeedsWorldUpdate();
 	}
 }
 
@@ -206,42 +241,53 @@ void Entity::DestroyChildren(bool recursive){
 	}
 }
 
-void Entity::SetNeedsUpdate(){
-	_needsUpdate = true;
-	for(auto& child: _children){
-		child->SetNeedsUpdate();
+void Entity::SetNeedsLocalUpdate(){
+	_needsLocalUpdate = true;
+	SetNeedsWorldUpdate();
+}
+
+void Entity::SetNeedsWorldUpdate(){
+	if(!_needsWorldUpdate){
+		for(auto& child: _children){
+			child->SetNeedsWorldUpdate();
+		}
+		_needsWorldUpdate = true;
+		if(_collider) _collider->SetNeedsUpdate();
 	}
 }
 
 mat4& Entity::GetWorldMatrix(){
-	if(_needsUpdate){
+	if(_needsWorldUpdate){
 		UpdateWorldMatrix();
 	}
 	return _worldMatrix;
 }
 
 mat4& Entity::GetMatrix(){
-	if(_needsUpdate){
+	if(_needsLocalUpdate){
 		UpdateMatrix();
 	}
 	return _matrix;
 }
 
 quat& Entity::GetWorldRotation(){
-	if(_needsUpdate){
+	if(_needsWorldUpdate){
 		UpdateWorldMatrix();
 	}
 	return _worldRotation;
 }
 
 void Entity::UpdateMatrix(){
+	localUpdateCounter++;
 	_matrix = mat4(1.0f);
 	_matrix = glm::translate(_matrix, position);
 	_matrix = _matrix * glm::toMat4(_rotation);
 	_matrix = glm::scale(_matrix, _scale);
+	_needsLocalUpdate = false;
 }
 
 void Entity::UpdateWorldMatrix(){
+	worldUpdateCounter++;
 	mat4 matrix = GetMatrix();
 	std::shared_ptr<Entity> parent = GetParent();
 	if(parent == GetScene()->GetRoot()){
@@ -251,16 +297,17 @@ void Entity::UpdateWorldMatrix(){
 		_worldMatrix = parent->GetWorldMatrix() * matrix;
 		_worldRotation = parent->GetWorldRotation() * _rotation;
 	}
+	_needsWorldUpdate = false;
 }
 
 vec3 Entity::GetWorldPosition(){
-	if(_needsUpdate){
+	if(_needsWorldUpdate){
 		UpdateWorldMatrix();
 	}
 	return vec3(_worldMatrix[3]);
 }
 vec3 Entity::GetWorldScale(){
-	if(_needsUpdate){
+	if(_needsWorldUpdate){
 		UpdateWorldMatrix();
 	}
 	// might be wrong

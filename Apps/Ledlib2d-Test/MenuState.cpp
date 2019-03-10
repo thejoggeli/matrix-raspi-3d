@@ -4,8 +4,8 @@
 #include "TestGame.h"
 
 #include "Ledlib2d/Resources/ResourceManager.h"
-#include "Ledlib2d/Scene/Scene.h"
-#include "Ledlib2d/Scene/Camera.h"
+#include "Ledlib2d/Scene.h"
+#include "Ledlib2d/Camera.h"
 #include "Ledlib2d/Gfx/Renderer.h"
 #include "Ledlib2d/Gfx/Text.h"
 #include "Ledlib2d/Gfx/Gfx.h"
@@ -13,40 +13,41 @@
 #include "Ledlib/Remote/ClientManager.h"
 #include "Ledlib/Remote/Client.h"
 #include "Ledlib/Math/Numbers.h"
+#include "Ledlib/Log.h"
 #include "Ledlib/Math/Vector2f.h"
 #include "Ledlib/Time.h"
 #include <math.h>
-
-static std::shared_ptr<Scene> scene;
-static std::weak_ptr<Entity> cam;
+#include "Ledlib2d/Physics/BoxCollider.h"
+#include "Ledlib2d/Physics/PointCollider.h"
+#include "Ledlib2d/Physics/PolygonCollider.h"
 
 void MenuState::OnStart(){
-
-	scene = Scene::Create();
-	scene->CreateEntity<TestEntity>();
-
-	std::shared_ptr<Entity> c = scene->CreateEntity<Entity>();
-	c->CreateCamera();
-	cam = c;
-
 	std::shared_ptr<Entity> e1 = GetScene()->CreateEntity<TestEntity>();
-	std::shared_ptr<Entity> e2 = GetScene()->CreateEntity<TestEntity>(e1);
+	std::shared_ptr<Entity> e2 = GetScene()->CreateEntity<TestEntity>();
 	std::shared_ptr<Entity> e3 = GetScene()->CreateEntity<TestEntity>(e2);
-	std::shared_ptr<Entity> e4 = GetScene()->CreateEntity<TestEntity>(e3);
-	std::shared_ptr<Entity> e5 = GetScene()->CreateEntity<TestEntity>(e3);
+	e1->SetScale(2.0f);
 	e2->Translate(16, 0);
 	e3->Translate(0, -16);
-	e4->Translate(0, -16);
 	entities.push_back(e1);
 	entities.push_back(e2);
 	entities.push_back(e3);
-	entities.push_back(e4);
-	for(int i = 0; i < 1; i++){
-		std::shared_ptr<Entity> e = GetScene()->CreateEntity<TestEntity>(e1);
-		e->Translate(-(i+1)*16, 0);
-		entities.push_back(e);
-	}
-	Gfx::SetAutoClear(false);
+
+//	GetScene()->SetDebugDrawEnabled(true);
+	GetScene()->EnableCollision("default", "default");
+/*	std::shared_ptr<PolygonCollider> collider = Collider::Create<PolygonCollider>("default");
+	e2->SetCollider(collider);
+	collider->SetBox(12,12); */
+
+	std::shared_ptr<PolygonCollider> c1 = Collider::Create<PolygonCollider>("default");
+	std::shared_ptr<PolygonCollider> c2 = Collider::Create<PolygonCollider>("default");
+	c1->SetBox(12, 12);
+	c2->SetBox(12, 12);
+	c1->drawBoundingCircle = false;
+	c2->drawBoundingCircle = false;
+	e1->SetCollider(c1);
+	e2->SetCollider(c2);
+	e2->AddTag("bounce");
+
 }
 
 void MenuState::OnUpdate(){
@@ -55,6 +56,8 @@ void MenuState::OnUpdate(){
 	}
 	if(auto p = entities[1].lock()){
 		p->SetScale(sinf(Time::sinceStart*5.0f)*0.5f + 1.25f);
+		p->Translate(-Time::deltaTime*5.0f, 0);
+		p->Rotate(-Time::deltaTime*0.5f);
 	}
 	if(auto p = entities[2].lock()){
 	//	p->SetPosition(sinf(Time::sinceStart*2.5f)*10.0f, p->position.y);
@@ -80,19 +83,5 @@ void MenuState::OnUpdate(){
 	camera->SimpleMove();
 	camera->SimpleRotate();
 	camera->SimpleZoom();
-	scene->Update();
 }
-void MenuState::OnBeforeRender(){
-	Gfx::Clear();
-}
-void MenuState::OnRender(){
-	Gfx::Render(scene.get(), cam.lock()->GetCamera().get());
-	Gfx::SetTextColor(1, 0, 0);
-	Gfx::SetTextPosition(TextAlign::Center, TextBaseline::Middle);
-	Gfx::SetFont(ResourceManager::GetFont("font-1"));
-	Gfx::Save();
-	Gfx::Translate(16, -12);
-	Gfx::Rotate(entities[1].lock()->GetWorldRotation());
-	Gfx::DrawText("hello:)", 0, 0);
-	Gfx::Restore();
-}
+void MenuState::OnBeforeRender(){}

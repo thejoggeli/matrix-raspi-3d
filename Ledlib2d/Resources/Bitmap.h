@@ -6,8 +6,6 @@
 namespace Ledlib {
 class ColorRgb;
 
-namespace Gfx {
-
 class Bitmap {
 protected:
 	uint32_t _width, _height, _numPixels;
@@ -27,5 +25,4 @@ public:
 	void Update();
 };
 
-}
 }

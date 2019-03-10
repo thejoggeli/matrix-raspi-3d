@@ -5,7 +5,6 @@
 #include <GLES2/gl2.h>
 
 namespace Ledlib {
-namespace Gfx {
 
 Bitmap::Bitmap(){}
 
@@ -77,5 +76,4 @@ void Bitmap::SetPixel(int x, int y, const ColorRgb& color){
 	image[off+3] = static_cast<uint8_t>(color.a >= 1.0f ? 255 : color.a*255.0f);
 }
 
-}
 }

@@ -19,6 +19,7 @@ void SetClearColor(const ColorRgb& color);
 
 // render
 void SetDepthTestEnabled(bool e);
+void RenderPrepare();
 void Render(Scene* scene, Camera* camera);
 void UpdatePixelBuffer();
 

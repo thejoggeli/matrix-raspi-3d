@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ledlib2d/Scene/Entity.h"
+#include "Ledlib2d/Entity.h"
 
 using namespace Ledlib;
 
@@ -11,4 +11,5 @@ public:
 	virtual void OnStart();
 	virtual void OnUpdate();
 	virtual void OnRender();
+	virtual void OnCollision(const CollisionData& data);
 };

@@ -2,6 +2,10 @@ set(
 	VANILLA_SOURCE_FILES
 	"Game.cpp"
 	"State.cpp"
+	"Scene.cpp"
+	"Entity.cpp"
+	"Camera.cpp"
+	"Component.cpp"
 	"Gfx/Bitmaps.cpp"
 	"Gfx/Draw.cpp"
 	"Gfx/Text.cpp"
@@ -15,10 +19,13 @@ set(
 	"Resources/Bitmap.cpp"
 	"Resources/Font.cpp"
 	"Physics/PhysicsBody.cpp"
-	"Scene/Scene.cpp"
-	"Scene/Entity.cpp"
-	"Scene/Camera.cpp"
-	"Scene/Component.cpp"
+	"Physics/CollisionManager.cpp"
+	"Physics/CollisionData.cpp"
+	"Physics/Collider.cpp"
+	"Physics/BoxCollider.cpp"
+	"Physics/PolygonCollider.cpp"
+	"Physics/CircleCollider.cpp"
+	"Physics/PointCollider.cpp"
 	"Util/Lodepng.cpp"
 )
 

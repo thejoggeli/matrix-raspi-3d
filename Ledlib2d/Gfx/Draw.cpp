@@ -19,7 +19,7 @@ namespace Gfx {
 const ColorRgb& drawColor = _drawColor;
 
 float lineWidth = 1.0f;
-StrokeAlign strokeAlign = StrokeAlign::INSIDE;
+StrokeAlign strokeAlign = StrokeAlign::Inside;
 
 void InitDraw(int screenWidth, int screenHeight){
 /*	_screenCoordinatesMatrix = glm::ortho(-screenWidth/2.0f, screenWidth/2.0f, -screenHeight/2.0f, screenHeight/2.0f, -1.0f, 1.0f);
@@ -58,7 +58,7 @@ void StrokeRect(float x, float y, float w, float h){
 	float h2 = h/2.0f;
 	float off = lineWidth/2.0f;
 	float off2 = lineWidth;
-	if(strokeAlign == StrokeAlign::INSIDE){
+	if(strokeAlign == StrokeAlign::Inside){
 		StrokeLine(x-w2+off, y-h2, x-w2+off, y+h2);
 		StrokeLine(x-w2+off2, y+h2-off, x+w2-off2, y+h2-off);
 		StrokeLine(x+w2-off, y+h2, x+w2-off, y-h2);

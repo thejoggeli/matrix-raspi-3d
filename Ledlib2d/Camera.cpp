@@ -10,9 +10,8 @@ namespace Ledlib {
 
 Camera::Camera(){}
 
-std::shared_ptr<Camera> Camera::Create(const std::shared_ptr<Entity>& entity){
+std::shared_ptr<Camera> Camera::Create(){
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-	camera->entity = entity;
 	return camera;
 }
 std::shared_ptr<Entity> Camera::GetEntity(){
@@ -22,14 +21,17 @@ std::shared_ptr<Entity> Camera::GetEntity(){
 	Log(LOG_ERROR, "Camera", "Entity expired");
 	return nullptr;
 }
+void Camera::SetEntity(const std::shared_ptr<Entity>& entity){
+	this->entity = entity;
+}
 
 void Camera::SimpleMove(){
 	std::shared_ptr<Entity> entity = GetEntity();
 	for(auto& client: ClientManager::GetAllCients()){
 		if(client->IsKeyDown(KeyCode::LeftJoystick)){
 			Vector2f joy = client->GetJoystickPosition(KeyCode::LeftJoystick);
-			glm::vec3 dir = entity->rotation * glm::vec3(joy.x, joy.y, 0);
-			entity->Move(dir * Time::deltaTime * 20.0f);
+			glm::vec3 dir = entity->GetWorldRotation() * glm::vec3(joy.x, joy.y, 0);
+			entity->Translate(dir * Time::deltaTime * 20.0f);
 			break;
 		}
 	}

@@ -10,9 +10,11 @@ namespace Ledlib {
 
 class Scene;
 class Camera;
+class Collider;
+class CollisionData;
 
 class Entity : public std::enable_shared_from_this<Entity> {
-private:
+private:	
 	static int idCounter;
 	static int aliveCounter;
 	int _id;
@@ -26,11 +28,17 @@ private:
 	glm::mat4 _matrix = glm::mat4(1.0);
 	glm::mat4 _worldMatrix = glm::mat4(1.0);
 	glm::quat _worldRotation;
-	bool _needsUpdate = false;
+	bool _needsLocalUpdate = false;
+	bool _needsWorldUpdate = false;
 	std::weak_ptr<Scene> _scene;
-	std::shared_ptr<Camera> _camera;
+	std::shared_ptr<Camera> _camera = nullptr;
+	std::shared_ptr<Collider> _collider = nullptr;
 
 public:
+	std::vector<std::string> tags;
+
+	static int worldUpdateCounter;
+	static int localUpdateCounter;
 	Entity();
 	virtual ~Entity();
 
@@ -49,8 +57,19 @@ public:
 
 	std::shared_ptr<Scene> GetScene();
 
-	void CreateCamera();
+	void SetCamera(const std::shared_ptr<Camera>& camera);
 	std::shared_ptr<Camera> GetCamera();
+
+	void SetCollider(const std::shared_ptr<Collider>& collider);
+	std::shared_ptr<Collider> GetCollider();
+	template<typename T, typename std::enable_if<std::is_base_of<Collider, T>::value>::type* = nullptr>
+	std::shared_ptr<T> GetCollider(){
+		return std::static_pointer_cast<T>(_collider);
+	}
+
+	void AddTag(const std::string& tag);
+	void RemoveTag(const std::string& tag);
+	bool HasTag(const std::string& tag);
 
 	void SetPosition(float x, float y, float z = 0);
 	void SetPosition(const glm::vec3& v);
@@ -72,13 +91,15 @@ public:
 	void Rotate(float z);
 	void Rotate(const glm::quat& rotation);
 	float GetAngle();
+	float GetWorldAngle();
 
 	void AddChild(std::shared_ptr<Entity> child);
 	void SetParent(std::shared_ptr<Entity> parent);
 	std::vector<std::shared_ptr<Entity>>& GetChildren();
 	std::shared_ptr<Entity> GetParent();
 
-	void SetNeedsUpdate();
+	void SetNeedsWorldUpdate();
+	void SetNeedsLocalUpdate();
 
 	void Destroy();
 	void DestroyChildren(bool recursive);
@@ -100,6 +121,7 @@ public:
 	virtual void OnLateUpdate(){}
 	virtual void OnRender(){}
 	virtual void OnEnd(){}
+	virtual void OnCollision(const CollisionData& data){}
 
 };
 
