@@ -21,7 +21,7 @@ void TestEntity::OnUpdate(){
 //	Translate(Time::deltaTime*5.0f, 0);
 //	angle += Time::deltaTime*Numbers::Pi*0.25f;
 //	SetRotation(Numbers::Stepify(angle, Numbers::Pi*2.0f/16.0f));
-/*	if(ClientManager::OnKeyDown(KeyCode::A)){
+	if(ClientManager::OnKeyDown(KeyCode::A)){
 		Game::GetInstance()->SetState<MenuState>();
 	}
 	if(ClientManager::OnKeyDown(KeyCode::Left)){
@@ -33,8 +33,8 @@ void TestEntity::OnUpdate(){
 		}
 	}
 	if(ClientManager::OnKeyDown(KeyCode::Down)){
-		Destroy();
-	} */
+	//	Destroy();
+	}
 }
 void TestEntity::OnRender(){
 	ColorHsl hsl = ColorHsl(hue, 1.0f, 0.5f);

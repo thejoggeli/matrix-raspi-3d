@@ -1,6 +1,8 @@
 #include "Transform.h"
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 #include <stack>
 
 using namespace glm;
@@ -23,6 +25,9 @@ void Restore(){
 	_viewMatrix = _transformStack.top();
 	_transformStack.pop();
 }
+void SetTransform(const glm::mat4& m){
+	_viewMatrix = m;
+}
 void Transform(const mat4& m){
 	_viewMatrix = _viewMatrix * m;
 }
@@ -43,6 +48,9 @@ void Rotate(float angle, const vec3& axis){
 }
 void Rotate(const mat4& m){
 	_viewMatrix = _viewMatrix * m;
+}
+void Rotate(const glm::quat& m){
+	_viewMatrix = _viewMatrix * glm::toMat4(m);
 }
 void SetProjectionMatrix(const mat4& m){
 	_projectionMatrix = m;

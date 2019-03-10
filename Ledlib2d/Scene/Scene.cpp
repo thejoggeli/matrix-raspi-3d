@@ -30,7 +30,9 @@ void Scene::OnEntityCreated(const std::shared_ptr<Entity> &entity){
 }
 
 void Scene::OnEntityDestroyed(const std::shared_ptr<Entity>& entity){
-	_destroyedEntities.push_back(entity.get());
+	if(std::find(_destroyedEntities.begin(), _destroyedEntities.end(), entity.get()) == _destroyedEntities.end()) {
+		_destroyedEntities.push_back(entity.get());
+	}
 }
 
 std::vector<Entity*>& Scene::GetEntities(){
@@ -62,7 +64,11 @@ void Scene::Update(){
 			entity->OnEnd();
 		}
 		for(auto& entity: _destroyedEntities){
-			for(auto& child: entity->GetChildren()){
+			while(entity->GetChildren().size() > 0){
+				auto& child = entity->GetChildren()[0];
+				child->SetPosition(child->GetWorldPosition());
+				child->SetRotation(child->GetWorldRotation());
+				child->SetScale(child->GetWorldScale());
 				child->SetParent(_root);
 			}
 		}

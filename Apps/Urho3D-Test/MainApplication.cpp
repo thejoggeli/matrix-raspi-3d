@@ -52,7 +52,7 @@ void MainApplication::OnStart(){
 
 	Material* material = new Material(context_);
 	material->SetFillMode(FillMode::FILL_SOLID);
-	material->SetShaderParameter("MatDiffColor", Color(1,0,1));
+	material->SetShaderParameter("MatDiffColor", Color(1,0.1f,1));
 
 /*	for(int x=-30;x<30;x+=3){
 		for(int z=0;z<60;z+=3){

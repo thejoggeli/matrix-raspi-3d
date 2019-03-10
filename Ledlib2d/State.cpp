@@ -24,7 +24,11 @@ std::shared_ptr<Scene> State::GetScene(){
 	return _scene;
 }
 std::shared_ptr<Camera> State::GetCamera(){
-	return _camera;
+	if(auto p = _cameraEntity.lock()){
+		return p->GetCamera();
+	}
+	Log(LOG_ERROR, "State", "Camera expired");
+	return nullptr;
 }
 std::shared_ptr<Game> State::GetGame(){
 	if(auto p = _game.lock()){
@@ -39,8 +43,8 @@ void State::Start(){
 	_scene = Scene::Create();
 	// camera
 	std::shared_ptr<Entity> cameraEntity = _scene->CreateEntity<Entity>();
-	_camera = Camera::Create();
-	_camera->SetEntity(cameraEntity);
+	cameraEntity->CreateCamera();
+	_cameraEntity = cameraEntity;
 }
 
 void State::Update(){

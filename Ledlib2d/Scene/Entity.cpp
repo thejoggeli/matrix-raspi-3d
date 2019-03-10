@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "Ledlib/Log.h"
 #include "Scene.h"
+#include "Camera.h"
 #include "Component.h"
 #include "../Physics/PhysicsBody.h"
 #include <algorithm>
@@ -56,6 +57,13 @@ std::shared_ptr<Scene> Entity::GetScene(){
 	return nullptr;
 }
 
+void Entity::CreateCamera(){
+	_camera = Camera::Create(shared_from_this());
+}
+std::shared_ptr<Camera> Entity::GetCamera(){
+	return _camera;
+}
+
 void Entity::SetPosition(float x, float y, float z){
 	_position.x = x;
 	_position.y = y;
@@ -76,6 +84,10 @@ void Entity::Translate(const glm::vec3 &v){
 	_position += v;
 	SetNeedsUpdate();
 }
+void Entity::Move(const glm::vec3& v){
+	_position += _rotation * v;
+	SetNeedsUpdate();
+}
 
 void Entity::SetScale(float s){
 	_scale.x = s;
@@ -90,6 +102,23 @@ void Entity::SetScale(float x, float y, float z){
 }
 void Entity::SetScale(const vec3& v){
 	_scale = v;
+	SetNeedsUpdate();
+}
+void Entity::Scale(float s){
+	_scale.x *= s;
+	_scale.y *= s;
+	SetNeedsUpdate();
+}
+void Entity::Scale(float x, float y, float z){
+	_scale.x *= x;
+	_scale.y *= y;
+	_scale.z *= z;
+	SetNeedsUpdate();
+}
+void Entity::Scale(const glm::vec3& v){
+	_scale.x *= v.x;
+	_scale.y *= v.y;
+	_scale.z *= v.z;
 	SetNeedsUpdate();
 }
 
@@ -108,6 +137,9 @@ void Entity::SetRotation(const quat& rotation){
 void Entity::Rotate(float z){
 	_rotation = glm::rotate(_rotation, z, vec3(0,0,1));
 	SetNeedsUpdate();
+}
+void Entity::Rotate(const glm::quat& rotation){
+	_rotation = _rotation * rotation;
 }
 float Entity::GetAngle(){
 	return glm::angle(_rotation);
@@ -164,6 +196,14 @@ void Entity::Destroy(){
 	if(_destroyed) return;
 	_destroyed = true;
 	GetScene()->OnEntityDestroyed(shared_from_this());
+}
+void Entity::DestroyChildren(bool recursive){
+	for(auto& child: GetChildren()){
+		child->Destroy();
+		if(recursive){
+			child->DestroyChildren(true);
+		}
+	}
 }
 
 void Entity::SetNeedsUpdate(){
@@ -225,7 +265,7 @@ vec3 Entity::GetWorldScale(){
 	}
 	// might be wrong
 	// https://math.stackexchange.com/questions/237369/given-this-transformation-matrix-how-do-i-decompose-it-into-translation-rotati
-	return vec3(length(_worldMatrix[0]), length(_worldMatrix[1]), length(_worldMatrix[2]));
+	return GetParent()->scale * scale;
 }
 
 unsigned int Entity::GetNumChildren(bool recursive){

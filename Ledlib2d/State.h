@@ -6,6 +6,7 @@ namespace Ledlib {
 
 class Game;
 class Scene;
+class Entity;
 class Camera;
 
 class State {
@@ -13,7 +14,7 @@ private:
 	static int idCounter;
 	int _id;
 	std::shared_ptr<Scene> _scene;
-	std::shared_ptr<Camera> _camera;
+	std::weak_ptr<Entity> _cameraEntity;
 	std::weak_ptr<Game> _game;
 public:
 	State();
@@ -37,6 +38,7 @@ public:
 	virtual void OnLateUpdate(){}
 
 	virtual void OnBeforeRender(){}
+	virtual void OnRender(){}
 	virtual void OnAfterRender(){}
 
 	std::shared_ptr<Scene> GetScene();

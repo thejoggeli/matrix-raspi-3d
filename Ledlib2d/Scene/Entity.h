@@ -9,6 +9,7 @@
 namespace Ledlib {
 
 class Scene;
+class Camera;
 
 class Entity : public std::enable_shared_from_this<Entity> {
 private:
@@ -27,6 +28,7 @@ private:
 	glm::quat _worldRotation;
 	bool _needsUpdate = false;
 	std::weak_ptr<Scene> _scene;
+	std::shared_ptr<Camera> _camera;
 
 public:
 	Entity();
@@ -47,19 +49,28 @@ public:
 
 	std::shared_ptr<Scene> GetScene();
 
+	void CreateCamera();
+	std::shared_ptr<Camera> GetCamera();
+
 	void SetPosition(float x, float y, float z = 0);
 	void SetPosition(const glm::vec3& v);
 	void Translate(float x, float y, float z = 0);
 	void Translate(const glm::vec3& v);
+	void Move();
+	void Move(const glm::vec3& v);
 
 	void SetScale(float s);
 	void SetScale(float x, float y, float z = 1);
 	void SetScale(const glm::vec3& v);
+	void Scale(float s);
+	void Scale(float x, float y, float z = 1);
+	void Scale(const glm::vec3& v);
 
 	void SetRotation(float z);
 	void SetRotation(const glm::mat4& rotation);
 	void SetRotation(const glm::quat& rotation);
 	void Rotate(float z);
+	void Rotate(const glm::quat& rotation);
 	float GetAngle();
 
 	void AddChild(std::shared_ptr<Entity> child);
@@ -70,6 +81,7 @@ public:
 	void SetNeedsUpdate();
 
 	void Destroy();
+	void DestroyChildren(bool recursive);
 
 	glm::mat4& GetWorldMatrix();
 	glm::mat4& GetMatrix();

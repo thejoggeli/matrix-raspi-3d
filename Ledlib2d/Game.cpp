@@ -58,6 +58,7 @@ void Game::Loop(){
 		activeState->OnLateUpdate();
 		activeState->OnBeforeRender();
 		Gfx::Render(activeState->GetScene().get(), activeState->GetCamera().get());
+		activeState->OnRender();
 		LedMatrixLibrary::Render();
 		activeState->OnAfterRender();
 		Gfx::UpdatePixelBuffer();
