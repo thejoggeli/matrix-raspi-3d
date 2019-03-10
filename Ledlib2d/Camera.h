@@ -14,9 +14,13 @@ public:
 	static std::shared_ptr<Camera> Create();
 	std::shared_ptr<Entity> GetEntity();
 	void SetEntity(const std::shared_ptr<Entity>& entity);
-	void SimpleMove();
-	void SimpleRotate();
-	void SimpleZoom();
+	void SimpleJoystickMove();
+	void SimpleJoystickRotate();
+	void SimpleJoystickZoom();
+	void SimpleArrowsMove();
+	void SimpleArrowsRotate();
+	void SimpleArrowsZoom();
+	void ApplyTransform();
 };
 
 }

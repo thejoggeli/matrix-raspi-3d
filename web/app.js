@@ -67,27 +67,17 @@ $(document).ready(function(){
 
 function AppManager(){}
 AppManager.apps = {
-	"flappy-bird": {
+	"Flappy-Bird": {
 		"welcome": function(){
 			AppManager.setScreen("gamepad");
 		},
 	},
-	"pong": {
+	"Pong": {
 		"welcome": function(){
 			AppManager.setScreen("gamepad");			
 		},
 	},
-	"tetris": {
-		"welcome": function(){
-			AppManager.setScreen("gamepad");
-		},
-	},
-	"camera-test": {
-		"welcome": function(){
-			AppManager.setScreen("gamepad");
-		},
-	},
-	"ray-casting": {
+	"Tetris": {
 		"welcome": function(){
 			AppManager.setScreen("gamepad");
 		},

@@ -80,8 +80,8 @@ void MenuState::OnUpdate(){
 		}
 	}
 	std::shared_ptr<Camera> camera = GetCamera();
-	camera->SimpleMove();
-	camera->SimpleRotate();
-	camera->SimpleZoom();
+	camera->SimpleJoystickMove();
+	camera->SimpleArrowsRotate();
+	camera->SimpleArrowsZoom();
 }
 void MenuState::OnBeforeRender(){}

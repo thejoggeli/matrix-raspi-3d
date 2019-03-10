@@ -11,14 +11,18 @@
 #include "Ledlib2d/Gfx/Text.h"
 #include "Ledlib2d/Gfx/Bitmaps.h"
 #include "Ledlib2d/Gfx/Draw.h"
+#include "Ledlib2d/Gfx/Transform.h"
 #include "Ledlib/Util/ColorRgb.h"
 #include "Ledlib/Util/ColorHsl.h"
 #include "Ledlib/Math/Numbers.h"
 #include "Ledlib2d/Resources/ResourceManager.h"
+#include "Ledlib2d/Camera.h"
+#include "Ledlib2d/Entity.h"
+
 
 void MenuState::OnStart(){
 	RemoteSfx::StartMusic(0, "music-menu");
-	Gfx::SetClearColor(0.1f, 0.2f, 0.3f);
+	Gfx::SetClearColor(0, 0, 0);
 	flashTimer = 0;
 	showHighscore = false;
 }
@@ -44,10 +48,19 @@ void MenuState::OnUpdate(){
 		flashTimer -= Time::deltaTime*2.0f;
 	}
 	if(ClientManager::OnKeyDown(KeyCode::B)){
-		flashTimer = 1.2f;;
+		flashTimer = 1.2f;
+		GetCamera()->GetEntity()->SetPosition(0, 0, 0);
+		GetCamera()->GetEntity()->SetRotation(0);
+		GetCamera()->GetEntity()->SetScale(1, 1, 1);
 	}
+	GetCamera()->SimpleJoystickZoom();
+	GetCamera()->SimpleJoystickRotate();
 }
 void MenuState::OnBeforeRender(){
+	Gfx::Save();
+	GetCamera()->ApplyTransform();
+	Gfx::SetDrawColor(0.1f, 0.2f, 0.3f);
+	Gfx::FillRect(0, 0, Gfx::width, Gfx::height);
 	if(flashTimer > 0){
 		float alpha = Numbers::Clamp(0.0f, 1.0f, flashTimer*1.0f);
 		Gfx::SetDrawColor(1.0f, 0, 0, alpha);
@@ -104,7 +117,7 @@ void MenuState::OnBeforeRender(){
 		int highscore = GetGame<FlappyBird>()->highscore;
 		Gfx::DrawText(std::to_string(highscore), 0, -4);
 	}
-
+	Gfx::Restore();
 }
 Bitmap* MenuState::GetBirdBitmap(){
 	switch(selection){
