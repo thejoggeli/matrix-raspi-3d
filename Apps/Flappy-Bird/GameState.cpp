@@ -31,14 +31,13 @@ void GameState::OnStart(){
 	backgroundColor.SetRgb(0.1f, 0.2f, 0.3f);
 	Gfx::SetClearColor(backgroundColor);
 	GetCamera()->GetEntity()->SetPosition(0, 0);
-	pipes.clear();
 
 	GetScene()->EnableCollision("bird", "pipe");
 	std::shared_ptr<BirdEntity> bird = GetScene()->CreateEntity<BirdEntity>();
 	Bitmap* bitmap = GetGame<FlappyBird>()->birdBitmap;
 	if(bitmap == nullptr) bitmap = ResourceManager::GetBitmap("bird-yellow");
 	bird->bitmap = bitmap;
-	birds.push_back(bird);
+	birds.Add(bird);
 
 	nextPipePosition = Gfx::right+1;
 	RemoteSfx::StartMusic(0, "music-game");
@@ -76,37 +75,27 @@ void GameState::OnUpdate(){
 			if(pipeTop->position.y > maxPos){
 				pipeTop->Destroy();
 			} else {
-				pipes.push_back(pipeTop);
+				pipes.Add(pipeTop);
 			}
 			float minPos = Gfx::bottom-pipeBottom->height/2+2;
 			if(pipeBottom->position.y < minPos){
 				pipeBottom->Destroy();
 			} else {
-				pipes.push_back(pipeBottom);
+				pipes.Add(pipeBottom);
 			}
 			// next position
 			nextPipePosition += Numbers::Random(20, 28);
 		}
-		for(auto const& pipe: pipes){
+		for(auto const& pipe: pipes.items){
 			auto p = pipe.lock();
 			if(p && p->position.x+p->width + 2 < camera->position.x + Gfx::left){
 				p->Destroy();
 			}
 		}
 		UpdateScore();
-		for(auto bird = birds.begin(); bird < birds.end(); bird++){
-			if(bird->expired()){
-				birds.erase(bird);
-				bird--;
-			}
-		}
-		for(auto pipe = pipes.begin(); pipe < pipes.end(); pipe++){
-			if(pipe->expired()){
-				pipes.erase(pipe);
-				pipe--;
-			}
-		}
-		if(birds.size() == 0){
+		birds.RemoveExpired();
+		pipes.RemoveExpired();
+		if(birds.Size() == 0){
 			state = STATE_OUTRO;
 		}
 	} else if(state == STATE_OUTRO){
@@ -181,7 +170,7 @@ void GameState::OnAfterRender(){
 }
 
 void  GameState::UpdateScore(){
-	for(auto &bird: birds){
+	for(auto &bird: birds.items){
 		if(auto p = bird.lock()){
 			if(p->position.x > nextScorePosition){
 				score++;
@@ -190,7 +179,7 @@ void  GameState::UpdateScore(){
 				} else {
 					scoreFlashTimer.Start(0.10f);
 				}
-				for(auto const& pipe: pipes){
+				for(auto const& pipe: pipes.items){
 					if(auto p = pipe.lock()){
 						if(p->position.x > nextScorePosition){
 							nextScorePosition = p->position.x;

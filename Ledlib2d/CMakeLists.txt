@@ -6,6 +6,7 @@ set(
 	"Entity.cpp"
 	"Camera.cpp"
 	"Component.cpp"
+	"WeakPointerList.cpp"
 	"Gfx/Bitmaps.cpp"
 	"Gfx/Draw.cpp"
 	"Gfx/Text.cpp"

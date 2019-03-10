@@ -5,6 +5,7 @@
 #include "Ledlib/Util/Timer.h"
 #include <glm/vec2.hpp>
 #include <vector>
+#include "Ledlib2d/WeakPointerList.h"
 
 using namespace Ledlib;
 
@@ -27,8 +28,8 @@ public:
 	int score;
 	Timer scoreFlashTimer;
 	Timer superScoreFlashTimer;
-	std::vector<std::weak_ptr<BirdEntity>> birds;
-	std::vector<std::weak_ptr<PipeEntity>> pipes;
+	WeakPointerList<PipeEntity> pipes;
+	WeakPointerList<BirdEntity> birds;
 	float nextPipePosition;
 	float nextScorePosition;
 
