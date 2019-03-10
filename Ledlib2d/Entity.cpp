@@ -99,6 +99,21 @@ void Entity::SetCollider(const std::shared_ptr<Collider>& collider){
 std::shared_ptr<Collider> Entity::GetCollider(){
 	return _collider;
 }
+void Entity::SetPropagateCollisions(bool parent, bool children){
+	propagateCollisionsToParent = parent;
+	propagateCollisionsToChildren = children;
+}
+void Entity::Collision(const CollisionData& data){
+	OnCollision(data);
+	if(propagateCollisionsToParent){
+		GetParent()->Collision(data);
+	}
+	if(propagateCollisionsToChildren){
+		for(auto& child: GetChildren()){
+			child->Collision(data);
+		}
+	}
+}
 
 void Entity::SetPosition(float x, float y, float z){
 	_position.x = x;

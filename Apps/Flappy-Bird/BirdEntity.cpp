@@ -19,9 +19,13 @@ void BirdEntity::OnStart(){
 	flapVelocity = 48;
 	velocity = glm::vec2(0, flapVelocity);
 	acceleration = glm::vec2(0, -200);
+	// collider
+	std::shared_ptr<Entity> colliderEntity = GetScene()->CreateEntity<Entity>("bird-collider", shared_from_this());
 	std::shared_ptr<BoxCollider> box = Collider::Create<BoxCollider>("bird");
-	box->SetSize(4*0.666f, 3*0.666f);
-	SetCollider(box);
+	colliderEntity->SetCollider(box);
+	colliderEntity->SetPropagateCollisions(true, false);
+	colliderEntity->Translate(-0.5f, 0);
+	box->SetSize(2.5f, 2.5f);
 }
 
 void BirdEntity::OnUpdate(){

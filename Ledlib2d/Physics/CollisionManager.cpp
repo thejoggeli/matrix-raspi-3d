@@ -105,8 +105,8 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 }
 
 void CollisionManager::PropagateCollison(const CollisionData& data){
-	data.a->GetEntity()->OnCollision(data);
-	data.b->GetEntity()->OnCollision(data);
+	data.a->GetEntity()->Collision(data);
+	data.b->GetEntity()->Collision(data);
 }
 
 static inline float Det2D(glm::vec2 &p1, glm::vec2 &p2, glm::vec2 &p3){

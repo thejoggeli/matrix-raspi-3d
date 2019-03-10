@@ -33,6 +33,8 @@ private:
 	std::weak_ptr<Scene> _scene;
 	std::shared_ptr<Camera> _camera = nullptr;
 	std::shared_ptr<Collider> _collider = nullptr;
+	bool propagateCollisionsToParent = false;
+	bool propagateCollisionsToChildren = false;
 
 public:
 	std::string name = "unnamed";
@@ -67,6 +69,7 @@ public:
 	std::shared_ptr<T> GetCollider(){
 		return std::static_pointer_cast<T>(_collider);
 	}
+	void SetPropagateCollisions(bool parent, bool children);
 
 	void AddTag(const std::string& tag);
 	void RemoveTag(const std::string& tag);
@@ -116,6 +119,8 @@ public:
 	unsigned int GetNumChildren(bool recursive);
 	glm::vec3 LocalToWorld(const glm::vec3& vector);
 	glm::vec3 WorldToLocal(const glm::vec3& vector);
+
+	void Collision(const CollisionData& data);
 
 	virtual void OnStart(){}
 	virtual void OnUpdate(){}

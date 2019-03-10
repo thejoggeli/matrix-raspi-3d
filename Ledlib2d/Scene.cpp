@@ -29,6 +29,7 @@ std::shared_ptr<Scene> Scene::Create(){
 
 void Scene::OnEntityCreated(const std::shared_ptr<Entity> &entity){
 	_addedEntities.push_back(entity.get());
+	entity->OnStart();
 }
 
 void Scene::OnEntityDestroyed(const std::shared_ptr<Entity>& entity){
