@@ -54,7 +54,7 @@ void MenuState::OnUpdate(){
 		GetCamera()->GetEntity()->SetScale(1, 1, 1);
 	}
 	GetCamera()->SimpleJoystickZoom();
-	GetCamera()->SimpleJoystickRotate();
+	GetCamera()->SimpleJoystickRotate(-1.0f);
 }
 void MenuState::OnBeforeRender(){
 	Gfx::Save();
