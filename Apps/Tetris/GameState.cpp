@@ -26,7 +26,6 @@ void GameState::OnStart(){
 	// build grid
 	grid = std::make_shared<Grid>();
 	grid->Setup(10, 16);
-	grid->gameState = this;
 	grid->Start();}
 
 void GameState::OnEnd(){
