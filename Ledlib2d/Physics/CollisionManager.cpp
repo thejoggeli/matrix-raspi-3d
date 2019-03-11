@@ -38,7 +38,7 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 		PointCollider* p1 = static_cast<PointCollider*>(a);
 		PointCollider* p2 = static_cast<PointCollider*>(b);
 		if(p1->_position == p2->_position){
-			PropagateCollison(CollisionData(p1, p2));
+			PropagateCollison(CollisionData(p1, p2), CollisionData(p2, p1));
 			return true;
 		}
 		return false;
@@ -48,7 +48,7 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 		glm::vec2 delta = p1->_position - p2->_position;
 		float distance = sqrtf(delta.x*delta.x + delta.y*delta.y);
 		if(distance < p2->_boundingRadius){
-			PropagateCollison(CollisionData(p1, p2));
+			PropagateCollison(CollisionData(p1, p2), CollisionData(p2, p1));
 			return true;
 		}
 		return false;
@@ -58,7 +58,7 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 		glm::vec2 delta = p1->_position - p2->_position;
 		float distance = sqrtf(delta.x*delta.x + delta.y*delta.y);
 		if(distance < p1->_boundingRadius + p2->_boundingRadius){
-			PropagateCollison(CollisionData(p1, p2));
+			PropagateCollison(CollisionData(p1, p2), CollisionData(p2, p1));
 			return true;
 		}
 		return false;
@@ -69,7 +69,7 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 		if(p1->_position.x > p2->worldRight) return false;
 		if(p1->_position.y < p2->worldBottom) return false;
 		if(p1->_position.y > p2->worldTop) return false;
-		PropagateCollison(CollisionData(p1, p2));
+		PropagateCollison(CollisionData(p1, p2), CollisionData(p2, p1));
 		return true;
 	} else if(a->type == ColliderType::Box && b->type == ColliderType::Box){
 		BoxCollider* p1 = static_cast<BoxCollider*>(a);
@@ -78,7 +78,7 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 		if(p1->worldLeft > p2->worldRight) return false;
 		if(p1->worldTop < p2->worldBottom) return false;
 		if(p1->worldBottom > p2->worldTop) return false;
-		PropagateCollison(CollisionData(p1, p2));
+		PropagateCollison(CollisionData(p1, p2), CollisionData(p2, p1));
 		return true;
 	} else if(a->type == ColliderType::Polygon && b->type == ColliderType::Polygon){
 		PolygonCollider* p1 = static_cast<PolygonCollider*>(a);
@@ -93,7 +93,7 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 				for(int j = 0; j < p2->worldTriangles.size(); j++){
 					// do triangles intersect?
 					if(TriTri2D(p1->worldTriangles[i].data(), p2->worldTriangles[j].data(), 0.0, true)){
-						PropagateCollison(CollisionData(p1, p2));
+						PropagateCollison(CollisionData(p1, p2), CollisionData(p2, p1));
 						return true;
 					}
 				}
@@ -104,9 +104,9 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 	return false;
 }
 
-void CollisionManager::PropagateCollison(const CollisionData& data){
-	data.a->GetEntity()->Collision(data);
-	data.b->GetEntity()->Collision(data);
+void CollisionManager::PropagateCollison(const CollisionData& c1, const CollisionData& c2){
+	c1.a->GetEntity()->OnCollision(c1);
+	c2.a->GetEntity()->OnCollision(c2);
 }
 
 static inline float Det2D(glm::vec2 &p1, glm::vec2 &p2, glm::vec2 &p3){

@@ -4,7 +4,7 @@
 
 using namespace Ledlib;
 
-class FlappyBird : public Game {
+class Pong : public Game {
 public:
 	virtual void OnSetup();
 	virtual void OnStart();

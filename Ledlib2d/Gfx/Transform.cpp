@@ -28,6 +28,11 @@ void Restore(){
 void SetTransform(const glm::mat4& m){
 	_viewMatrix = m;
 }
+void ClearTransform(){
+	_viewMatrix = glm::mat4(1.0f);
+	Scale(1, -1, 1);
+	Translate(0.0666f, 0.0666f);
+}
 void Transform(const mat4& m){
 	_viewMatrix = _viewMatrix * m;
 }

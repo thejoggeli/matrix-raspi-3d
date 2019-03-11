@@ -80,6 +80,10 @@ std::shared_ptr<Scene> Entity::GetScene(){
 	return nullptr;
 }
 
+void Entity::SetUpdateEnabled(bool b){
+	_updateEnabled = b;
+}
+
 void Entity::SetCamera(const std::shared_ptr<Camera>& camera){
 	_camera = camera;
 	_camera->SetEntity(shared_from_this());

@@ -24,7 +24,7 @@ static KeyCode leaveKey = KeyCode::B;
 int ClientJoiner::initCounter = 0;
 
 bool ClientJoiner::Init(unsigned int numSlots_, bool autoReady_){
-	if(++initCounter > 1) return false;
+	initCounter++;
 	Log(LOG_INFO, "ClientJoiner", "Initializing");
 	numSlots = numSlots_;
 	autoReady = autoReady_;
@@ -33,6 +33,7 @@ bool ClientJoiner::Init(unsigned int numSlots_, bool autoReady_){
 }
 
 void ClientJoiner::Reset(){
+	if(initCounter < 1) throw "ClientJoiner is not initialized";
 	takenSlots.clear();
 	slots.clear();
 	slots.reserve(numSlots);
@@ -54,7 +55,9 @@ void ClientJoiner::SetLeaveKey(KeyCode code){
 }
 
 void ClientJoiner::Update(){
+	if(initCounter < 1) throw "ClientJoiner is not initialized";
 	for(auto const& client: ClientManager::GetAllCients()){
+		bool cancel = false;
 		if((client->OnKeyDown(joinKey))){
 			shared_ptr<ClientJoinerSlot> slot = FindClient(client->id);
 			if(slot){
@@ -66,18 +69,22 @@ void ClientJoiner::Update(){
 					listener->OnClientJoined(client->id, slot->slotId);
 				}
 				Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") joined in slot [" << slot->slotId << "]");
+				cancel = true;
 			}
-		} else if(client->OnKeyDown(readyKey)){
+		}
+		if(client->OnKeyDown(readyKey) && !cancel){
 			shared_ptr<ClientJoinerSlot> slot = FindClient(client->id);
-			if(slot && !slot->ready){
+			if(slot && !slot->IsReady()){
 				// ready
 				slot->SetReady(true);
 				Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") is ready");
+				cancel = true;
 			}
-		} else if(client->OnKeyDown(leaveKey)){
+		}
+		if(client->OnKeyDown(leaveKey) && !cancel){
 			shared_ptr<ClientJoinerSlot> slot = FindClient(client->id);
 			if(slot){
-				if(slot->ready && !autoReady){
+				if(slot->IsReady() && !autoReady){
 					// client is no longer ready
 					slot->SetReady(false);
 					Log(LOG_DEBUG, "ClientJoiner", iLog << "Client (id=" << client->id << ") is no long ready");
@@ -119,6 +126,7 @@ void ClientJoiner::Update(){
 }
 
 shared_ptr<ClientJoinerSlot> ClientJoiner::FindClient(int id){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	for(shared_ptr<ClientJoinerSlot> slot: takenSlots){
 		if(slot->clientId == id) return slot;
 	}
@@ -126,6 +134,7 @@ shared_ptr<ClientJoinerSlot> ClientJoiner::FindClient(int id){
 }
 
 shared_ptr<ClientJoinerSlot> ClientJoiner::AddClient(int id){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	unsigned int slotId;
 	for(slotId = 0; slotId < numSlots; slotId++){
 		if(!slots[slotId]->IsTaken()) break;
@@ -151,30 +160,36 @@ void ClientJoiner::RemoveClient(int id){
 }
 
 const vector<shared_ptr<ClientJoinerSlot>>& ClientJoiner::GetAllSlots(){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	return slots;
 }
 
 const vector<shared_ptr<ClientJoinerSlot>>& ClientJoiner::GetTakenSlots(){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	return takenSlots;
 }
 
 bool ClientJoiner::IsEveryoneReady(){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	if(takenSlots.size() < 1) return false;
 	for(auto const& slot: takenSlots){
-		if(!slot->ready) return false;
+		if(!slot->IsReady()) return false;
 	}
 	return true;
 }
 
 void ClientJoiner::AddListener(const shared_ptr<ClientJoinerListener>& listener){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	listeners.push_back(listener);
 }
 
 int ClientJoiner::GetNumTakenSlots(){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	return takenSlots.size();
 }
 
 bool ClientJoiner::AllSlotsTaken(){
+	if(++initCounter < 1) throw "ClientJoiner is not initialized";
 	return takenSlots.size() == numSlots;
 }
 

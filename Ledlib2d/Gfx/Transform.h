@@ -11,6 +11,7 @@ extern const glm::mat4& viewMatrix;
 void Save();
 void Restore();
 void SetTransform(const glm::mat4& m);
+void ClearTransform();
 void Transform(const glm::mat4& m);
 void Translate(float x, float y, float z = 0);
 void Translate(const glm::vec3& v);

@@ -8,6 +8,8 @@ set(
 	"Math/Numbers.cpp"
 	"Math/Vector2f.cpp"
 	"Math/Vector2i.cpp"
+	"Math/Rect4f.cpp"
+	"Math/Rect4i.cpp"
 	"Util/Strings.cpp"
 	"Util/Timer.cpp"
 	"Util/ClientJoiner.cpp"

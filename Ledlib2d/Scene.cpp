@@ -62,24 +62,23 @@ void Scene::Update(){
 			auto& va = _colliders[pair.first];
 			auto& vb = _colliders[pair.second];
 			for(int i = 0; i < va.size(); i++){
-				for(int j = i; j < vb.size(); j++){
+				for(int j = 0; j < vb.size(); j++){
 					CollisionManager::CheckCollision(va[i], vb[j]);
 				}
 			}
 		}
 	}
 	for(auto& entity: _entities){
+		if(!entity->updateEnabled) continue;
 		entity->OnUpdate();
 	}
 	for(auto& entity: _entities){
+		if(!entity->updateEnabled) continue;
 		entity->OnLateUpdate();
 	}
 	if(_addedEntities.size() > 0){
 		for(auto& entity: _addedEntities){
 			_entities.push_back(entity);
-		}
-		for(auto& entity: _addedEntities){
-			entity->OnStart();
 		}
 		_addedEntities.clear();
 	}

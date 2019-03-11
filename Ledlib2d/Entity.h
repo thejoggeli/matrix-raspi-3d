@@ -35,10 +35,11 @@ private:
 	std::shared_ptr<Collider> _collider = nullptr;
 	bool propagateCollisionsToParent = false;
 	bool propagateCollisionsToChildren = false;
-
+	bool _updateEnabled = true;
 public:
 	std::string name = "unnamed";
 	std::vector<std::string> tags;
+	const bool& updateEnabled = _updateEnabled;
 
 	static int worldUpdateCounter;
 	static int localUpdateCounter;
@@ -59,6 +60,8 @@ public:
 	static std::shared_ptr<Entity> CreateRoot(const std::shared_ptr<Scene>& scene);
 
 	std::shared_ptr<Scene> GetScene();
+
+	void SetUpdateEnabled(bool b);
 
 	void SetCamera(const std::shared_ptr<Camera>& camera);
 	std::shared_ptr<Camera> GetCamera();

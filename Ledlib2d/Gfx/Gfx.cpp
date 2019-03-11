@@ -32,8 +32,7 @@ bool Init(){
 
 	// setup transform
 	SetProjectionMatrix(glm::ortho(left, right, bottom, top, -100000.0f, 100000.0f));
-	Scale(1, -1, 1);
-	Translate(0.0666f, 0.0666f);
+	ClearTransform();
 	Save();
 
 	// setup colors

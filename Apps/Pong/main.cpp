@@ -1,7 +1,7 @@
 #include <iostream>
-#include "FlappyBird.h"
+#include "Pong.h"
 
 int main(){
-	FlappyBird::Run(new FlappyBird());
+	Pong::Run(new Pong());
 	return EXIT_SUCCESS;
 }

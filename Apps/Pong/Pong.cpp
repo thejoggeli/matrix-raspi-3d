@@ -1,11 +1,14 @@
-#include "FlappyBird.h"
+#include "Pong.h"
 #include "MenuState.h"
+#include "GameState.h"
 #include "Ledlib2d/Resources/ResourceManager.h"
 
-void FlappyBird::OnSetup(){
-
+void Pong::OnSetup(){
 }
 
-void FlappyBird::OnStart(){
+void Pong::OnStart(){
+	ResourceManager::LoadFontBdf("menu-1", "5x8.bdf");
+	ResourceManager::LoadFontBdf("menu-2", "7x13.bdf");
+	ResourceManager::LoadFontBdf("ai", "4x6.bdf");
 	SetState<MenuState>();
 }

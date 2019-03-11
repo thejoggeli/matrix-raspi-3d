@@ -13,7 +13,7 @@ private:
 public:
 
 	static bool CheckCollision(Collider* _a, Collider* _b);
-	static void PropagateCollison(const CollisionData& data);
+	static void PropagateCollison(const CollisionData& c1, const CollisionData& c2);
 
 };
 

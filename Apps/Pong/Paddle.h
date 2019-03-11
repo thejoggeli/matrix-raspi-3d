@@ -4,12 +4,25 @@
 
 using namespace Ledlib;
 
-class BirdEntity : public Entity {
+namespace Ledlib {
+class Client;
+}
+
+class Paddle : public Entity {
 public:
-	BirdEntity();
+
+	std::string playerName;
+	std::weak_ptr<Client> client;
+	glm::vec2 oldPosition;
+	glm::vec2 velocity;
+	float width = 1;
+	float height = 4;
+
+	Paddle();
 
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
+	void SetClient(std::shared_ptr<Client> client);
 };
 
