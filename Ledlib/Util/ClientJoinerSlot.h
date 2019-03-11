@@ -1,6 +1,10 @@
 #pragma once
 
+#include <memory>
+
 namespace Ledlib {
+
+class Client;
 
 class ClientJoinerSlot {
 private:
@@ -14,6 +18,7 @@ public:
 	bool IsTaken();
 	void SetReady(bool ready);
 	void SetClientId(int id);
+	void Open();
 };
 
 }

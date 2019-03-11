@@ -1,4 +1,5 @@
 #include "ClientJoinerSlot.h"
+#include "ClientJoiner.h"
 
 namespace Ledlib {
 
