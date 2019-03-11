@@ -97,6 +97,8 @@ void GameState::OnUpdate(){
 		pipes.RemoveExpired();
 		if(birds.Size() == 0){
 			state = STATE_OUTRO;
+			outroTimer.Start(0.35f);
+			outroDirection = Numbers::Random(0,2) == 0 ? -1 : 1;
 		}
 	} else if(state == STATE_OUTRO){
 		if(ClientManager::OnKeyDown(KeyCode::A)){
@@ -147,12 +149,29 @@ void GameState::OnAfterRender(){
 			float angle = atan2f(y, textOffset.x*0.025f);
 			Gfx::Rotate(angle - Numbers::Pi/2);
 		}
+		// draw text
 		Gfx::SetTextColor(1, 1, 1);
 		Gfx::SetFont(ResourceManager::GetFont("menu-large"));
 		Gfx::textBaseline = TextBaseline::Bottom;
 		Gfx::textAlign = TextAlign::Center;
+		Gfx::Save();
+		if(!outroTimer.IsFinished()){
+			Gfx::Translate(-32.0f*outroTimer.GetRelativeRemainingTime() * outroDirection, 16.0f*outroTimer.GetRelativeRemainingTime());
+			float scale = outroTimer.GetRelativePassedTime();
+			float angle = outroTimer.GetRelativePassedTime() * Numbers::Pi*2.0f * outroDirection;
+		//	Gfx::Rotate(angle);
+			Gfx::Scale(scale, scale);
+		}
 		Gfx::DrawText("GAME", 0, -1);
+		Gfx::Restore();
 		Gfx::textBaseline = TextBaseline::Top;
+		if(!outroTimer.IsFinished()){
+			Gfx::Translate(32.0f*outroTimer.GetRelativeRemainingTime() * outroDirection, -16.0f*outroTimer.GetRelativeRemainingTime());
+			float scale = outroTimer.GetRelativePassedTime();
+			float angle = outroTimer.GetRelativePassedTime() * Numbers::Pi*2.0f * outroDirection;
+		//	Gfx::Rotate(angle);
+			Gfx::Scale(scale, scale);
+		}
 		Gfx::DrawText("OVER", 0, -1);
 		Gfx::Restore();
 	}

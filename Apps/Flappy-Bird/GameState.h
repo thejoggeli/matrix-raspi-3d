@@ -32,6 +32,7 @@ public:
 	WeakPointerList<BirdEntity> birds;
 	float nextPipePosition;
 	float nextScorePosition;
+	float outroDirection;
 
 	GameState();
 	void OnStart();
