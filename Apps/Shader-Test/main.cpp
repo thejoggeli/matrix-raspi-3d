@@ -22,6 +22,7 @@ class ShaderState : public State {
 		GetCamera()->SimpleArrowsRotate();
 	}
 	void OnRender(){
+		shader.Use();
 		shader.SetCameraPosition(GetCameraEntity()->GetWorldPosition());
 		shader.SetCameraRotation(GetCameraEntity()->GetWorldRotation());
 		shader.SetCameraScale(GetCameraEntity()->GetWorldScale());
