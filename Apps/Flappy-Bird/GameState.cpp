@@ -119,7 +119,7 @@ void GameState::OnUpdate(){
 		RemoteSfx::PlaySound(0, "exit");
 	}
 }
-void GameState::OnBeforeRender(){
+void GameState::OnRender(){
 	std::shared_ptr<Entity> camera = GetCamera()->GetEntity();
 	Gfx::SetBitmapColor(0.75f, 0.75f, 0.75f);
 	float clouds_offset = -Numbers::Mod(camera->position.x*0.6f, 64.0f);

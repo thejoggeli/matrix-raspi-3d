@@ -13,6 +13,6 @@ public:
 	void OnStart();
 	void OnEnd();
 	void OnUpdate();
-	void OnBeforeRender();
+	void OnRender();
 };
 

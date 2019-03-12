@@ -56,7 +56,7 @@ void MenuState::OnUpdate(){
 	GetCamera()->SimpleJoystickZoom();
 	GetCamera()->SimpleJoystickRotate(-1.0f);
 }
-void MenuState::OnBeforeRender(){
+void MenuState::OnRender(){
 	Gfx::Save();
 	GetCamera()->ApplyTransform();
 	Gfx::SetDrawColor(0.1f, 0.2f, 0.3f);

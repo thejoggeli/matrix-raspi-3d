@@ -19,6 +19,6 @@ public:
 	virtual void OnStart();
 	virtual void OnEnd();
 	virtual void OnUpdate();
-	virtual void OnBeforeRender();
+	virtual void OnRender();
 	Bitmap* GetBirdBitmap();
 };

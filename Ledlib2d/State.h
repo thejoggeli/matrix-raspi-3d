@@ -32,7 +32,7 @@ public:
 	virtual void OnUpdate(){}
 	virtual void OnLateUpdate(){}
 
-	virtual void OnBeforeRender(){}
+	virtual void OnRender(){}
 	virtual void OnAfterRender(){}
 
 	std::shared_ptr<Scene> GetScene();

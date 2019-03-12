@@ -1,18 +1,9 @@
 #pragma once
 
+#include "Shader.h"
+
 namespace Ledlib {
 namespace Gfx {
-
-class Shader {
-public:
-	int id = 0;
-	int fragId = 0;
-	int vertId = 0;
-	Shader();
-	void Use();
-	virtual ~Shader();
-};
-
 class SolidColorShader : public Shader {
 public:
 	int position;

@@ -27,13 +27,14 @@ set (URHO3D_HOME "${CMAKE_SOURCE_DIR}/../Urho3D")
 
 set(LEDLIB_ROOT_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set(LEDLIB_CONFIG_PATH "${CMAKE_CURRENT_BINARY_DIR}/Ledlib")
-set(LEDLIB_LAUNCHER_ARGS_PATH "${LEDLIB_ROOT_DIR}/launcher/args.txt")
+set(LEDLIB_LAUNCHER_ARGS_PATH "${CMAKE_CURRENT_BINARY_DIR}/Launcher/args.txt")
 set(LEDLIB_WEB_PATH "${CMAKE_SOURCE_DIR}/web")
 set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
 add_definitions(
 	-DLEDLIB_CONFIG_PATH="${LEDLIB_CONFIG_PATH}"
 	-DLEDLIB_LAUNCHER_ARGS_PATH="${LEDLIB_LAUNCHER_ARGS_PATH}"
+	-DLEDLIB_APPS_PATH="${CMAKE_CURRENT_BINARY_DIR}/Apps"
 	-DLEDLIB_RESOURCES_PATH="${CMAKE_SOURCE_DIR}/Resources"
 	-DLEDLIB_WEB_PATH="${LEDLIB_WEB_PATH}"
 )
@@ -43,6 +44,9 @@ include_directories(
 	"${URHO3D_HOME}/build/include/Urho3D/ThirdParty"
 	"${URHO3D_HOME}/build/include/Urho3D/ThirdParty/SDL"
 )
+
+# Launcher
+add_subdirectory("Launcher")
 
 # Ledlib
 add_subdirectory("Ledlib")
@@ -86,6 +90,7 @@ endfunction(urho3d_setup)
 # add apps
 add_app("Urho3D-Test")
 add_app("Ledlib-Test")
+add_app("Shader-Test")
 add_app("Ledlib2d-Test")
 add_app("Flappy-Bird")
 add_app("Tetris")

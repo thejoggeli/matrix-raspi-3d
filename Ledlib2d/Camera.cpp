@@ -33,6 +33,7 @@ void Camera::SimpleJoystickMove(float sensitivity){
 			Vector2f joy = client->GetJoystickPosition(KeyCode::LeftJoystick);
 			glm::vec3 dir = entity->GetWorldRotation() * glm::vec3(joy.x, joy.y, 0);
 			dir *= sensitivity;
+			dir *= entity->scale;
 			entity->Translate(dir * Time::deltaTime);
 			break;
 		}
@@ -70,6 +71,7 @@ void Camera::SimpleArrowsMove(float sensitivity){
 		std::shared_ptr<Entity> entity = GetEntity();
 		dir = glm::normalize(dir);
 		dir = entity->GetWorldRotation() * dir;
+		dir *= entity->scale;
 		entity->Translate(dir * Time::deltaTime * sensitivity);
 	}
 }

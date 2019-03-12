@@ -7,4 +7,4 @@ void MenuState::OnStart(){
 void MenuState::OnUpdate(){
 
 }
-void MenuState::OnBeforeRender(){}
+void MenuState::OnRender(){}

@@ -75,7 +75,7 @@ void GameState::OnUpdate(){
 	paddles.RemoveExpired();
 	balls.RemoveExpired();
 }
-void GameState::OnBeforeRender(){
+void GameState::OnRender(){
 	// background
 	bgHue = fmodf(bgHue + Time::deltaTime * 0.1f, 1.0f);
 	bgAngle = fmodf(bgAngle + Time::deltaTime*0.5f, 3.1415926535897932384f*2.0f);

@@ -125,4 +125,14 @@ void LedMatrixLibrary::RequestExit(){
 	exitRequested = true;
 }
 
+
+void LedMatrixLibrary::LaunchApp(const char* name){
+	if(!exitRequested){
+		RequestExit();
+		std::vector<std::string> args;
+		args.push_back(name);
+		Config::SetLauncherArgs(args);
+	}
+}
+
 }

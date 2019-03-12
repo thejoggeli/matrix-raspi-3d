@@ -45,7 +45,7 @@ void GameState::OnUpdate(){
 	GetCamera()->SimpleJoystickRotate(-1.0f);
 }
 
-void GameState::OnBeforeRender(){
+void GameState::OnRender(){
 	// camera
 	Gfx::Save();
 	GetCamera()->ApplyTransform();

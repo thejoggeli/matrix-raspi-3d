@@ -84,4 +84,4 @@ void MenuState::OnUpdate(){
 	camera->SimpleArrowsRotate();
 	camera->SimpleArrowsZoom();
 }
-void MenuState::OnBeforeRender(){}
+void MenuState::OnRender(){}

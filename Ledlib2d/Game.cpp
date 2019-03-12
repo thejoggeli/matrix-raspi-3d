@@ -62,7 +62,7 @@ void Game::Loop(){
 		activeState->OnUpdate();
 		activeState->OnLateUpdate();
 		Gfx::RenderPrepare();
-		activeState->OnBeforeRender();
+		activeState->OnRender();
 		Gfx::Render(activeState->GetScene().get(), activeState->GetCamera().get());
 		activeState->OnAfterRender();
 		Gfx::UpdatePixelBuffer();

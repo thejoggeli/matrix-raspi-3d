@@ -36,7 +36,7 @@ public:
 	~GameState();
 	void OnStart();
 	void OnUpdate();
-	void OnBeforeRender();
+	void OnRender();
 	void OnAfterRender();
 
 	void AssignClientToFreePaddle(std::shared_ptr<Client> client);

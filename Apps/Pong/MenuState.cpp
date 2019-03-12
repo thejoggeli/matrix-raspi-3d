@@ -50,7 +50,7 @@ void MenuState::OnUpdate(){
 	}
 
 }
-void MenuState::OnBeforeRender(){
+void MenuState::OnRender(){
 	if(startTimerRunning){
 		float t = Time::deltaTime;
 		while(t > 0.0f){

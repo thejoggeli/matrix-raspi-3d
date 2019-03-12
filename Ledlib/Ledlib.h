@@ -17,6 +17,7 @@ public:
 	static void Render();
 	static void Exit();
 	static void RequestExit();
+	static void LaunchApp(const char* name);
 };
 
 }
