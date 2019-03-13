@@ -14,7 +14,7 @@ class ShaderState : public State {
 	ShaderBox shader;
 	void OnStart(){
 		Gfx::SetClearColor(0,0,0.3f);
-		shader.LoadFile("mandelbrot.frag");
+		shader.LoadFile("torus_thingy_8.frag");
 	}
 	void OnUpdate(){
 		GetCamera()->SimpleJoystickMove();

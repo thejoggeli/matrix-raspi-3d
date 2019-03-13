@@ -10,8 +10,27 @@
 
 using namespace std;
 
-string get_app_from_file(){
-	std::string ret = "";
+std::string app = "";
+std::string args = "";
+
+vector<string> Split(const string &str, const string &delimiter){
+	vector<string> split;
+	size_t len = delimiter.length();
+	size_t pos = 0;
+	string s = str;
+	string token;
+	while((pos = s.find(delimiter)) != string::npos){
+		token = s.substr(0, pos);
+		split.push_back(token);
+		s.erase(0, pos + len);
+	}
+	split.push_back(s);
+	return split;
+}
+
+void get_app_from_file(){
+	app = "";
+	args = "";
 	ifstream file;
 	file.open(LEDLIB_LAUNCHER_ARGS_PATH);
 	if(!file.good()){
@@ -19,33 +38,28 @@ string get_app_from_file(){
 		cout << LEDLIB_LAUNCHER_ARGS_PATH << endl;
 	} else {
 		std::string s;
-		if(getline(file, s)){
-			file >> s;
-			stringstream ss(s);
-			istream_iterator<string> begin(ss);
-			istream_iterator<string> end;
-			vector<string> vstrings(begin, end);
-			ofstream ofile;
-			ofile.open(LEDLIB_LAUNCHER_ARGS_PATH);
-			ofile << "";
-			ofile.close();
-			if(vstrings.size() > 0){
-				ret = vstrings[vstrings.size()-1];
-			}
+		getline(file, s);
+		vector<string> split = Split(s, " ");
+		app = split[0];
+		for(int i = 1; i < split.size(); i++){
+			args += split[i];
 		}
+		ofstream ofile;
+		ofile.open(LEDLIB_LAUNCHER_ARGS_PATH);
+		ofile << "";
+		ofile.close();
 	}
 	file.close();
-	return ret;
 }
 
 int main(int argc, char** argv){
-	string app = "";
-	if(argc > 1){
-		app = argv[argc-1];
-	}
-	if(app == ""){
-		cout << "[Launcher] No app specified. use \"launcher -app <appname>\"" << endl;
+	if(argc == 1){
+		cout << "[Launcher] No app specified. use \"Launch <appname> [options]\"" << endl;
 		return EXIT_FAILURE;
+	}
+	app = argv[1];
+	for(int i = 2; i < argc; i++){
+		args += argv[i];
 	}
 	bool first = true;
 	while(app != ""){
@@ -61,8 +75,9 @@ int main(int argc, char** argv){
 		cout << "[Launcher] Launching app: " << app << endl;
 		stringstream ss;
 		ss << LEDLIB_APPS_PATH << "/" << app << "/" << app;
+		if(args != "") ss << " " << args;
 		system(ss.str().c_str());
-		app = get_app_from_file();
+		get_app_from_file();
 		first = false;
 	}
 	return EXIT_SUCCESS;

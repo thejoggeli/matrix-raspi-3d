@@ -46,7 +46,7 @@ void ShaderBox::LoadFile(const char* file){
 		return;
 	}
 	std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
-	Log(content);
+//	Log(content);
 	Compile(vert_shader_src, content.c_str());
 	position = glGetAttribLocation(id, "a_position");
 	mvp = glGetUniformLocation(id, "u_mvp");
@@ -57,6 +57,20 @@ void ShaderBox::LoadFile(const char* file){
 	cameraRotation = glGetUniformLocation(id, "iCamRot");
 	cameraRotationInverse = glGetUniformLocation(id, "iCamRotInv");
 	cameraScale = glGetUniformLocation(id, "iCamScale");
+}
+void ShaderBox::AddArgs1i(){
+	std::string name = "iArgsi" + std::to_string(argsi.size());
+	argsi.push_back(glGetUniformLocation(id, name.c_str()));
+}
+void ShaderBox::AddArgs4f(){
+	std::string name = "iArgsf" + std::to_string(argsi.size());
+	argsf.push_back(glGetUniformLocation(id, name.c_str()));
+}
+void ShaderBox::SetArgs1i(int index, int value){
+	glUniform1i(argsi[index], value);
+}
+void ShaderBox::SetArgs4f(int index, const glm::vec4 values){
+	glUniform4fv(argsf[index], 1, glm::value_ptr(values));
 }
 
 void ShaderBox::SetCameraPosition(const glm::vec3& position){
@@ -70,7 +84,6 @@ void ShaderBox::SetCameraRotation(const glm::quat& rotation){
 void ShaderBox::SetCameraScale(const glm::vec3& scale){
 	glUniform3fv(cameraScale, 1, glm::value_ptr(scale));
 }
-
 
 namespace Gfx {
 

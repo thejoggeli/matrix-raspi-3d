@@ -8,7 +8,7 @@ uniform mat3 iCamRotInv;
 uniform vec3 iCamScale;
 
 void main() {
-/*	vec3 col = vec3(0.0);
+	vec3 col = vec3(0.0);
 	vec3 p = vec3((iCoords.x-0.5)*iView.z, iCoords.y-0.5, 0.0)*2.0;
 	p = p * iCamScale;
 	p = iCamRot * p;
@@ -23,7 +23,7 @@ void main() {
 	const float B = 256.0;
 	float l = 0.0;
 	vec2 z  = vec2(0.0);
-	for(int i=0; i<200; i++){
+	for(int i=0; i<50; i++){
 		// z = z*z + c		
 		z = vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;		
 		if(dot(z,z)>(B*B)) break;
@@ -32,9 +32,7 @@ void main() {
 	float sl = l - log2(log2(dot(z,z))) + 4.0; 	
 	float al = smoothstep(-0.1, 0.0, abs(sin(0.5*6.2831*iTime)));
 	l = mix(l, sl, al);
-	col += 0.5 + 0.5*cos(3.0 + l*0.15 + vec3(0.0,0.6,1.0)); */
-	
-	vec3 col = vec3(1.0, 0.5, 0.0);
+	col += 0.5 + 0.5*cos(3.0 + l*0.15 + vec3(0.0,0.6,1.0));
     gl_FragColor = vec4(col, 1.0);
 }
 
