@@ -17,7 +17,7 @@ void main() {
 	if(dist < 0.8){
 		hue = atan(point.y+cos(iTime), point.x+sin(iTime))/(PI*2.0) + iTime;	
 	} else {
-		hue = sin(iTime*5+iCoords.x)*0.5+0.5;
+		hue = sin(iTime*2.0+iCoords.x)*0.5+0.5;
 	}	
 //	if(dist < 0.8) hue += 0.5;
 	hue = mod(hue, 1.0);	
