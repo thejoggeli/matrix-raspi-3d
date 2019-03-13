@@ -48,6 +48,7 @@ void ShaderBox::LoadFile(const char* file){
 	std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 //	Log(content);
 	Compile(vert_shader_src, content.c_str());
+	Log(LOG_DEBUG, "ShaderBox", iLog << "Compiled (id=" << id << ") " << file);
 	position = glGetAttribLocation(id, "a_position");
 	mvp = glGetUniformLocation(id, "u_mvp");
 	coords = glGetAttribLocation(id, "a_coords");

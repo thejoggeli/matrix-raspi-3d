@@ -10,6 +10,7 @@ static int currentShaderId = -1;
 
 static unsigned int CreateShader(const char* src, GLenum type);
 static unsigned int CreateShaderProgram(unsigned int vert, unsigned int frag);
+static unsigned int CreateShaderProgram(unsigned int vert, unsigned int frag);
 
 Shader::Shader(){}
 Shader::~Shader(){}
@@ -79,6 +80,23 @@ static unsigned int CreateShaderProgram(unsigned int vert, unsigned int frag){
 
 	glLinkProgram(program);
 	if(Gfx::PrintOpenGLError("glLinkProgram")) return false;
+
+	GLint success = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, &success);
+	if(success == GL_FALSE){
+		Log(LOG_ERROR, "Gfx/OpenGL", "Failed to link shader: ");
+	//	Log(LOG_ERROR, "Gfx/OpenGL", src);
+		GLint maxLength = 0;
+		glGetShaderiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+		std::vector<char> errorLog(maxLength);
+		glGetShaderInfoLog(program, maxLength, &maxLength, &errorLog[0]);
+		std::string log;
+		for (int i = 0; i < errorLog.size(); i++) {
+			log += errorLog[i];
+		}
+		log = Strings::Trim(log);
+		Log(LOG_ERROR, "Gfx/OpenGL", log);
+	}
 
 	glUseProgram(program);
 	if(Gfx::PrintOpenGLError("glUseProgram")) return false;
