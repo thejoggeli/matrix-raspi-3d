@@ -7,7 +7,7 @@ ShaderPlayground::ShaderPlayground(){}
 
 void ShaderPlayground::OnStart(){
 	std::shared_ptr<ShaderState> state;
-	if(file == "mandelbrot.frag"){
+	if(file == "playground/mandelbrot.frag"){
 		state = SetState<Mandelbrot>();
 	} else {
 		state = SetState<Basic>();

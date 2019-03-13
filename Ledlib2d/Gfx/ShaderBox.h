@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 #include <glm/fwd.hpp>
-#include <vector>
+#include <unordered_map>
 
 namespace Ledlib {
 
@@ -17,18 +17,18 @@ public:
 	int cameraRotation;
 	int cameraRotationInverse;
 	int cameraScale;
-	std::vector<int> argsf;
-	std::vector<int> argsi;
+	std::unordered_map<std::string, int> argsf;
+	std::unordered_map<std::string, int> argsi;
 	ShaderBox();
 	virtual ~ShaderBox();
 	void LoadFile(const char* name);
 	void SetCameraPosition(const glm::vec3& position);
 	void SetCameraRotation(const glm::quat& rotation);
 	void SetCameraScale(const glm::vec3& scale);
-	void AddArgs4f();
-	void AddArgs1i();
-	void SetArgs4f(int index, const glm::vec4 values);
-	void SetArgs1i(int index, int value);
+	void AddArgs4f(const std::string& name);
+	void AddArgs1i(const std::string& name);
+	void SetArgs4f(const std::string& name, const glm::vec4 values);
+	void SetArgs1i(const std::string& name, int value);
 };
 
 namespace Gfx {

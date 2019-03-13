@@ -3,6 +3,7 @@ uniform float iTime;
 uniform vec3 iView;
 uniform vec3 iCamPos;
 uniform mat4 iCamRot;
+uniform vec4 args;
 
 const float PI = 3.1415926535897932384626433832795;
 
@@ -11,12 +12,16 @@ void main() {
 	vec2 point = vec2((iCoords.x-0.5)*iView.z, iCoords.y-0.5)*2.0;
 	
 	float dist = sqrt(point.x*point.x+point.y*point.y);
-	float alpha = (dist <= 1.0) ? 1.0 : 0.0;	
-	float hue = atan(point.y+cos(iTime), point.x+sin(iTime))/(PI*2.0) + iTime;	
-//	if(dist < 0.8) hue += 0.5;
-	hue = mod(hue, 1.0);
+	float hue;
 	
-    gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, 0.5)), alpha);
+	if(dist < 0.8){
+		hue = atan(point.y+cos(iTime), point.x+sin(iTime))/(PI*2.0) + iTime;	
+	} else {
+		hue = sin(iTime*5+iCoords.x)*0.5+0.5;
+	}	
+//	if(dist < 0.8) hue += 0.5;
+	hue = mod(hue, 1.0);	
+    gl_FragColor = vec4(hsl2rgb(vec3(hue, args.x, 0.5)), 1.0);
 }
 float hue2rgb(float f1, float f2, float hue) {
 	if (hue < 0.0)

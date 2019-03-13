@@ -59,19 +59,17 @@ void ShaderBox::LoadFile(const char* file){
 	cameraRotationInverse = glGetUniformLocation(id, "iCamRotInv");
 	cameraScale = glGetUniformLocation(id, "iCamScale");
 }
-void ShaderBox::AddArgs1i(){
-	std::string name = "iArgsi" + std::to_string(argsi.size());
-	argsi.push_back(glGetUniformLocation(id, name.c_str()));
+void ShaderBox::AddArgs1i(const std::string& name){
+	argsi[name] = glGetUniformLocation(id, name.c_str());
 }
-void ShaderBox::AddArgs4f(){
-	std::string name = "iArgsf" + std::to_string(argsi.size());
-	argsf.push_back(glGetUniformLocation(id, name.c_str()));
+void ShaderBox::AddArgs4f(const std::string& name){
+	argsf[name] = glGetUniformLocation(id, name.c_str());
 }
-void ShaderBox::SetArgs1i(int index, int value){
-	glUniform1i(argsi[index], value);
+void ShaderBox::SetArgs1i(const std::string& name, int value){
+	glUniform1i(argsi[name], value);
 }
-void ShaderBox::SetArgs4f(int index, const glm::vec4 values){
-	glUniform4fv(argsf[index], 1, glm::value_ptr(values));
+void ShaderBox::SetArgs4f(const std::string& name, const glm::vec4 values){
+	glUniform4fv(argsf[name], 1, glm::value_ptr(values));
 }
 
 void ShaderBox::SetCameraPosition(const glm::vec3& position){
