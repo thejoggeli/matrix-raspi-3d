@@ -84,12 +84,12 @@ static unsigned int CreateShaderProgram(unsigned int vert, unsigned int frag){
 	GLint success = 0;
 	glGetProgramiv(program, GL_LINK_STATUS, &success);
 	if(success == GL_FALSE){
-		Log(LOG_ERROR, "Gfx/OpenGL", "Failed to link shader: ");
+		Log(LOG_ERROR, "Gfx/OpenGL", "Failed to link shader program: ");
 	//	Log(LOG_ERROR, "Gfx/OpenGL", src);
 		GLint maxLength = 0;
-		glGetShaderiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 		std::vector<char> errorLog(maxLength);
-		glGetShaderInfoLog(program, maxLength, &maxLength, &errorLog[0]);
+		glGetProgramInfoLog(program, maxLength, &maxLength, &errorLog[0]);
 		std::string log;
 		for (int i = 0; i < errorLog.size(); i++) {
 			log += errorLog[i];
