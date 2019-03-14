@@ -20,7 +20,7 @@ Asteroid::Asteroid(){
 void Asteroid::Generate(float minRadius, float maxRadius, int minPoints, int maxPoints){
 	std::shared_ptr<PolygonCollider> collider = Collider::Create<PolygonCollider>("asteroid");
 	int numPoints = Numbers::Random(minPoints, maxPoints+1);
-	float step = M_PIf32 * 2.0f / numPoints;
+	float step = Numbers::Pi * 2.0f / numPoints;
 	for(int i = 0; i < numPoints; i++){
 		float radius = Numbers::Random(minRadius, maxRadius);
 		glm::vec2 point = glm::vec2(std::cos(i*step) * radius, std::sin(i*step) * radius);
