@@ -39,7 +39,7 @@ void Collider::SetNeedsUpdate(){
 
 void Collider::SetEntity(const std::shared_ptr<Entity>& entity){
 	_entity = entity;
-	SetNeedsUpdate();
+	UpdateTransform();
 }
 std::shared_ptr<Entity> Collider::GetEntity(){
 	if(auto p = _entity.lock()){

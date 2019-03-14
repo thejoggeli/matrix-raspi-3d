@@ -11,7 +11,7 @@ private:
 	static int initCounter;
 	Config();
 public:
-	enum class Target {App, User, Default};
+	enum class Target {App, User, Default, Runtime};
 	static bool Init();
 	static void Set(const std::string& key, const std::string& value, Config::Target target);
 	static void Set(const std::string& key, int value, Config::Target target);

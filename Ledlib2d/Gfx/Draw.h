@@ -30,6 +30,7 @@ void StrokeLine(float x1, float y1, float x2, float y2);
 
 // circle
 void FillCircle(float x, float y, float radius, int numVertices = 0);
+void StrokeCircle(float x, float y, float radius, int numVertices = 0);
 
 }
 

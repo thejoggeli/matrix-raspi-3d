@@ -4,11 +4,12 @@
 
 using namespace Ledlib;
 
-class PipeEntity : public Entity {
+class PlayerEntity : public Entity {
 public:
-	PipeEntity();
+	PlayerEntity();
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
+	void OnEnd();
 };
 

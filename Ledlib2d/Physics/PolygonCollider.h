@@ -25,6 +25,9 @@ public:
 	void SetBox(float w, float h);
 	void SetCircle(float radius, int numPoints);
 
+	void GenerateTriangleStrip();
+	void GenerateTriangleFan();
+
 	void Clear();
 
 };

@@ -9,6 +9,6 @@ private:
 public:
 	virtual void OnStart();
 	virtual void OnUpdate();
-	virtual void OnBeforeRender();
 	virtual void OnRender();
+	virtual void OnEnd();
 };

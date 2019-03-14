@@ -113,5 +113,23 @@ void FillCircle(float x, float y, float radius, int numVertices){
 	FillPath();
 }
 
+void StrokeCircle(float x, float y, float radius, int numVertices){
+	if(numVertices == 0){
+		numVertices = static_cast<int>(radius*4.0f);
+		if(numVertices < 8){
+			numVertices = 8;
+		}
+	}
+	BeginPath();
+	float angle = 0;
+	float angleStep = 3.14159265359f*2.0f/numVertices;
+	for(int i = 0; i < numVertices; i++){
+		angle += angleStep;
+		LineTo(sinf(angle)*radius+x, cosf(angle)*radius+y);
+	}
+	ClosePath();
+	StrokePath();
+}
+
 }
 }

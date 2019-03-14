@@ -38,9 +38,9 @@ bool X11Display::Init() {
 	SetPixelOffset(Config::GetInt("display_sim_pixel_offset"));
 	SetPixelScale(Config::GetInt("display_sim_pixel_scale"));
 
-	SetDimensions(32*3, 32*2);
+/*	SetDimensions(32*3, 32*2);
 	SetPixelOffset(2);
-	SetPixelScale(12);
+	SetPixelScale(12); */
 
 /*	SetDimensions(32*6, 32*4);
 	SetPixelOffset(1);

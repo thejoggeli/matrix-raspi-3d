@@ -5,7 +5,8 @@ add_executable(
 	"Game2d.cpp"
 	"State/MenuState.cpp"
 	"State/GameState.cpp"
-	"Entity/PlayerEntity.cpp"
+	"Entity/Player.cpp"
+	"Entity/Asteroid.cpp"
 )
 include_directories(".")
 target_link_libraries(

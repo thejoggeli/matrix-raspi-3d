@@ -4,12 +4,15 @@
 
 using namespace Ledlib;
 
-class BirdEntity : public Entity {
+class Player : public Entity {
 public:
-	BirdEntity();
+	glm::vec3 velocity;
+	glm::vec3 acceleration;
+	std::vector<glm::vec2> vertices;
 
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
+	void OnEnd();
 };
 

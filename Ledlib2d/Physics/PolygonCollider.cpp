@@ -120,4 +120,32 @@ void PolygonCollider::OnDebugDraw(){
 	}
 }
 
+
+void PolygonCollider::GenerateTriangleStrip(){
+	if(points.size() < 3){
+		Log(LOG_ERROR, "PolygonCollider", "GenerateTriangleStrip() not enough points");
+		return;
+	}
+	int iters = points.size()-2;
+	for(int i = 0; i < iters; i++){
+		AddIndex(i);
+		AddIndex(i+1);
+		AddIndex(i+2);
+	}
+	SetNeedsUpdate();
+}
+void PolygonCollider::GenerateTriangleFan(){
+	if(points.size() < 3){
+		Log(LOG_ERROR, "PolygonCollider", "GenerateTriangleFan() not enough points");
+		return;
+	}
+	int iters = points.size()-1;
+	for(int i = 1; i < iters; i++){
+		AddIndex(0);
+		AddIndex(i);
+		AddIndex(i+1);
+	}
+	SetNeedsUpdate();
+}
+
 }

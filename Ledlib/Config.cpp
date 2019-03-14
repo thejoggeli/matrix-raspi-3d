@@ -18,7 +18,7 @@ static std::map<std::string, std::string> map_app;
 int Config::initCounter = 0;
 
 bool Config::Init(){
-	if(++initCounter > 1) return false;
+	if(++initCounter > 1) return true;
 	Log(LOG_INFO, "Config", "Initializing");
 	ReadFile(TargetToPath(Target::Default), map_all);
 	ReadFile(TargetToPath(Target::User), map_all);
@@ -160,6 +160,7 @@ std::string Config::TargetToPath(Target target){
 std::map<std::string, std::string>& Config::TargetToMap(Target target){
 	if(initCounter < 1) Init();
 	switch(target){
+	case Target::Runtime: return map_all;
 	case Target::App: return map_app;
 	case Target::User: return map_user;
 	case Target::Default: return map_default;
