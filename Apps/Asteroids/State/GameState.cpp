@@ -12,6 +12,7 @@ void GameState::OnStart(){
 	shared_ptr<Asteroid> asteroid;
 	GetScene()->SetDebugDrawEnabled(false);
 	GetScene()->EnableCollision("player", "asteroid");
+	GetScene()->EnableCollision("bullet", "asteroid");
 }
 void GameState::OnUpdate(){
 	players.RemoveExpired();

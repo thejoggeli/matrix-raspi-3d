@@ -7,6 +7,7 @@ add_executable(
 	"State/GameState.cpp"
 	"Entity/Player.cpp"
 	"Entity/Asteroid.cpp"
+	"Entity/Bullet.cpp"
 )
 include_directories(".")
 target_link_libraries(

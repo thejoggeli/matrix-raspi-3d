@@ -4,16 +4,13 @@
 
 using namespace Ledlib;
 
-class Player : public Entity {
+class Bullet : public Entity {
 public:
 	glm::vec3 velocity;
-	glm::vec3 acceleration;
-	std::vector<glm::vec2> vertices;
-	float bulletCooldown = 0.0f;
+	float countdown;
 
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
 	void OnEnd();
 };
-

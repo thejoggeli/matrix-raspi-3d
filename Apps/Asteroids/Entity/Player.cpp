@@ -5,8 +5,10 @@
 #include "Ledlib2d/Gfx/Draw.h"
 #include "Ledlib2d/Gfx/Path.h"
 #include "Ledlib2d/Gfx/Gfx.h"
+#include "Ledlib2d/Scene.h"
 #include "Ledlib/Remote/ClientManager.h"
 #include "Ledlib/Time.h"
+#include "Entity/Bullet.h"
 
 void Player::OnStart(){
 	std::shared_ptr<PolygonCollider> collider = Collider::Create<PolygonCollider>("player");
@@ -26,9 +28,9 @@ void Player::OnUpdate(){
 	if(ClientManager::IsKeyDown(KeyCode::A)){
 		acceleration.x = 20.0f;
 	}
-	if(ClientManager::IsKeyDown(KeyCode::B)){
+/*	if(ClientManager::IsKeyDown(KeyCode::Down)){
 		acceleration.x = -20.0f;
-	}
+	} */
 	if(ClientManager::IsKeyDown(KeyCode::Left)){
 		Rotate(Time::deltaTime*2.5f);
 	}
@@ -40,6 +42,19 @@ void Player::OnUpdate(){
 	Translate(velocity * Time::deltaTime);
 	// bounds
 	Game::GetInstance()->GetState<GameState>()->Boundify(*this, GetCollider()->_boundingRadius);
+	// fire bullets
+	if(bulletCooldown < 0.0f){
+		if(ClientManager::IsKeyDown(KeyCode::B)){
+			std::shared_ptr<Bullet> bullet = GetScene()->CreateEntity<Bullet>("bullet");
+			bullet->SetPosition(GetWorldPosition());
+			bullet->SetRotation(GetWorldRotation());
+			bullet->velocity = GetWorldRotation() * glm::vec3(50.0f, 0, 0);
+			bullet->countdown = 2.0f;
+			bulletCooldown = 0.075f;
+		}
+	} else {
+		bulletCooldown -= Time::deltaTime;
+	}
 }
 void Player::OnRender(){
 	Gfx::SetDrawColor(1, 1, 1);

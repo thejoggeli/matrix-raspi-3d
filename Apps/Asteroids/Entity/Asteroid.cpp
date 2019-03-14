@@ -52,7 +52,7 @@ void Asteroid::OnRender(){
 }
 void Asteroid::OnEnd(){}
 void Asteroid::OnCollision(const CollisionData& data){
-	if(data.b->group == "player"){
+	if(data.b->group == "bullet"){
 		float max = GetCollider()->_boundingRadius * 0.8f;
 		float min = max*0.4f;
 		if(max > 3.0f){
@@ -69,5 +69,6 @@ void Asteroid::OnCollision(const CollisionData& data){
 			asteroid->angularVelocity = angularVelocity * 0.75f;
 		}
 		Destroy();
+		data.b->GetEntity()->Destroy();
 	}
 }
