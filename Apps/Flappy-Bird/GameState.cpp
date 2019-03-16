@@ -26,6 +26,9 @@
 GameState::GameState(){}
 
 void GameState::OnStart(){
+
+//	GetScene()->SetDebugDrawEnabled(true);
+
 	RemoteSfx::PlaySound(0, "start");
 	state = STATE_PLAYING;
 	backgroundColor.SetRgb(0.1f, 0.2f, 0.3f);
@@ -58,18 +61,38 @@ void GameState::OnUpdate(){
 	if(state == STATE_PLAYING){
 		camera->Translate(Time::deltaTime * 20.0f, 0);
 		while(camera->position.x+Gfx::right*2 > nextPipePosition){
+			++pipeCount;
+			bool moving = false;
+			bool rotating = false;
+			if(pipeCount%5 == 0){
+				moving = true;
+			}
+			if(pipeCount%10 == 0){
+				rotating = true;
+			}
+			int prob = Numbers::Clamp(2, 20, 20-static_cast<int>(score*0.3));
+			if(Numbers::Random(0, prob) == 0) moving = true;
+			if(Numbers::Random(0, prob) == 0) rotating = true;
 			float x = nextPipePosition;
-			int gap = Numbers::Random(9, 16);
-			float center = Numbers::Random(-15, 15);
+			int gap = Numbers::Random(moving&&!rotating ? 13 : 9, rotating ? 12 : 16);
+			float center = moving ? Numbers::Random(0, 0) : Numbers::Random(-15, 15);
 			int gap_top = gap%2 == 0 ? gap/2 : gap/2+1;
 			int gap_bottom = gap/2;
 			// pipe top
 			std::shared_ptr<PipeEntity> pipeTop = GetScene()->CreateEntity<PipeEntity>("pipe-top");
 			pipeTop->SetRotation(Numbers::Pi);
 			pipeTop->SetPosition(x, center + gap_top + pipeTop->height/2);
+			pipeTop->originalPosition = pipeTop->position;
+			pipeTop->originalAngle = Numbers::Pi;
+			pipeTop->moving = moving;
+			pipeTop->rotating = rotating;
 			// pipe bottom
 			std::shared_ptr<PipeEntity> pipeBottom = GetScene()->CreateEntity<PipeEntity>("pipe-bottom");
 			pipeBottom->SetPosition(x, center - gap_bottom - pipeBottom->height/2);
+			pipeBottom->originalPosition = pipeBottom->position;
+			pipeBottom->originalAngle = 0;
+			pipeBottom->moving = moving;
+			pipeBottom->rotating = rotating;
 			// invisible pipes
 			float maxPos = Gfx::top+pipeTop->height/2-2;
 			if(pipeTop->position.y > maxPos){
@@ -118,6 +141,10 @@ void GameState::OnUpdate(){
 		GetGame()->SetState<MenuState>();
 		RemoteSfx::PlaySound(0, "exit");
 	}
+	float red = Numbers::Clamp(0.1f, 0.3f, 0.1f+score*0.2f/50.0f);
+	float green = Numbers::Clamp(0.0f, 0.2f, 0.2f-score*0.2f/50.0f);
+	float blue = Numbers::Clamp(0.0f, 0.3f, 0.3f-score*0.3f/50.0f);
+	Gfx::SetClearColor(red, green, blue);
 }
 void GameState::OnRender(){
 	std::shared_ptr<Entity> camera = GetCamera()->GetEntity();
@@ -195,8 +222,10 @@ void  GameState::UpdateScore(){
 				score++;
 				if(score%10==0){
 					superScoreFlashTimer.Start(0.40f);
+					RemoteSfx::PlaySound(0, "score-super");
 				} else {
 					scoreFlashTimer.Start(0.10f);
+					RemoteSfx::PlaySound(0, "score");
 				}
 				for(auto const& pipe: pipes.items){
 					if(auto p = pipe.lock()){

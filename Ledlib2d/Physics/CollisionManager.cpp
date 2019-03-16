@@ -7,6 +7,7 @@
 #include "PointCollider.h"
 #include "../Entity.h"
 #include <math.h>
+#include "Ledlib/Log.h"
 
 namespace Ledlib {
 
@@ -105,8 +106,8 @@ bool CollisionManager::CheckCollision(Collider* _a, Collider* _b){
 }
 
 void CollisionManager::PropagateCollison(const CollisionData& c1, const CollisionData& c2){
-	c1.a->GetEntity()->OnCollision(c1);
-	c2.a->GetEntity()->OnCollision(c2);
+	c1.a->GetEntity()->Collision(c1);
+	c2.a->GetEntity()->Collision(c2);
 }
 
 static inline float Det2D(glm::vec2 &p1, glm::vec2 &p2, glm::vec2 &p3){

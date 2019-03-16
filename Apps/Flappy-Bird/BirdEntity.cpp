@@ -1,6 +1,6 @@
 #include "BirdEntity.h"
 #include "Ledlib2d/Physics/CollisionData.h"
-#include "Ledlib2d/Physics/BoxCollider.h"
+#include "Ledlib2d/Physics/PolygonCollider.h"
 #include "Ledlib2d/Gfx/Gfx.h"
 #include "Ledlib2d/Gfx/Bitmaps.h"
 #include "Ledlib/Sfx/RemoteSfx.h"
@@ -21,11 +21,11 @@ void BirdEntity::OnStart(){
 	acceleration = glm::vec2(0, -200);
 	// collider
 	std::shared_ptr<Entity> colliderEntity = GetScene()->CreateEntity<Entity>("bird-collider", shared_from_this());
-	std::shared_ptr<BoxCollider> box = Collider::Create<BoxCollider>("bird");
+	std::shared_ptr<PolygonCollider> box = Collider::Create<PolygonCollider>("bird");
 	colliderEntity->SetCollider(box);
 	colliderEntity->SetPropagateCollisions(true, false);
 	colliderEntity->Translate(-0.5f, 0);
-	box->SetSize(2.5f, 2.5f);
+	box->SetBox(2.5f, 2.5f);
 }
 
 void BirdEntity::OnUpdate(){

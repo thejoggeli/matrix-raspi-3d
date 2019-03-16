@@ -10,6 +10,10 @@ class Bitmap;
 
 class PipeEntity : public Entity {
 public:
+	glm::vec3 originalPosition;
+	float originalAngle;
+	bool moving = false;
+	bool rotating = false;
 	Bitmap* bitmap;
 	float width = 6, height = 32;
 	PipeEntity();

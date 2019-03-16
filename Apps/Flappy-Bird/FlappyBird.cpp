@@ -26,6 +26,8 @@ void FlappyBird::OnStart(){
 	RemoteSfx::AddFile("die", "smb1/bowser-die.mp3", 1);
 	RemoteSfx::AddFile("bump", "smb1/bump.mp3", 1);
 	RemoteSfx::AddFile("start", "smb1/coin.mp3", 0.7f);
+	RemoteSfx::AddFile("score", "flappy-bird/score.mp3", 0.6f);
+	RemoteSfx::AddFile("score-super", "flappy-bird/score.mp3", 0.6f);
 	RemoteSfx::autoplayMusic = true;
 	SetState<MenuState>();
 }

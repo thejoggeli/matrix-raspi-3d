@@ -18,6 +18,7 @@ class Bitmap;
 
 class GameState : public State {
 public:
+	int pipeCount = 0;
 	const int STATE_INTRO = 0;
 	const int STATE_PLAYING = 1;
 	const int STATE_OUTRO = 2;
