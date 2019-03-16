@@ -5,12 +5,19 @@ uniform vec3 iCamPos;
 uniform mat4 iCamRot;
 uniform sampler2D iClockTex;
 
+mat2 rotate(float angle){
+	float c = cos(angle);
+	float s = sin(angle);
+	return mat2(c,-s,s,c);
+}
+
 vec3 hsl2rgb(vec3 hsl);
 void main() {
 	vec2 point = vec2(iCoords.x, 1.0-iCoords.y);
 	point.y = clamp(point.y + sin(point.x*5.0+iTime*2.0)*0.1, 0.0, 1.0);
-	vec4 tex = texture2D(iClockTex, vec2(point.x, point.y)).w;
-	float hue = (sin(iTime*2.0+iCoords.x*2.5*iCoords.y*5.0)*0.5+0.5)*0.1 + sin(iTime*0.1)*0.5+0.5;
+	vec4 tex = texture2D(iClockTex, vec2(point.x, point.y));
+	vec2 pp = rotate(mod(iTime*0.1, 3.141*2.0)) * iCoords.xy;
+	float hue = (sin(iTime*2.0+pp.x*2.5*pp.y*5.0)*0.5+0.5)*0.1 + sin(iTime*0.1)*0.5+0.5;
 //	float light = clamp(sin(iCoords.x*50.0)*0.25+0.75-iCoords.y*0.25, 0.0, 1.0); 
 	gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, 0.5)), tex.w);
 	
