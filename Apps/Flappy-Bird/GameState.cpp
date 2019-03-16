@@ -93,6 +93,15 @@ void GameState::OnUpdate(){
 			pipeBottom->originalAngle = 0;
 			pipeBottom->moving = moving;
 			pipeBottom->rotating = rotating;
+			// random rotate
+			if(!rotating && !moving){
+				if(Numbers::Random(0, prob) == 0){
+					pipeTop->Rotate(Numbers::Stepify(Numbers::Random(0.0f, 0.33f), 0.15f) * (Numbers::Random(0, 2) == 0 ? -1.0f : 1.0f));
+				}
+				if(Numbers::Random(0, prob) == 0){
+					pipeBottom->Rotate(Numbers::Stepify(Numbers::Random(0.0f, 0.33f), 0.15f) * (Numbers::Random(0, 2) == 0 ? -1.0f : 1.0f));
+				}
+			}
 			// invisible pipes
 			float maxPos = Gfx::top+pipeTop->height/2-2;
 			if(pipeTop->position.y > maxPos){
@@ -141,9 +150,9 @@ void GameState::OnUpdate(){
 		GetGame()->SetState<MenuState>();
 		RemoteSfx::PlaySound(0, "exit");
 	}
-	float red = Numbers::Clamp(0.1f, 0.3f, 0.1f+score*0.2f/50.0f);
-	float green = Numbers::Clamp(0.0f, 0.2f, 0.2f-score*0.2f/50.0f);
-	float blue = Numbers::Clamp(0.0f, 0.3f, 0.3f-score*0.3f/50.0f);
+	float red = Numbers::Clamp(0.1f, 0.3f, 0.1f+score*0.2f/65.0f);
+	float green = Numbers::Clamp(0.0f, 0.2f, 0.2f-score*0.2f/65.0f);
+	float blue = Numbers::Clamp(0.0f, 0.3f, 0.3f-score*0.3f/65.0f);
 	Gfx::SetClearColor(red, green, blue);
 }
 void GameState::OnRender(){

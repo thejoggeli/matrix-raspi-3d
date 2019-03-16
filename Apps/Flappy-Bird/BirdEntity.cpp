@@ -25,7 +25,7 @@ void BirdEntity::OnStart(){
 	colliderEntity->SetCollider(box);
 	colliderEntity->SetPropagateCollisions(true, false);
 	colliderEntity->Translate(-0.5f, 0);
-	box->SetBox(2.5f, 2.5f);
+	box->SetCircle(0.65f, 16);
 }
 
 void BirdEntity::OnUpdate(){
