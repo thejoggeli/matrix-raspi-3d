@@ -1,6 +1,6 @@
 varying vec2 iCoords;
 uniform float iTime;
-uniform vec3 iView;
+uniform vec3 iRect;
 uniform vec3 iCamPos;
 uniform mat4 iCamRot;
 
@@ -8,7 +8,7 @@ const float PI = 3.1415926535897932384626433832795;
 
 vec3 hsl2rgb(vec3 hsl);
 void main() {
-	vec2 point = vec2((iCoords.x-0.5)*iView.z, iCoords.y-0.5)*2.0;
+	vec2 point = vec2((iCoords.x-0.5)*iRect.z, iCoords.y-0.5)*2.0;
 	
 	float dist = sqrt(point.x*point.x+point.y*point.y);
 	float alpha = (dist <= 1.0) ? 1.0 : 0.0;	

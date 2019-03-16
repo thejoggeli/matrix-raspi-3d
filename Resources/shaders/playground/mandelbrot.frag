@@ -1,6 +1,6 @@
 varying vec2 iCoords;
 uniform float iTime;
-uniform vec3 iView;
+uniform vec3 iRect;
 uniform vec3 iCamPos;
 uniform vec3 iCamPosRot;
 uniform mat3 iCamRot;
@@ -9,7 +9,7 @@ uniform vec3 iCamScale;
 
 void main() {
 	vec3 col = vec3(0.0);
-	vec3 p = vec3((iCoords.x-0.5)*iView.z, iCoords.y-0.5, 0.0)*2.0;
+	vec3 p = vec3((iCoords.x-0.5)*iRect.z, iCoords.y-0.5, 0.0)*2.0;
 	p = p * iCamScale;
 	p = iCamRot * p;
 	p = p + iCamPos*0.1;

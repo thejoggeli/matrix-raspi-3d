@@ -10,6 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 #include <math.h>
 
@@ -188,6 +189,16 @@ void Entity::SetRotation(const mat4& rotation){
 void Entity::SetRotation(const quat& rotation){
 	_rotation = rotation;
 	SetNeedsLocalUpdate();
+}
+void Entity::SetRotation(const glm::vec3 eulers){
+	_rotation = glm::eulerAngleYXZ(eulers.y, eulers.x, eulers.z);
+	SetNeedsLocalUpdate();
+}
+glm::vec3 Entity::GetEulers(){
+	return glm::eulerAngles(_rotation);
+}
+glm::vec3 Entity::GetWorldEulers(){
+	return glm::eulerAngles(GetWorldRotation());
 }
 void Entity::Rotate(float z){
 	_rotation = glm::rotate(_rotation, z, vec3(0,0,1));

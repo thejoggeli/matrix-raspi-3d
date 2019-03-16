@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/mat4x4.hpp>
 #include <memory>
 
 namespace Ledlib {
@@ -10,6 +11,7 @@ class Camera {
 private:
 	std::weak_ptr<Entity> entity;
 public:
+	glm::mat4 projectionMatrix;
 	Camera();
 	static std::shared_ptr<Camera> Create();
 	std::shared_ptr<Entity> GetEntity();
@@ -21,6 +23,11 @@ public:
 	void SimpleArrowsRotate(float sensitivity = 1.0f);
 	void SimpleArrowsZoom(float sensitivity = 1.0f);
 	void ApplyTransform();
+	void SetPerspective(float fovy);
+	void SetPerspective(float fovy, float aspect, float near, float far);
+	void SetOrthographic();
+	void SetOrthographic(float left, float right, float bottom, float top, float near, float far);
+
 };
 
 }

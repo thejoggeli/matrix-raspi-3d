@@ -43,5 +43,7 @@ bool InitOpenGL(int width, int height);
 bool PrintOpenGLError(const std::string& context);
 const std::string GetEglErrorString(int error);
 
+bool GenerateTextureFromFramebuffer(unsigned int *t, unsigned int *f, unsigned int w, unsigned int h);
+
 }
 }

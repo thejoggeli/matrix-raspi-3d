@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "../Resources/ResourceManager.h"
+#include "../Resources/Bitmap.h"
 
 
 #define STRINGIFY(x) #x
@@ -53,7 +54,7 @@ void ShaderBox::LoadFile(const char* file){
 	mvp = glGetUniformLocation(id, "u_mvp");
 	coords = glGetAttribLocation(id, "a_coords");
 	time = glGetUniformLocation(id, "iTime");
-	view = glGetUniformLocation(id, "iView");
+	rect = glGetUniformLocation(id, "iRect");
 	cameraPosition = glGetUniformLocation(id, "iCamPos");
 	cameraRotation = glGetUniformLocation(id, "iCamRot");
 	cameraRotationInverse = glGetUniformLocation(id, "iCamRotInv");
@@ -65,11 +66,25 @@ void ShaderBox::AddArgs1i(const std::string& name){
 void ShaderBox::AddArgs4f(const std::string& name){
 	argsf[name] = glGetUniformLocation(id, name.c_str());
 }
+void ShaderBox::AddArgsBitmap(const std::string &name){
+	argst[name] = glGetUniformLocation(id, name.c_str());
+}
 void ShaderBox::SetArgs1i(const std::string& name, int value){
 	glUniform1i(argsi[name], value);
 }
 void ShaderBox::SetArgs4f(const std::string& name, const glm::vec4 values){
 	glUniform4fv(argsf[name], 1, glm::value_ptr(values));
+}
+void ShaderBox::SetArgsBitmap(const std::string &name, const Bitmap* bitmap, int unit){
+	switch(unit){
+		case 0: glActiveTexture(GL_TEXTURE0); break;
+		case 1: glActiveTexture(GL_TEXTURE1); break;
+		case 2: glActiveTexture(GL_TEXTURE2); break;
+		case 3: glActiveTexture(GL_TEXTURE3); break;
+		default: return;
+	}
+	glBindTexture(GL_TEXTURE_2D, bitmap->textureId);
+	glUniform1f(argst[name], unit);
 }
 
 void ShaderBox::SetCameraPosition(const glm::vec3& position){
@@ -106,8 +121,8 @@ void DrawShaderBox(ShaderBox& box, float x, float y, float width, float height){
 	glBindBuffer(GL_ARRAY_BUFFER, rectangleShape.uvs_vbo);
 	glVertexAttribPointer(box.coords, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	// view
-	glm::vec3 view(width, height, width/height);
-	glUniform3fv(box.view, 1, glm::value_ptr(view));
+	glm::vec3 rect(width, height, width/height);
+	glUniform3fv(box.rect, 1, glm::value_ptr(rect));
 	// time
 	glUniform1f(box.time, Time::sinceStart);
 	// draw

@@ -11,7 +11,7 @@ using namespace Ledlib;
 
 class MenuState : public State {
 private:
-	std::unique_ptr<Bitmap> bgBitmap;
+	std::shared_ptr<Bitmap> bgBitmap;
 	Timer startTimer;
 	bool startTimerRunning = false;
 public:

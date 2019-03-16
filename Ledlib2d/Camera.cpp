@@ -6,6 +6,8 @@
 #include "Ledlib/Math/Numbers.h"
 #include "Ledlib/Time.h"
 #include "Gfx/Transform.h"
+#include "Gfx/Gfx.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Ledlib {
 
@@ -13,6 +15,7 @@ Camera::Camera(){}
 
 std::shared_ptr<Camera> Camera::Create(){
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+	camera->SetOrthographic();
 	return camera;
 }
 std::shared_ptr<Entity> Camera::GetEntity(){
@@ -97,6 +100,22 @@ void Camera::SimpleArrowsZoom(float sensitivity){
 }
 void Camera::ApplyTransform(){
 	Gfx::Transform(glm::inverse(GetEntity()->GetWorldMatrix()));
+}
+
+void Camera::SetPerspective(float fovy){
+	SetPerspective(fovy, Gfx::width/Gfx::height, 0.01f, 100000.0f);
+}
+void Camera::SetPerspective(float fovy, float aspect, float near, float far){
+	projectionMatrix = glm::perspective(fovy, aspect, near, far);
+	projectionMatrix = glm::rotate(projectionMatrix, Numbers::Pi, glm::vec3(0, 0, 1));
+}
+
+void Camera::SetOrthographic(){
+	SetOrthographic(Gfx::left, Gfx::right, Gfx::bottom, Gfx::top, -100000, 100000);
+}
+
+void Camera::SetOrthographic(float left, float right, float bottom, float top, float near, float far){
+	projectionMatrix = glm::ortho(left, right, bottom, top, near, far);
 }
 
 }

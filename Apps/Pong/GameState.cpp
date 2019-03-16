@@ -19,8 +19,7 @@ GameState::GameState(){}
 GameState::~GameState(){}
 
 void GameState::OnStart(){
-	bgBitmap = std::make_unique<Bitmap>();
-	bgBitmap->CreateEmpty(Gfx::width, Gfx::height-2);
+	bgBitmap = Bitmap::CreateEmpty(Gfx::width, Gfx::height-2);
 
 	std::shared_ptr<Paddle> paddle;
 	paddle = GetScene()->CreateEntity<Paddle>("paddle-1");

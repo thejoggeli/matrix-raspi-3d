@@ -21,7 +21,7 @@ public:
 
 	bool playing = false;
 
-	std::unique_ptr<Bitmap> bgBitmap;
+	std::shared_ptr<Bitmap> bgBitmap;
 	Timer beatTimer;
 	Timer introTimer;
 	ColorHsl borderColor;

@@ -21,8 +21,7 @@ MenuState::~MenuState(){}
 
 void MenuState::OnStart(){
 	ClientJoiner::Init(2, false);
-	bgBitmap = std::make_unique<Bitmap>();
-	bgBitmap->CreateEmpty(Gfx::width, Gfx::height);
+	bgBitmap = Bitmap::CreateEmpty(Gfx::width, Gfx::height);
 	bgBitmap->Clear(0, 0, 0, 0);
 }
 

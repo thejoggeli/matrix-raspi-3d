@@ -95,10 +95,13 @@ public:
 	void SetRotation(float z);
 	void SetRotation(const glm::mat4& rotation);
 	void SetRotation(const glm::quat& rotation);
+	void SetRotation(const glm::vec3 eulers);
 	void Rotate(float z);
 	void Rotate(const glm::quat& rotation);
 	float GetAngle();
 	float GetWorldAngle();
+	glm::vec3 GetEulers();
+	glm::vec3 GetWorldEulers();
 
 	void AddChild(std::shared_ptr<Entity> child);
 	void SetParent(std::shared_ptr<Entity> parent);

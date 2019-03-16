@@ -10,7 +10,7 @@ namespace Ledlib {
 namespace ResourceManager {
 
 static std::map<std::string, BaseFont*> fontsMap;
-static std::map<std::string, Bitmap*> bitmapsMap;
+static std::map<std::string, std::shared_ptr<Bitmap>> bitmapsMap;
 
 std::string resourcesPath = "";
 
@@ -33,17 +33,16 @@ bool Init(){
 
 Bitmap* LoadBitmapPng(const std::string& name, const std::string& path){
 	Log(LOG_INFO, "Resources", iLog << "Loading bitmap: " << path);
-	Bitmap* bitmap = new Bitmap();
-	bitmap->CreateFromPng(resourcesPath + "/bitmaps/" + path);
+	std::shared_ptr<Bitmap> bitmap = Bitmap::CreateFromPng(resourcesPath + "/bitmaps/" + path);
 	if(!bitmap){
 		return nullptr;
 	}
 	bitmapsMap[name] = bitmap;
-	return bitmap;
+	return bitmap.get();
 }
 
 Bitmap* GetBitmap(const std::string& name){
-	return bitmapsMap[name];
+	return bitmapsMap[name].get();
 }
 
 BaseFont* LoadFontBdf(const std::string& name, const std::string& path){

@@ -1,6 +1,6 @@
 varying vec2 iCoords;
 uniform float iTime;
-uniform vec3 iView;
+uniform vec3 iRect;
 uniform vec3 iCamPos;
 uniform mat4 iCamRot;
 
@@ -49,8 +49,8 @@ void main()
 {
     t  = iTime*.125;
     vec3	col = vec3(0., 0., 0.);
-    vec2 R = iView.xy;
-    vec2 uv  = vec2((iCoords.x-0.5)*iView.z, iCoords.y-0.5);
+    vec2 R = iRect.xy;
+    vec2 uv  = vec2((iCoords.x-0.5)*iRect.z, iCoords.y-0.5);
 	vec3	dir = camera(uv);
     vec3	pos = vec3(.0, .0, 0.0);
 

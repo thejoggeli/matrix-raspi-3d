@@ -97,6 +97,7 @@ add_app("Flappy-Bird")
 add_app("Tetris")
 add_app("Pong")
 add_app("Asteroids")
+add_app("Clock-Digital")
 
 
 
