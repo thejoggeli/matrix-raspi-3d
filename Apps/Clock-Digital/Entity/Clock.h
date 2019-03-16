@@ -12,6 +12,7 @@ class BaseFont;
 
 class Clock : public Entity {
 public:
+	float nextEffectTime;
 	int offsetHours = 0;
 	float impulse = 0.0f;
 	float spin = 0.0f;
@@ -26,5 +27,6 @@ public:
 	void OnRender();
 	void OnEnd();
 	void RenderToTexture();
+	void ResetEffectTime();
 };
 

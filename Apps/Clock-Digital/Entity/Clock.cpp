@@ -11,6 +11,8 @@
 #include "Ledlib2d/Gfx/ShaderBox.h"
 #include "Ledlib/Remote/ClientManager.h"
 #include "Ledlib/Time.h"
+#include "Ledlib/Math/Numbers.h"
+#include "Ledlib/Log.h"
 
 Clock::Clock(){}
 
@@ -21,6 +23,7 @@ void Clock::OnStart(){
 	shader->AddArgsBitmap("iClockTex");
 	shader->AddArgs4f("iMods");
 	font = ResourceManager::GetFont("clock-"+std::to_string(fontId));
+	ResetEffectTime();
 }
 void Clock::OnUpdate(){
 	if(ClientManager::OnKeyDown(KeyCode::Left)){
@@ -45,8 +48,19 @@ void Clock::OnUpdate(){
 	if(ClientManager::OnKeyDown(KeyCode::Select)){
 		offsetHours -= 1;
 	}
+	if(Time::sinceStart > nextEffectTime){
+	/*	int sign = 1; // Numbers::Random(0, 2) == 0 ? 1 : -1;
+		if(Numbers::Random(0, 2) == 0){
+			spin += static_cast<float>(Numbers::Random(1, 6) * sign);
+		} else {
+			impulse += static_cast<float>(Numbers::Random(1, 6) * sign);
+		} */
+		spin += static_cast<float>(Numbers::Random(1, 6));
+		ResetEffectTime();
+	}
 	if(ClientManager::OnKeyDown(KeyCode::A)){
 		impulse += 2.0f;
+		ResetEffectTime();
 	}
 	if(impulse > 0.0f){
 		impulse -= Time::deltaTime*2.5f;
@@ -54,6 +68,7 @@ void Clock::OnUpdate(){
 	}
 	if(ClientManager::OnKeyDown(KeyCode::B)){
 		spin += 1.0f;
+		ResetEffectTime();
 	}
 	if(spin > 0.0f){
 		spin -= Time::deltaTime*1.25f;
@@ -101,3 +116,7 @@ void Clock::OnRender(){
 
 }
 void Clock::OnEnd(){}
+
+void Clock::ResetEffectTime(){
+	nextEffectTime = Time::sinceStart + Numbers::Random(15.0f, 60.0f);
+}
