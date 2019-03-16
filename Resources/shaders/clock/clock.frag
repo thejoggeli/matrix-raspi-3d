@@ -7,7 +7,7 @@ uniform sampler2D iClockTex;
 
 vec3 hsl2rgb(vec3 hsl);
 void main() {
-	vec2 point = vec2(iCoords.x, 1-iCoords.y);
+	vec2 point = vec2(iCoords.x, 1.0-iCoords.y);
 	point.y = clamp(point.y + sin(point.x*5+iTime*2.0)*0.1, 0.0, 1.0);
 	vec4 tex = texture2D(iClockTex, vec2(point.x, point.y)).w;
 	float hue = (sin(iTime*2.0+iCoords.x*2.5*iCoords.y*5.0)*0.5+0.5)*0.1 + sin(iTime*0.1)*0.5+0.5;
