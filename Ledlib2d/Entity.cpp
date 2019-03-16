@@ -148,6 +148,7 @@ void Entity::Move(const glm::vec3& v){
 void Entity::SetScale(float s){
 	_scale.x = s;
 	_scale.y = s;
+	_scale.z = s;
 	SetNeedsLocalUpdate();
 }
 void Entity::SetScale(float x, float y, float z){
@@ -163,6 +164,7 @@ void Entity::SetScale(const vec3& v){
 void Entity::Scale(float s){
 	_scale.x *= s;
 	_scale.y *= s;
+	_scale.z *= s;
 	SetNeedsLocalUpdate();
 }
 void Entity::Scale(float x, float y, float z){

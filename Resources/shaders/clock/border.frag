@@ -3,8 +3,7 @@ uniform float iTime;
 uniform vec3 iRect;
 uniform vec3 iCamPos;
 uniform mat4 iCamRot;
-uniform sampler2D iClockTex;
-uniform vec4 iMods;
+uniform vec2 iPixel;
 
 mat2 rotate(float angle){
 	float c = cos(angle);
@@ -14,14 +13,13 @@ mat2 rotate(float angle){
 
 vec3 hsl2rgb(vec3 hsl);
 void main() {
-	vec2 point = vec2(iCoords.x, 1.0-iCoords.y);
-	point.y = clamp(point.y + sin(point.x*5.0+iTime*2.0)*(0.1+sin(iMods.x*3.141*2.0)*0.25), 0.0, 1.0);
-	vec4 tex = texture2D(iClockTex, vec2(point.x, point.y));
-	vec2 pp = rotate(mod(iTime*0.1, 3.141*2.0)) * iCoords.xy;
-	float hue = (sin(iTime*2.0+pp.x*2.5*pp.y*5.0)*0.5+0.5)*0.1 + sin(iTime*0.1)*0.5+0.5;
-//	float light = clamp(sin(iCoords.x*50.0)*0.25+0.75-iCoords.y*0.25, 0.0, 1.0); 
-	gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, 0.5)), tex.w);
-	
+	vec2 point = iCoords.xy * iRect.xy;
+	if(point.x < 1.0 || point.x > iRect.x-1.0 || point.y < 1.0 || point.y > iRect.y-1.0){
+		float hue = mod(mod(abs(sin(iCoords.x*1.5 + iTime*0.25)), 1.0)*0.1+sin(iTime*0.1)*0.5+0.5, 1.0);
+		gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, 0.5)), 1.0);
+	} else {
+		gl_FragColor = vec4(0.0);
+	}
 }
 float hue2rgb(float f1, float f2, float hue) {
 	if (hue < 0.0)

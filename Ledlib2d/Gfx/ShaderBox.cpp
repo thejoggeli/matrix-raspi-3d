@@ -70,12 +70,15 @@ void ShaderBox::AddArgsBitmap(const std::string &name){
 	argst[name] = glGetUniformLocation(id, name.c_str());
 }
 void ShaderBox::SetArgs1i(const std::string& name, int value){
+	Use();
 	glUniform1i(argsi[name], value);
 }
 void ShaderBox::SetArgs4f(const std::string& name, const glm::vec4 values){
+	Use();
 	glUniform4fv(argsf[name], 1, glm::value_ptr(values));
 }
 void ShaderBox::SetArgsBitmap(const std::string &name, const Bitmap* bitmap, int unit){
+	Use();
 	switch(unit){
 		case 0: glActiveTexture(GL_TEXTURE0); break;
 		case 1: glActiveTexture(GL_TEXTURE1); break;
@@ -88,14 +91,17 @@ void ShaderBox::SetArgsBitmap(const std::string &name, const Bitmap* bitmap, int
 }
 
 void ShaderBox::SetCameraPosition(const glm::vec3& position){
+	Use();
 	glUniform3fv(cameraPosition, 1, glm::value_ptr(position));
 }
 void ShaderBox::SetCameraRotation(const glm::quat& rotation){
+	Use();
 	glm::mat3 rot = glm::toMat3(rotation);
 	glUniformMatrix3fv(cameraRotation, 1, GL_FALSE, glm::value_ptr(rot));
 	glUniformMatrix3fv(cameraRotationInverse, 1, GL_FALSE, glm::value_ptr(glm::inverse(rot)));
 }
 void ShaderBox::SetCameraScale(const glm::vec3& scale){
+	Use();
 	glUniform3fv(cameraScale, 1, glm::value_ptr(scale));
 }
 

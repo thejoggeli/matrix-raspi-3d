@@ -9,7 +9,11 @@ void Game2d::OnSetup(){
 }
 
 void Game2d::OnStart(){
-	ResourceManager::LoadFontBdf("clock", "7x13B.bdf");
+	ResourceManager::LoadFontBdf("clock-0", "7x13B.bdf");
+	ResourceManager::LoadFontBdf("clock-1", "7x13.bdf");
+	ResourceManager::LoadFontBdf("clock-2", "tom-thumb.bdf");
+	ResourceManager::LoadFontBdf("clock-3", "clR6x12.bdf");
+	ResourceManager::LoadFontBdf("clock-4", "helvR12.bdf");
 	SetState<GameState>();
 }
 
