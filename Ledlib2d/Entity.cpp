@@ -45,8 +45,7 @@ std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, cons
 	}
 	scene->OnEntityCreated(entity);
 	entity->name = name;
-	entity->_needsWorldUpdate = true;
-	entity->_needsLocalUpdate = true;
+	entity->SetNeedsLocalUpdate();
 	Log(LOG_DEBUG, "Entity", iLog << "Entity created / name=" << entity->name << " / id=" << entity->_id << " / alive=" << aliveCounter);
 	return entity;
 }
@@ -282,13 +281,11 @@ void Entity::SetNeedsLocalUpdate(){
 }
 
 void Entity::SetNeedsWorldUpdate(){
-	if(!_needsWorldUpdate){
-		for(auto& child: _children){
-			child->SetNeedsWorldUpdate();
-		}
-		_needsWorldUpdate = true;
-		if(_collider) _collider->SetNeedsUpdate();
+	for(auto& child: _children){
+		child->SetNeedsWorldUpdate();
 	}
+	_needsWorldUpdate = true;
+	if(_collider) _collider->SetNeedsUpdate();
 }
 
 mat4& Entity::GetWorldMatrix(){

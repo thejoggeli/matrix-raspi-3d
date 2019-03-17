@@ -87,6 +87,11 @@ AppManager.apps = {
 			AppManager.setScreen("gamepad");
 		},
 	},
+	"Snake": {
+		"welcome": function(){
+			AppManager.setScreen("gamepad");
+		},
+	},
 };
 AppManager.setScreen = function(screen){
 	Gamepad.close();
