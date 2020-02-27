@@ -11,7 +11,6 @@
 #include "Urho3D/Resource/ResourceCache.h"
 #include "Urho3D/Graphics/Zone.h"
 #include "Urho3D/Core/Timer.h"
-#include "Ledlib3d/AppManager.h"
 #include "Ledlib/Remote/ClientManager.h"
 #include "Ledlib/Remote/Client.h"
 #include "Ledlib/Log.h"
@@ -22,13 +21,13 @@ static float rotx = 0,  roty = 0;
 static Node* lightNode;
 static Light* light;
 
-MainApplication::MainApplication(Context* context) : App (context){}
+MainApplication::MainApplication(Context* context) : Ledlib3dApplication (context){}
 
 void MainApplication::OnStart(){
 
 	ResourceCache* cache = GetSubsystem<ResourceCache>();
 
-	scene = AppManager::GetScene();
+	scene = GetScene();
 
 	Node* zoneNode = scene->CreateChild("Zone");
 	Zone* zone = zoneNode->CreateComponent<Zone>();
@@ -77,7 +76,7 @@ void MainApplication::OnStart(){
 	skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
 	skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml")); */
 
-	Camera* camera = AppManager::GetCamera();
+	Camera* camera = GetCamera();
 	cameraNode = camera->GetNode();
 	cameraNode->SetPosition(Vector3(0,10,0));
 	cameraNode->LookAt(boxNode->GetPosition()-Vector3(0,1,0), Vector3::UP);

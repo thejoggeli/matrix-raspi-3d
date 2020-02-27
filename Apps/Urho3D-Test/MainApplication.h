@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ledlib3d/App.h"
+#include "Ledlib3d/Ledlib3dApplication.h"
 #include <memory>
 
 using namespace std;
@@ -12,7 +12,7 @@ namespace Urho3D {
 	class Node;
 }
 
-class MainApplication : public App {
+class MainApplication : public Ledlib3dApplication {
 public:
 	SharedPtr<Scene> scene;
 	SharedPtr<Node> boxNode;

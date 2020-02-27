@@ -51,16 +51,8 @@ add_subdirectory("Launcher")
 # Ledlib
 add_subdirectory("Ledlib")
 
-# Ledlib Urho3DGlue
+# Ledlib Urho3D
 add_subdirectory("Ledlib3d")
-#[[
-add_library(libLedlib3d SHARED IMPORTED)
-set_property(
-	TARGET libLedlib3d
-	PROPERTY IMPORTED_LOCATION
-	${CMAKE_CURRENT_BINARY_DIR}/Ledext/Urho/libLedextUrho.so
-)
-]]
 
 # Ledlib Vanilla
 add_subdirectory("Ledlib2d")

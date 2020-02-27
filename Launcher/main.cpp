@@ -54,15 +54,18 @@ void get_app_from_file(){
 
 int main(int argc, char** argv){
 	if(argc == 1){
-		cout << "[Launcher] No app specified. use \"Launch <appname> [options]\"" << endl;
-		return EXIT_FAILURE;
+		// cout << "[Launcher] No app specified. use \"Launch <appname> [options]\"" << endl;
+		// return EXIT_FAILURE;
+		app = "Welcome";
+	} else {
+		app = argv[1];
 	}
-	app = argv[1];
 	for(int i = 2; i < argc; i++){
 		args += argv[i];
 	}
+	bool quit = false;
 	bool first = true;
-	while(app != ""){
+	while(!quit){
 		if(!first){
 			struct winsize size;
 			ioctl(STDOUT_FILENO, TIOCGWINSZ,&size);
@@ -79,6 +82,14 @@ int main(int argc, char** argv){
 		system(ss.str().c_str());
 		get_app_from_file();
 		first = false;
+		if(app == ""){
+			app = "Clock-Digital";
+			// cout << "[Launcher] Quitting: app string is empty" << endl;
+			// quit = true;
+		} else if(app == "quit_matrix"){
+			cout << "[Launcher] Quitting: quit_matrix requested" << endl;
+			quit = true;
+		}
 	}
 	return EXIT_SUCCESS;
 }

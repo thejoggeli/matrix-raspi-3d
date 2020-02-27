@@ -1,5 +1,5 @@
 set(
-	VANILLA_SOURCE_FILES
+	LEDLIB2D_SOURCE_FILES
 	"Game.cpp"
 	"State.cpp"
 	"Scene.cpp"
@@ -67,7 +67,7 @@ set_property(
 )
 
 # make library
-add_library(libLedlib2d SHARED ${VANILLA_SOURCE_FILES})
+add_library(libLedlib2d SHARED ${LEDLIB2D_SOURCE_FILES})
 set_property(TARGET libLedlib2d PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 
 target_link_libraries(

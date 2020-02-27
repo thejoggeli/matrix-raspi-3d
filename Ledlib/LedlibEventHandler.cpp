@@ -26,9 +26,9 @@ void LedlibEventHandler::OnEvent(Event& event){
 			// launch app
 			std::string appName = messageEvent.GetParam(0);
 			LedMatrixLibrary::LaunchApp(appName.c_str());
-		} else if (messageEvent.message == "quit"){
+		} else if (messageEvent.message == "quit_matrix"){
 			// quit
-			LedMatrixLibrary::RequestExit();
+			LedMatrixLibrary::LaunchApp("quit_matrix");
 		}
 		break;
 	}
