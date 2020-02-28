@@ -11,6 +11,7 @@
 #include "Remote/ServerManager.h"
 #include "Remote/ClientManager.h"
 #include "Remote/Client.h"
+#include "Sfx/RemoteSfx.h"
 
 using namespace std;
 
@@ -68,6 +69,8 @@ bool LedMatrixLibrary::Init(){
 	Log(LOG_INFO, "Ledlib", "Initializing LedlibEventHandler");
 	eventHandler = make_shared<LedlibEventHandler>();
 	eventHandler->StartListening();
+	// system sounds
+	RemoteSfx::AddFile("system_quit", "system/quit.mp3");
 	return true;
 }
 void LedMatrixLibrary::Start(){
@@ -123,12 +126,15 @@ void LedMatrixLibrary::Exit(){
 void LedMatrixLibrary::RequestExit(){
 	Log(LOG_INFO, "Ledlib", "Shutdown requested");
 	exitRequested = true;
+	std::vector<std::string> args;
+	args.push_back("quit_matrix");
+	Config::SetLauncherArgs(args);
+	RemoteSfx::PlaySound(0, "system_quit");
 }
-
 
 void LedMatrixLibrary::LaunchApp(const char* name){
 	if(!exitRequested){
-		RequestExit();
+		exitRequested = true;
 		std::vector<std::string> args;
 		args.push_back(name);
 		Config::SetLauncherArgs(args);

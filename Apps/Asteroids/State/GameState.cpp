@@ -29,7 +29,7 @@ void GameState::OnUpdate(){
 	}
 }
 void GameState::OnRender(){}
-void GameState::OnEnd(){}
+void GameState::OnExit(){}
 
 shared_ptr<Asteroid> GameState::SpawnAsteroid(){
 	shared_ptr<Asteroid> asteroid = GetScene()->CreateEntity<Asteroid>("asteroid");

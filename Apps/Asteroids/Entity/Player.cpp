@@ -65,4 +65,4 @@ void Player::OnRender(){
 	Gfx::ClosePath();
 	Gfx::FillPath();
 }
-void Player::OnEnd(){}
+void Player::OnExit(){}

@@ -20,4 +20,4 @@ void Bullet::OnRender(){
 	Gfx::SetDrawColor(1, 1, 0);
 	Gfx::FillRect(0, 0, 1.0f, 1.0f);
 }
-void Bullet::OnEnd(){}
+void Bullet::OnExit(){}

@@ -50,7 +50,7 @@ void Asteroid::OnRender(){
 	Gfx::ClosePath();
 	Gfx::StrokePath();
 }
-void Asteroid::OnEnd(){}
+void Asteroid::OnExit(){}
 void Asteroid::OnCollision(const CollisionData& data){
 	if(data.b->group == "bullet"){
 		float max = GetCollider()->_boundingRadius * 0.8f;

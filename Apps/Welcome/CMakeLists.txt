@@ -2,10 +2,6 @@ project(${app_name})
 add_executable(
 	${app_name}
 	"main.cpp"
-	"Game2d.cpp"
-	"State/MenuState.cpp"
-	"State/GameState.cpp"
-	"Entity/PlayerEntity.cpp"
 )
 include_directories(".")
 target_link_libraries(

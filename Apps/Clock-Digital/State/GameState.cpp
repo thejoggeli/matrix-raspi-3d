@@ -60,6 +60,6 @@ void GameState::OnAfterRender(){
 	Gfx::DrawShaderBox(*border.get(), 0, 0);
 }
 
-void GameState::OnEnd(){
+void GameState::OnExit(){
 	Config::Set("app-offset-hours", std::to_string(clock->offsetHours), Config::Target::App);
 }

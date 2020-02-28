@@ -16,7 +16,7 @@ namespace Ledlib {
 int Game::idCounter = 0;
 
 std::shared_ptr<Game> Game::instance = nullptr;
-static std::shared_ptr<Game> ptr;
+
 Game::Game(){
 	_id = idCounter++;
 	Log(LOG_DEBUG, "Game", iLog << "Game created (id=" << _id << ")");
@@ -27,7 +27,7 @@ Game::~Game(){
 
 void Game::Run(Game* game){
 	if(instance){
-		Log(LOG_ERROR, "App", "App game already initialized");
+		Log(LOG_ERROR, "Game", "Game already initialized");
 		return;
 	} else {
 		instance = std::shared_ptr<Game>(game);
@@ -37,24 +37,27 @@ void Game::Run(Game* game){
 }
 
 void Game::Loop(){
-	Timer timer;
+
+	// init
+	LedMatrixLibrary::Init();
+	ResourceManager::Init();
+	Gfx::Init();
 
 	// setup
 	OnSetup();
-	LedMatrixLibrary::Init();
 
-	// ledlib2d modules
-	ResourceManager::Init();
-	Gfx::Init();
 	// start
+	LedMatrixLibrary::Start();
 	OnStart();
 	activeState->Start();
 	activeState->OnStart();
 	if(!activeState){
-		Log(LOG_ERROR, "App", "No state set");
+		Log(LOG_ERROR, "Game", "No state set");
 		return;
 	}
-	LedMatrixLibrary::Start();
+
+	// game loop
+	Timer timer;
 	timer.Start(10.0f);
 	while(!LedMatrixLibrary::exitRequested){
 		LedMatrixLibrary::Update();
@@ -68,7 +71,7 @@ void Game::Loop(){
 		Gfx::UpdatePixelBuffer();
 		LedMatrixLibrary::Render();
 		if(queuedState){
-			activeState->OnEnd();
+			activeState->OnExit();
 			activeState = queuedState;
 			queuedState = nullptr;
 			activeState->Start();
@@ -84,13 +87,27 @@ void Game::Loop(){
 			Entity::localUpdateCounter = Entity::worldUpdateCounter = Collider::updateCounter = 0;
 		}
 	}
-	activeState->OnEnd();
-	OnEnd();
+
+	// exit
+	activeState->OnExit();
+	OnExit();
 	LedMatrixLibrary::Exit();
 }
 
 std::shared_ptr<Game> Game::GetInstance(){
 	return instance;
+}
+
+std::shared_ptr<Camera> Game::GetCameraFromState(){
+	return instance->activeState->GetCamera();
+}
+
+std::shared_ptr<Entity> Game::GetCameraEntityFromState(){
+	return instance->activeState->GetCameraEntity();
+}
+
+std::shared_ptr<Scene> Game::GetSceneFromState(){
+	return instance->activeState->GetScene();
 }
 
 std::shared_ptr<State> Game::SetState(std::shared_ptr<State> state){

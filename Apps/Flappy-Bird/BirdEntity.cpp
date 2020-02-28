@@ -45,7 +45,7 @@ void BirdEntity::OnUpdate(){
 		SetRotation(Numbers::Pi/2);
 	}
 
-	Entity* camera = Game::GetInstance()->GetState()->GetCameraEntity().get();
+	Entity* camera = Game::GetCameraEntityFromState().get();
 	SetPosition(camera->position.x + Gfx::left/2, position.y + velocity.y * Time::deltaTime);
 	if(this->position.y > Gfx::top*3 || this->position.y < Gfx::bottom*3){
 		this->Destroy();

@@ -5,7 +5,7 @@
 
 ShaderPlayground::ShaderPlayground(){}
 
-void ShaderPlayground::OnStart(){
+void ShaderPlayground::OnSetup(){
 	std::shared_ptr<ShaderState> state;
 	if(file == "playground/mandelbrot.frag"){
 		state = SetState<Mandelbrot>();
@@ -14,4 +14,7 @@ void ShaderPlayground::OnStart(){
 	}
 	state->shader = std::make_unique<ShaderBox>();
 	state->shader->LoadFile(file.c_str());
+}
+
+void ShaderPlayground::OnStart(){
 }

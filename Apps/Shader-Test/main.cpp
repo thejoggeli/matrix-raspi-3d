@@ -2,7 +2,7 @@
 
 #include "Ledlib2d/Game.h"
 #include "Ledlib2d/State.h"
-#include "Ledlib2d/Gfx/Renderer.h"
+#include "Ledlib2d/Gfx/Gfx.h"
 #include "Ledlib2d/Gfx/ShaderBox.h"
 #include "Ledlib2d/Gfx/Transform.h"
 #include "Ledlib2d/Entity.h"
@@ -12,7 +12,7 @@ using namespace Ledlib;
 
 class ShaderState : public State {
 	ShaderBox shader;
-	void OnStart(){
+	void OnSetup(){
 		Gfx::SetClearColor(0,0,0.3f);
 		shader.LoadFile("torus_thingy_8.frag");
 	}

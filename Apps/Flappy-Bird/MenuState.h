@@ -17,7 +17,7 @@ public:
 	float flashTimer;
 	int selection = 1;
 	virtual void OnStart();
-	virtual void OnEnd();
+	virtual void OnExit();
 	virtual void OnUpdate();
 	virtual void OnRender();
 	Bitmap* GetBirdBitmap();

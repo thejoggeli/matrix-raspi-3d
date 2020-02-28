@@ -115,7 +115,7 @@ void Clock::OnRender(){
 	Gfx::DrawShaderBox(*shader.get(), 0, 0);
 
 }
-void Clock::OnEnd(){}
+void Clock::OnExit(){}
 
 void Clock::ResetEffectTime(){
 	nextEffectTime = Time::sinceStart + Numbers::Random(15.0f, 60.0f);

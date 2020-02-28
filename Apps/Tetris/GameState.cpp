@@ -28,7 +28,7 @@ void GameState::OnStart(){
 	grid->Setup(10, 16);
 	grid->Start();}
 
-void GameState::OnEnd(){
+void GameState::OnExit(){
 	RemoteSfx::StopMusic(0);
 }
 

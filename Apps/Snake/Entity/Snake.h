@@ -13,7 +13,7 @@ public:
 	void OnUpdate();
 	void OnRender();
 	void OnAfterRender();
-	void OnEnd();
+	void OnExit();
 	std::shared_ptr<SnakeSegment> LastSegment();
 	void Grow();
 	void OnCollision(const CollisionData& data);

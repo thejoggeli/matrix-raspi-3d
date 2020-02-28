@@ -42,6 +42,9 @@ void Translate(const vec3& v){
 void Translate(float x, float y, float z){
 	_viewMatrix = translate(_viewMatrix, vec3(x,y,z));
 }
+void Scale(float s){
+	_viewMatrix = scale(_viewMatrix, vec3(s, s, s));
+}
 void Scale(float x, float y, float z){
 	_viewMatrix = scale(_viewMatrix, vec3(x, y, z));
 }

@@ -47,7 +47,7 @@ void SnakeSegment::OnRender(){
 		Gfx::FillRect(0, 0, radius*2, radius*2);
 	}
 }
-void SnakeSegment::OnEnd(){}
+void SnakeSegment::OnExit(){}
 
 void SnakeSegment::SetSnake(const std::shared_ptr<Snake>& snake){
 	this->snake = snake;

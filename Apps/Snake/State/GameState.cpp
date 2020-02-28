@@ -62,6 +62,6 @@ void GameState::OnUpdate(){
 void GameState::OnRender(){
 
 }
-void GameState::OnEnd(){
+void GameState::OnExit(){
 
 }

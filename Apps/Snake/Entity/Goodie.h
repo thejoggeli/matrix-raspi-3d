@@ -10,6 +10,6 @@ public:
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
-	void OnEnd();
+	void OnExit();
 };
 

@@ -17,6 +17,6 @@ public:
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
-	void OnEnd();
+	void OnExit();
 	virtual void OnCollision(const CollisionData& data);
 };

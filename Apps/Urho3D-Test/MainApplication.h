@@ -18,6 +18,7 @@ public:
 	SharedPtr<Node> boxNode;
 	SharedPtr<Node> cameraNode;
 	MainApplication(Urho3D::Context * context);
+	virtual void OnSetup();
 	virtual void OnStart();
 	virtual void OnUpdate();
 };

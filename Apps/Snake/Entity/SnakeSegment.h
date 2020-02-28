@@ -19,7 +19,7 @@ public:
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
-	void OnEnd();
+	void OnExit();
 	void SetSnake(const std::shared_ptr<Snake>& snake);
 	void Grow();
 	void Cut();

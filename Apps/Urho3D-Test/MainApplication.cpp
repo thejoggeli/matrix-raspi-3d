@@ -23,17 +23,21 @@ static Light* light;
 
 MainApplication::MainApplication(Context* context) : Ledlib3dApplication (context){}
 
-void MainApplication::OnStart(){
+void MainApplication::OnSetup(){
 
 	ResourceCache* cache = GetSubsystem<ResourceCache>();
 
 	scene = GetScene();
+
+	Log("number 1");
 
 	Node* zoneNode = scene->CreateChild("Zone");
 	Zone* zone = zoneNode->CreateComponent<Zone>();
 	zone->SetBoundingBox(BoundingBox(-10000.0f, 10000.0f));
 	zone->SetAmbientColor(Color(0.25f,0.25f,0.25f));
 	zone->SetFogColor(Color(0,0,0,1));
+
+	Log("number 2");
 
 	lightNode = scene->CreateChild();
 	lightNode->SetDirection(Vector3::FORWARD);
@@ -81,6 +85,10 @@ void MainApplication::OnStart(){
 	cameraNode->SetPosition(Vector3(0,10,0));
 	cameraNode->LookAt(boxNode->GetPosition()-Vector3(0,1,0), Vector3::UP);
 	camera->SetFarClip(2000);
+
+}
+
+void MainApplication::OnStart(){
 
 }
 

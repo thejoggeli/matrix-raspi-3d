@@ -8,5 +8,5 @@ class Game2d : public Game {
 public:
 	virtual void OnSetup();
 	virtual void OnStart();
-	virtual void OnEnd();
+	virtual void OnExit();
 };

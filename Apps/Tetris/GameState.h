@@ -11,7 +11,7 @@ public:
 	std::shared_ptr<Grid> grid;
 	GameState();
 	void OnStart();
-	void OnEnd();
+	void OnExit();
 	void OnUpdate();
 	void OnRender();
 };

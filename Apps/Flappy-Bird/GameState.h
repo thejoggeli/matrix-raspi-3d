@@ -37,7 +37,7 @@ public:
 
 	GameState();
 	void OnStart();
-	void OnEnd();
+	void OnExit();
 	void OnUpdate();
 	void OnRender();
 	void OnAfterRender();

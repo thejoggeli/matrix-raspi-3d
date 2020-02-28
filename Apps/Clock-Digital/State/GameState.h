@@ -33,5 +33,5 @@ public:
 	virtual void OnUpdate();
 	virtual void OnRender();
 	virtual void OnAfterRender();
-	virtual void OnEnd();
+	virtual void OnExit();
 };

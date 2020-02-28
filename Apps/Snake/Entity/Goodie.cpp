@@ -15,4 +15,4 @@ void Goodie::OnRender(){
 	Gfx::SetDrawColor(1,1,0);
 	Gfx::FillRect(0,0,radius*2,radius*2);
 }
-void Goodie::OnEnd(){}
+void Goodie::OnExit(){}

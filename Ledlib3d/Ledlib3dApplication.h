@@ -2,21 +2,10 @@
 
 #include "Urho3D/Container/Ptr.h"
 #include "Urho3D/Engine/Application.h"
-#include "Urho3D/Resource/Image.h"
-#include "Urho3D/Scene/Scene.h"
-#include "Urho3D/Graphics/Graphics.h"
-#include "Urho3D/Graphics/Octree.h"
 #include "Urho3D/Graphics/Texture2D.h"
-#include "Urho3D/Graphics/Viewport.h"
-#include "Urho3D/Graphics/RenderSurface.h"
 #include "Urho3D/Graphics/Camera.h"
+#include "Urho3D/Scene/Scene.h"
 #include <vector>
-
-namespace Urho3D {
-	class Scene;
-	class Camera;
-	class Texture2D;
-}
 
 namespace Ledlib {
 
@@ -43,7 +32,7 @@ public:
 	virtual void OnSetup(){}
 	virtual void OnStart(){}
 	virtual void OnUpdate(){}
-	virtual void OnStop(){}
+	virtual void OnExit(){}
 
 	Urho3D::SharedPtr<Urho3D::Scene> GetScene();
 	Urho3D::SharedPtr<Urho3D::Texture2D> GetRenderTexture();

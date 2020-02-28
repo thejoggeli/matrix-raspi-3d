@@ -25,7 +25,7 @@ public:
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
-	void OnEnd();
+	void OnExit();
 	void RenderToTexture();
 	void ResetEffectTime();
 };

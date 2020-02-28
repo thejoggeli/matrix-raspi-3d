@@ -32,7 +32,7 @@ void Snake::OnUpdate(){
 }
 void Snake::OnRender(){}
 void Snake::OnAfterRender(){}
-void Snake::OnEnd(){}
+void Snake::OnExit(){}
 
 std::shared_ptr<SnakeSegment> Snake::LastSegment(){
 	std::shared_ptr<SnakeSegment> segment = head.lock();

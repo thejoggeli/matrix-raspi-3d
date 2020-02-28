@@ -10,7 +10,7 @@ public:
 	void OnStart();
 	void OnUpdate();
 	void OnRender();
-	void OnEnd();
+	void OnExit();
 	void AddVertex(float x, float y);
 	void Build();
 

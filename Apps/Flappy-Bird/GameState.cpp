@@ -50,7 +50,7 @@ void GameState::OnStart(){
 	score = 0;
 
 }
-void GameState::OnEnd(){
+void GameState::OnExit(){
 	FlappyBird* game = GetGame<FlappyBird>().get();
 	if(score > game->highscore){
 		game->highscore = score;

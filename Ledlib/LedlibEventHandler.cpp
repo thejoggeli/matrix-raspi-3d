@@ -28,7 +28,7 @@ void LedlibEventHandler::OnEvent(Event& event){
 			LedMatrixLibrary::LaunchApp(appName.c_str());
 		} else if (messageEvent.message == "quit_matrix"){
 			// quit
-			LedMatrixLibrary::LaunchApp("quit_matrix");
+			LedMatrixLibrary::RequestExit();
 		}
 		break;
 	}

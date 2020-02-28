@@ -24,7 +24,7 @@ public:
 	void Update();
 
 	virtual void OnStart(){}
-	virtual void OnEnd(){}
+	virtual void OnExit(){}
 
 	virtual void OnPause(){}
 	virtual void OnResume(){}

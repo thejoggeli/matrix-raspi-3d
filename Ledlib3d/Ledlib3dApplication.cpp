@@ -6,13 +6,21 @@
 #include "Ledlib/Util/Strings.h"
 #include "Urho3D/Graphics/Graphics.h"
 #include "Urho3D/Graphics/Texture2D.h"
+#include "Urho3D/Graphics/Camera.h"
+#include "Urho3D/Graphics/Octree.h"
+#include "Urho3D/Graphics/Viewport.h"
+#include "Urho3D/Graphics/RenderSurface.h"
+#include "Urho3D/Resource/Image.h"
 #include "Urho3D/Input/Input.h"
+#include "Urho3D/Scene/Scene.h"
 
 using namespace Urho3D;
 
 namespace Ledlib {
 
-Ledlib3dApplication::Ledlib3dApplication(Context * context) : Application(context){}
+Ledlib3dApplication::Ledlib3dApplication(Context * context) : Application(context){
+
+}
 
 void Ledlib3dApplication::Setup(){
 	if(!LedMatrixLibrary::Init()){
@@ -58,20 +66,19 @@ void Ledlib3dApplication::Setup(){
 	_pixels = (uint8_t*) malloc(len_actual);
 	DisplayManager::SetPixelsPointer(static_cast<void*>(_pixels), 3);
 
-
 	OnSetup();
 }
 
 void Ledlib3dApplication::Start(){
-	OnStart();
 	GetSubsystem<Input>()->SetMouseGrabbed(false);
 	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Ledlib3dApplication, HandlePostRenderUpdate));
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(Ledlib3dApplication, HandleUpdate));
 	LedMatrixLibrary::Start();
+	OnStart();
 }
 
 void Ledlib3dApplication::Stop(){
-	OnStop();
+	OnExit();
 	LedMatrixLibrary::Exit();
 }
 

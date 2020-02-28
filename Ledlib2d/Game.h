@@ -7,6 +7,7 @@ namespace Ledlib {
 class State;
 class Scene;
 class Camera;
+class Entity;
 
 class Game : public std::enable_shared_from_this<Game> {
 private:
@@ -23,12 +24,16 @@ public:
 
 	virtual void OnSetup(){}
 	virtual void OnStart(){}
-	virtual void OnEnd(){}
+	virtual void OnExit(){}
 
 	static void Run(Game* game);
 	static std::shared_ptr<Game> GetInstance();
 
 	void Loop();
+
+	static std::shared_ptr<Camera> GetCameraFromState();
+	static std::shared_ptr<Entity> GetCameraEntityFromState();
+	static std::shared_ptr<Scene> GetSceneFromState();
 
 	std::shared_ptr<State> SetState(std::shared_ptr<State> state);
 	template<typename T, typename std::enable_if<std::is_base_of<State, T>::value>::type* = nullptr>

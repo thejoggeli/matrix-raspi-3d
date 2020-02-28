@@ -10,5 +10,5 @@ public:
 	virtual void OnStart();
 	virtual void OnUpdate();
 	virtual void OnRender();
-	virtual void OnEnd();
+	virtual void OnExit();
 };

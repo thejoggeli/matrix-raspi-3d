@@ -26,7 +26,7 @@ void MenuState::OnStart(){
 	flashTimer = 0;
 	showHighscore = false;
 }
-void MenuState::OnEnd(){
+void MenuState::OnExit(){
 	RemoteSfx::StopMusic(0);
 	GetGame<FlappyBird>()->birdBitmap = GetBirdBitmap();
 }

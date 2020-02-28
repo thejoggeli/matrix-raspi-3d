@@ -8,6 +8,7 @@ class ShaderPlayground : public Game {
 public:
 	std::string file;
 	ShaderPlayground();
+	void OnSetup();
 	void OnStart();
 };
 

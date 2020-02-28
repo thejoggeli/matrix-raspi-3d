@@ -80,6 +80,7 @@ endfunction(urho3d_setup)
 
 
 # add apps
+add_app("Welcome")
 add_app("Urho3D-Test")
 add_app("Ledlib-Test")
 add_app("Shader-Test")

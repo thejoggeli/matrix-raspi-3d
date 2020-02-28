@@ -83,7 +83,7 @@ int main(int argc, char** argv){
 		get_app_from_file();
 		first = false;
 		if(app == ""){
-			app = "Clock-Digital";
+			app = "Welcome";
 			// cout << "[Launcher] Quitting: app string is empty" << endl;
 			// quit = true;
 		} else if(app == "quit_matrix"){

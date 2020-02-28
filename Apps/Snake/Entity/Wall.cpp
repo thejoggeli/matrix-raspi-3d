@@ -14,7 +14,7 @@ void Wall::OnRender(){
 	Gfx::ClosePath();
 	Gfx::StrokePath();
 }
-void Wall::OnEnd(){}
+void Wall::OnExit(){}
 
 void Wall::AddVertex(float x, float y){
 	vertices.push_back(glm::vec3(x, y, 0));

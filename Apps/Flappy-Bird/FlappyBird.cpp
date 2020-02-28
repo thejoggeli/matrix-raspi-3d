@@ -5,11 +5,9 @@
 #include "Ledlib/Config.h"
 #include "Ledlib/Log.h"
 
-void FlappyBird::OnSetup(){}
-
-void FlappyBird::OnStart(){
+void FlappyBird::OnSetup(){
 	highscore = Config::GetInt("app-highscore");
-	Log(LOG_INFO, "FlappyBird", iLog << "Highscore is " << 0);
+	Log(LOG_INFO, "FlappyBird", iLog << "Highscore is " << highscore);
 	ResourceManager::LoadBitmapPng("bird-yellow", "flappy-bird/bird-yellow.png");
 	ResourceManager::LoadBitmapPng("bird-red", "flappy-bird/bird-red.png");
 	ResourceManager::LoadBitmapPng("bird-green", "flappy-bird/bird-green.png");
@@ -32,6 +30,9 @@ void FlappyBird::OnStart(){
 	SetState<MenuState>();
 }
 
-void FlappyBird::OnEnd(){
+void FlappyBird::OnStart(){
+}
+
+void FlappyBird::OnExit(){
 	Config::Set("app-highscore", highscore, Config::Target::App);
 }

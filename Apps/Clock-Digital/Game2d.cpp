@@ -6,9 +6,6 @@
 void Game2d::OnSetup(){
 //	Config::Set("opengl_multisampling_enabled", "1", Config::Target::Runtime);
 //	Config::Set("opengl_multisampling_samples", "2", Config::Target::Runtime);
-}
-
-void Game2d::OnStart(){
 	ResourceManager::LoadFontBdf("clock-0", "7x13B.bdf");
 	ResourceManager::LoadFontBdf("clock-1", "7x13.bdf");
 	ResourceManager::LoadFontBdf("clock-2", "tom-thumb.bdf");
@@ -17,4 +14,7 @@ void Game2d::OnStart(){
 	SetState<GameState>();
 }
 
-void Game2d::OnEnd(){}
+void Game2d::OnStart(){
+}
+
+void Game2d::OnExit(){}

@@ -14,5 +14,5 @@ public:
 	int highscore = 0;
 	virtual void OnSetup();
 	virtual void OnStart();
-	virtual void OnEnd();
+	virtual void OnExit();
 };
