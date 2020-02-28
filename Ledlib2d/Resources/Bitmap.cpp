@@ -40,6 +40,8 @@ std::shared_ptr<Bitmap> Bitmap::CreateRenderable(uint32_t width, uint32_t height
 	bitmap->_width = width;
 	bitmap->_height = height;
 	bitmap->_numPixels = width*height;
+	bitmap->_size = width*height*4;
+	bitmap->image = new uint8_t[bitmap->_size];
 	bool ret = Gfx::GenerateTextureFromFramebuffer(&bitmap->textureId, &bitmap->framebufferId, width, height);
 	if(!ret){
 		return nullptr;
