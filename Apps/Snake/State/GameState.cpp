@@ -40,14 +40,18 @@ void GameState::OnStart(){
 
 }
 void GameState::OnUpdate(){
+
 	goodies.RemoveExpired();
 	snakes.RemoveExpired();
 	if(snakes.Size() < 1){
 		Game2d::GetInstance()->SetState<GameState>();
 		return;
 	}
-	auto snake = snakes.items[0].lock();
-	auto head = snake->head.lock();
+
+//	auto snake = snakes.items[0].lock();
+//	auto head = snake->head.lock();
+
+	// spawn new goodies
 	while(goodies.Size() < 100){
 		auto goodie = GetScene()->CreateEntity<Goodie>("goodie");
 		float bounds = 128.0f;
@@ -56,8 +60,25 @@ void GameState::OnUpdate(){
 		goodie->SetPosition(x, y);
 		goodies.Add(goodie);
 	}
+
+	// update camera
+	auto cam = GetCameraEntity();
+	if(snakes.Size() == 0){
+		cam->SetPosition(0, 0);
+	} else {
+		auto first = snakes.items[0].lock();
+		float left = first->position.x;
+		float right = first->position.x;
+		float top = first->position.y;
+		float bottom = first->position.y;
+		for(auto& snake: snakes.items){
+			auto cur = snake.lock();
+
+		}
+	}
 	GetCameraEntity()->SetPosition(head->GetWorldPosition());
 //	GetCameraEntity()->SetRotation(head->GetWorldAngle() - Numbers::Pi/2.0f);
+
 }
 void GameState::OnRender(){
 

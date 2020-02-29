@@ -24,7 +24,7 @@ Ledlib3dApplication::Ledlib3dApplication(Context * context) : Application(contex
 
 void Ledlib3dApplication::Setup(){
 	if(!LedMatrixLibrary::Init()){
-		Log(LOG_ERROR, "App", "LedMatrixLibrary initialization failed");
+		Log(LOG_ERROR, "Ledlib3dApp", "LedMatrixLibrary initialization failed");
 	}
 	// engine params
 	engineParameters_["FullScreen"] = false;
@@ -36,7 +36,10 @@ void Ledlib3dApplication::Setup(){
 	engineParameters_["ResourcePaths"] = "Data;CoreData";
 	engineParameters_["ResourcePrefixPaths"] = resPath.c_str();
 	engineParameters_["VSync"] = false;
-	Log(LOG_INFO, "App", "ResourcePrefixPath=" + resPath);
+	Log(LOG_INFO, "Ledlib3dApp", "ResourcePrefixPath=" + resPath);
+}
+
+void Ledlib3dApplication::Start(){
 
 	_scene = new Scene(GetContext());
 	_scene->CreateComponent<Octree>();
@@ -58,23 +61,22 @@ void Ledlib3dApplication::Setup(){
 	uint32_t len_predict = sizeof(uint8_t) * DisplayManager::width * DisplayManager::height * 3;
 	uint32_t len_actual = _renderTexture->GetDataSize(DisplayManager::width, DisplayManager::height);
 
-	Log(LOG_DEBUG, "AppManager", iLog << "Pixel buffer size predicted=" << len_predict << ", actual=" << len_actual);
+	Log(LOG_DEBUG, "Ledlib3dApp", iLog << "Pixel buffer size predicted=" << len_predict << ", actual=" << len_actual);
 	if(len_predict != len_actual){
-		Log(LOG_ERROR, "AppManager", iLog << "Pixel buffer size predicted length != actual length");
+		Log(LOG_ERROR, "Ledlib3dApp", iLog << "Pixel buffer size predicted length != actual length");
 	}
 
 	_pixels = (uint8_t*) malloc(len_actual);
 	DisplayManager::SetPixelsPointer(static_cast<void*>(_pixels), 3);
 
-	OnSetup();
-}
-
-void Ledlib3dApplication::Start(){
 	GetSubsystem<Input>()->SetMouseGrabbed(false);
 	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Ledlib3dApplication, HandlePostRenderUpdate));
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(Ledlib3dApplication, HandleUpdate));
+
+	OnSetup();
 	LedMatrixLibrary::Start();
 	OnStart();
+
 }
 
 void Ledlib3dApplication::Stop(){

@@ -22,13 +22,14 @@ public:
 
 	Ledlib3dApplication(Urho3D::Context* context);
 
+	// these are called automatically by Urho3D
 	virtual void Setup();
 	virtual void Start();
 	virtual void Stop();
-
 	void HandleUpdate(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 	void HandlePostRenderUpdate(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 
+	// these are called "manually"
 	virtual void OnSetup(){}
 	virtual void OnStart(){}
 	virtual void OnUpdate(){}

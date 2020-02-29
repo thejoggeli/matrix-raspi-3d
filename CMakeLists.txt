@@ -92,6 +92,7 @@ add_app("Pong")
 add_app("Asteroids")
 add_app("Clock-Digital")
 add_app("Snake")
+add_app("Earth")
 
 
 
