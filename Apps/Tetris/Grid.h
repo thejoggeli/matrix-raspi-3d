@@ -9,6 +9,11 @@ using namespace Ledlib;
 
 class Piece;
 
+
+namespace Ledlib{
+	class Client;
+}
+
 struct GridSlot {
     bool free = true;
     bool collapsing = false;
@@ -29,8 +34,8 @@ public:
     int width;
 	int height;
 	Grid();
-    void Start();
-    void Update();
+	void Start();
+	void Update(Ledlib::Client* client);
     void Render();
     void Setup(unsigned int w, unsigned int h);
 	bool IsPieceBlocked(Piece& piece, int xdir, int ydir);

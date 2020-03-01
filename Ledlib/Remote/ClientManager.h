@@ -15,7 +15,7 @@ private:
 public:
 	static bool Init();
 	static void Update();
-	static void AddClient(std::shared_ptr<Client> client);
+	static void AddClient(const std::shared_ptr<Client>& client);
 	static void RemoveClient(int id);
 	static std::shared_ptr<Client> GetClient(int id);
 	static const std::vector<std::shared_ptr<Client>>& GetAllCients();

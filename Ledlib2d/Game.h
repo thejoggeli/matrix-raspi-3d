@@ -35,7 +35,7 @@ public:
 	static std::shared_ptr<Entity> GetCameraEntityFromState();
 	static std::shared_ptr<Scene> GetSceneFromState();
 
-	std::shared_ptr<State> SetState(std::shared_ptr<State> state);
+	std::shared_ptr<State> SetState(const std::shared_ptr<State>& state);
 	template<typename T, typename std::enable_if<std::is_base_of<State, T>::value>::type* = nullptr>
 	std::shared_ptr<T> SetState(){
 		std::shared_ptr<T> state = std::make_shared<T>();

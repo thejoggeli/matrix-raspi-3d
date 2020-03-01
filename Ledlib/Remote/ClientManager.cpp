@@ -27,7 +27,7 @@ void ClientManager::Update(){
 	}
 }
 
-void ClientManager::AddClient(shared_ptr<Client> client){
+void ClientManager::AddClient(const shared_ptr<Client>& client){
 	clientsVector.push_back(client);
 	clientsMap.insert({client->id, client});
 /*	if(iLog.infos.clients){

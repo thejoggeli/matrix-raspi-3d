@@ -16,7 +16,7 @@ int EventManager::initCounter = 0;
 unsigned int EventManager::eventCounterTemp = 0;
 unsigned int EventManager::eventCounterTotal = 0;
 
-static vector<shared_ptr<EventListener>> listeners;
+static vector<EventListener*> listeners;
 static vector<shared_ptr<Event>> events;
 static vector<shared_ptr<Event>> newEvents;
 static unordered_map<string, EventType> KeyCode;
@@ -155,11 +155,11 @@ shared_ptr<Event> EventManager::ParseMessage(const string& str){
 	return event;
 }
 
-void EventManager::AddEventListener(const shared_ptr<EventListener>& listener){
+void EventManager::AddEventListener(EventListener* listener){
 	listeners.push_back(listener);
 	Log(LOG_DEBUG, "EventManager", iLog << "EventListener added (size=" << listeners.size() << ")");
 }
-void EventManager::RemoveEventListener(const shared_ptr<EventListener>& listener){
+void EventManager::RemoveEventListener(EventListener* listener){
 	listeners.erase(remove(listeners.begin(), listeners.end(), listener), listeners.end());
 	Log(LOG_DEBUG, "EventManager", iLog << "EventListener removed (size=" << listeners.size() << ")");
 }

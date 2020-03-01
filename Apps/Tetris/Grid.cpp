@@ -4,7 +4,7 @@
 #include "Ledlib2d/Gfx/Draw.h"
 #include "Ledlib/Util/ColorRgb.h"
 #include "Ledlib/Util/ColorHsl.h"
-#include "Ledlib/Remote/ClientManager.h"
+#include "Ledlib/Remote/Client.h"
 #include "Ledlib/Time.h"
 #include "Ledlib/Math/Numbers.h"
 
@@ -30,15 +30,15 @@ void Grid::Setup(unsigned int w, unsigned int h){
 void Grid::Start(){
 	tickTimer.Start(tickDuration);
 }
-void Grid::Update(){
+void Grid::Update(Ledlib::Client* client){
 	if(currentPiece){
-		if(ClientManager::OnKeyDown(KeyCode::A) || ClientManager::OnKeyDown(KeyCode::Up)){
+		if(client->OnKeyDown(KeyCode::A) || client->OnKeyDown(KeyCode::Up)){
 			currentPiece->Rotate(true);
 			if(IsPieceBlocked(*currentPiece, 0, 0)){
 				currentPiece->Rotate(false);
 			}
 		}
-		if(ClientManager::OnKeyDown(KeyCode::B)){
+		if(client->OnKeyDown(KeyCode::B)){
 			currentPiece->Rotate(false);
 			if(IsPieceBlocked(*currentPiece, 0, 0)){
 				currentPiece->Rotate(true);
@@ -46,30 +46,30 @@ void Grid::Update(){
 		}
 		bool moveLeftFlag = false;;
 		bool moveRightFlag = false;;
-		if(ClientManager::OnKeyDown(KeyCode::Left)){
+		if(client->OnKeyDown(KeyCode::Left)){
 			sideMoveTimer.Reset();
 			moveLeftFlag = true;
 		}
-		if(ClientManager::OnKeyDown(KeyCode::Right)){
+		if(client->OnKeyDown(KeyCode::Right)){
 			sideMoveTimer.Reset();
 			moveRightFlag = true;
 		}
-		if(moveLeftFlag || ClientManager::IsKeyDown(KeyCode::Left)){
+		if(moveLeftFlag || client->IsKeyDown(KeyCode::Left)){
 			if(sideMoveTimer.IsFinished() && !IsPieceBlocked(*currentPiece, -1, 0)){
 				currentPiece->x -= 1;
 				sideMoveTimer.Start(tickDuration/4.0f);
 			}
 		}
-		if(moveRightFlag || ClientManager::IsKeyDown(KeyCode::Right)){
+		if(moveRightFlag || client->IsKeyDown(KeyCode::Right)){
 			if(sideMoveTimer.IsFinished() && !IsPieceBlocked(*currentPiece, 1, 0)){
 				currentPiece->x += 1;
 				sideMoveTimer.Start(tickDuration/4.0f);
 			}
 		}
-		if(ClientManager::OnKeyDown(KeyCode::Down)){
+		if(client->OnKeyDown(KeyCode::Down)){
 			fastMoveTimer.Reset();
 		}
-		if(ClientManager::IsKeyDown(KeyCode::Down)){
+		if(client->IsKeyDown(KeyCode::Down)){
 			if(fastMoveTimer.IsFinished() && !IsPieceBlocked(*currentPiece, 0, 1)){
 				currentPiece->y += 1;
 				fastMoveTimer.Start(tickDuration/32.0f);

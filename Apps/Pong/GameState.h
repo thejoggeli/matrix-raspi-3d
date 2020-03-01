@@ -22,12 +22,12 @@ public:
 	bool playing = false;
 
 	std::shared_ptr<Bitmap> bgBitmap;
+	float bgAngle = 0;
+	float bgHue = 0;
 	Timer beatTimer;
 	Timer introTimer;
 	ColorHsl borderColor;
 	std::vector<std::weak_ptr<Client>> startClients;
-	float bgAngle = 0;
-	float bgHue = 0;
 
 	WeakPointerList<Paddle> paddles;
 	WeakPointerList<Ball> balls;

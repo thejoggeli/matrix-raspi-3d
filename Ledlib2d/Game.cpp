@@ -110,7 +110,7 @@ std::shared_ptr<Scene> Game::GetSceneFromState(){
 	return instance->activeState->GetScene();
 }
 
-std::shared_ptr<State> Game::SetState(std::shared_ptr<State> state){
+std::shared_ptr<State> Game::SetState(const std::shared_ptr<State>& state){
 	state->SetGame(shared_from_this());
 	if(activeState == nullptr){
 		activeState = state;

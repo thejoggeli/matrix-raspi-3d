@@ -11,14 +11,14 @@ void MenuState::OnStart(){
 }
 
 void MenuState::OnUpdate(){
-/*	ClientJoiner::Update();
+	ClientJoiner::Update();
 	if(ClientJoiner::IsEveryoneReady() && ClientJoiner::GetNumTakenSlots() > 0){
 		auto gameState = GetGame()->SetState<GameState>();
 		for(auto slot: ClientJoiner::GetTakenSlots()){
 			if(!slot->GetClient()) continue;
 			gameState->AddPlayer(slot->GetClient());;
 		}
-	} */
+	}
 
 }
 void MenuState::OnRender(){}

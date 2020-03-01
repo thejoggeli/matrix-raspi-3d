@@ -6,7 +6,7 @@ namespace Ledlib {
 
 class Event;
 
-class EventListener : public std::enable_shared_from_this<EventListener> {
+class EventListener {
 public:
 	EventListener();
 	virtual ~EventListener();
