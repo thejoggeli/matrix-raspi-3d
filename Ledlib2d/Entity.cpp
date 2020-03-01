@@ -46,6 +46,7 @@ std::shared_ptr<Entity> Entity::Init(const std::shared_ptr<Entity>& entity, cons
 	scene->OnEntityCreated(entity);
 	entity->name = name;
 	entity->SetNeedsLocalUpdate();
+	entity->OnCreate();
 	Log(LOG_DEBUG, "Entity", iLog << "Entity created / name=" << entity->name << " / id=" << entity->_id << " / alive=" << aliveCounter);
 	return entity;
 }

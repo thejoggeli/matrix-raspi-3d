@@ -2,9 +2,7 @@
 
 #include "Ledlib2d/State.h"
 
-using namespace Ledlib;
-
-class MenuState : public State {
+class MenuState : public Ledlib::State {
 private:
 public:
 	virtual void OnStart();

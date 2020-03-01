@@ -128,6 +128,7 @@ public:
 
 	void Collision(const CollisionData& data);
 
+	virtual void OnCreate(){}
 	virtual void OnStart(){}
 	virtual void OnUpdate(){}
 	virtual void OnLateUpdate(){}

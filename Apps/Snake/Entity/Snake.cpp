@@ -8,17 +8,17 @@
 #include "Ledlib2d/Physics/CollisionData.h"
 #include "Ledlib2d/Physics/Collider.h"
 
-void Snake::OnStart(){
+void Snake::OnCreate(){
 	std::shared_ptr<SnakeSegment> segment = GetScene()->CreateEntity<SnakeSegment>("snake-segment");
 	head = segment;
 	segment->SetParent(shared_from_this());
 	segment->isHead = true;
 	segment->depth = 0;
-	segment->Rotate(1.0f);
 	segment->SetSnake(std::static_pointer_cast<Snake>(shared_from_this()));
-	for(int i = 0; i < 25; i++){
-		Grow();
-	}
+}
+
+void Snake::OnStart(){
+
 }
 void Snake::OnUpdate(){
 	std::shared_ptr<SnakeSegment> head = this->head.lock();

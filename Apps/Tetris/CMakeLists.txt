@@ -7,6 +7,7 @@ add_executable(
 	"GameState.cpp"
 	"Grid.cpp"
 	"Piece.cpp"
+	"TetrisPlayer.cpp"
 )
 include_directories(".")
 target_link_libraries(

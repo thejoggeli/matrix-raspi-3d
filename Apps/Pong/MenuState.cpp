@@ -15,6 +15,7 @@
 #include "Ledlib/Time.h"
 #include "Ledlib/Remote/ClientManager.h"
 #include "Ledlib/Remote/Client.h"
+#include "Ledlib/Display/DisplayManager.h"
 
 MenuState::MenuState(){}
 MenuState::~MenuState(){}
@@ -55,7 +56,7 @@ void MenuState::OnRender(){
 		while(t > 0.0f){
 			t-=0.00025f;
 			ColorHsl hsl = ColorHsl(Numbers::Wrap(0.f, 1.f, Numbers::Random(-0.2f, 0.2f)), 0.75f, 0.35f);
-			bgBitmap->SetPixel(Numbers::Random(0, Gfx::width), Numbers::Random(0, Gfx::height), hsl.GetRgb());
+			bgBitmap->SetPixel(Numbers::Random(0, DisplayManager::width), Numbers::Random(0, DisplayManager::height), hsl.GetRgb());
 		}
 		bgBitmap->Update();
 		Gfx::DrawBitmap(bgBitmap.get(), 0, 0);

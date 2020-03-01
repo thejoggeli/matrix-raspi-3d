@@ -17,7 +17,7 @@ namespace Ledlib {
 
 namespace Gfx {
 
-int width = 0, height = 0;
+float width = 0, height = 0, aspect = 0;
 float left = 0, right = 0, bottom = 0, top = 0;
 
 static ColorRgb _clearColor;
@@ -27,8 +27,9 @@ bool Init(){
 
 	width = DisplayManager::width;
 	height = DisplayManager::height;
+	aspect = width/height;
 
-	if(!InitOpenGL(width, height)){
+	if(!InitOpenGL(DisplayManager::width, DisplayManager::height)){
 		return false;
 	}
 	left = -static_cast<float>(width)/2.0f;

@@ -36,14 +36,16 @@ void SnakeSegment::OnUpdate(){
 }
 void SnakeSegment::OnRender(){
 	if(isHead){
-		Gfx::SetDrawColor(1, 0, 0, despawnTimer);
+		ColorRgb& color = snake.lock()->color;
+		Gfx::SetDrawColor(color.r, color.g, color.b, despawnTimer);
 	//	Gfx::FillCircle(0, 0, radius);
 		Gfx::FillRect(0, 0, radius*2, radius*2);
 		Gfx::SetDrawColor(1, 1, 1);
 		Gfx::FillRect(1.25f, -1.25f, 1.0f, 1.0f);
 		Gfx::FillRect(1.25f, +1.25f, 1.0f, 1.0f);
 	} else {
-		Gfx::SetDrawColor(1, 0, 0, despawnTimer);
+		ColorRgb& color = snake.lock()->color;
+		Gfx::SetDrawColor(color.r, color.g, color.b, despawnTimer);
 		Gfx::FillRect(0, 0, radius*2, radius*2);
 	}
 }

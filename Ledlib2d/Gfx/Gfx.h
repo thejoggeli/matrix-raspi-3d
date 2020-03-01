@@ -9,7 +9,7 @@ class ColorRgb;
 class Bitmap;
 
 namespace Gfx {
-	extern int width, height;
+	extern float width, height, aspect;
 	extern float left, right, bottom, top;
 	bool Init();
 

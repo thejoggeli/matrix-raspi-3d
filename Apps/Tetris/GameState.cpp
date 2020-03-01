@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include "Grid.h"
 #include "Tetris.h"
+#include "TetrisPlayer.h"
 #include "Ledlib2d/Entity.h"
 #include "Ledlib2d/Camera.h"
 #include "Ledlib2d/Gfx/Gfx.h"
@@ -16,7 +17,10 @@
 #include "Ledlib/Remote/Client.h"
 #include "Ledlib/Sfx/RemoteSfx.h"
 
+using namespace Ledlib;
+
 GameState::GameState(){}
+GameState::~GameState(){}
 
 void GameState::OnStart(){
 	Gfx::SetClearColor(ColorRgb::BLACK);
@@ -25,7 +29,7 @@ void GameState::OnStart(){
 
 	// build grid
 	grid = std::make_shared<Grid>();
-	grid->Setup(10, 16);
+	grid->Setup(10, 32);
 	grid->Start();}
 
 void GameState::OnExit(){
@@ -54,15 +58,15 @@ void GameState::OnRender(){
 	Gfx::Scale(1, -1);
 	// tetris grid
 	Gfx::Save();
-	Gfx::Scale(2, 2);
+	Gfx::Scale(1, 1);
 	Gfx::Translate(-grid->width/2.0f, -grid->height/2.0f);
 
 	ColorHsl c = ColorHsl(Time::sinceStart*0.2f, 0.125f, 0.25f);
-	for(int i = 0; i < grid->width; i++){
+/*	for(int i = 0; i < grid->width; i++){
 		c.AddHue(0.2f);
 		Gfx::SetDrawColor(c.GetRgb());
 		Gfx::FillRect(0.5f + i, grid->height/2.0f, 1, grid->height);
-	}
+	} */
 	grid->Render();
 	Gfx::SetDrawColor(0.5f, 0, 0);
 	Gfx::FillRect(-1+0.5f, grid->height/2.0f, 1, grid->height);
@@ -85,4 +89,9 @@ void GameState::OnRender(){
 	Gfx::Restore();
 	Gfx::Restore(); // y-mirror
 	Gfx::Restore(); // camera
+}
+
+void GameState::AddPlayer(Client* client){
+//	std::unique_ptr<TetrisPlayer> p = std::make_unique<TetrisPlayer>();
+//	players.push_back(std::move(p));
 }
