@@ -14,8 +14,8 @@ private:
 	static int idCounter;
 	int _id;
 	std::shared_ptr<Scene> _scene;
-	std::weak_ptr<Entity> _cameraEntity;
-	std::weak_ptr<Game> _game;
+	std::weak_ptr<Camera> _camera;
+	Game* _game;
 public:
 	State();
 	virtual ~State();
@@ -35,17 +35,12 @@ public:
 	virtual void OnRender(){}
 	virtual void OnAfterRender(){}
 
-	std::shared_ptr<Scene> GetScene();
-	std::shared_ptr<Camera> GetCamera();
-	std::shared_ptr<Entity> GetCameraEntity();
-	std::shared_ptr<Game> GetGame();
+	Scene* GetScene();
+	Camera* GetCamera();
+	Entity* GetCameraEntity();
+	Game* GetGame();
 
-	void SetGame(const std::shared_ptr<Game>& game);
-
-	template<typename T, typename std::enable_if<std::is_base_of<Game, T>::value>::type* = nullptr>
-	std::shared_ptr<T> GetGame(){
-		return std::static_pointer_cast<T>(_game.lock());
-	}
+	void SetGame(Game* game);
 
 };
 

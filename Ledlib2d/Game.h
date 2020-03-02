@@ -9,7 +9,7 @@ class Scene;
 class Camera;
 class Entity;
 
-class Game : public std::enable_shared_from_this<Game> {
+class Game {
 private:
 	static int idCounter;
 	int _id;
@@ -31,9 +31,9 @@ public:
 
 	void Loop();
 
-	static std::shared_ptr<Camera> GetCameraFromState();
-	static std::shared_ptr<Entity> GetCameraEntityFromState();
-	static std::shared_ptr<Scene> GetSceneFromState();
+	static Camera* GetCameraFromState();
+	static Entity* GetCameraEntityFromState();
+	static Scene* GetSceneFromState();
 
 	std::shared_ptr<State> SetState(const std::shared_ptr<State>& state);
 	template<typename T, typename std::enable_if<std::is_base_of<State, T>::value>::type* = nullptr>

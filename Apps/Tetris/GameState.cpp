@@ -42,7 +42,7 @@ void GameState::OnExit(){
 }
 
 void GameState::OnUpdate(){
-	std::shared_ptr<Entity> camera = GetCameraEntity();
+	Entity* camera = GetCameraEntity();
 	if(players.size() < 3){
 		for(auto& client: ClientManager::GetAllCients()){
 		//	if(client->IsFlagSet(0)) continue;
@@ -55,6 +55,9 @@ void GameState::OnUpdate(){
 	for(auto& player: players){
 		if(player->client.expired()) continue;
 		player->grid.Update(player->client.lock().get());
+	}
+	if(ClientManager::OnKeyDown(KeyCode::Select)){
+		GetCameraEntity()->Destroy();
 	}
 /*	if(ClientManager::OnKeyDown(KeyCode::Start)){
 		GetGame()->SetState<GameState>();

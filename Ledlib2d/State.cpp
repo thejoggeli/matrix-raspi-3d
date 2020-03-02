@@ -16,27 +16,25 @@ State::State(){
 State::~State(){
 	Log(LOG_DEBUG, "State", iLog << "State destroyed (id=" << _id << ")");
 }
-std::shared_ptr<Scene> State::GetScene(){
-	return _scene;
+Scene* State::GetScene(){
+	return _scene.get();
 }
-std::shared_ptr<Camera> State::GetCamera(){
-	if(auto p = _cameraEntity.lock()){
-		return p->GetCamera();
+Camera* State::GetCamera(){
+	if(auto p = _camera.lock()){
+		return p.get();
+	} else {
+		Entity* cameraEntity = _scene->CreateEntity<Entity>("camera").get();
+		_camera = cameraEntity->CreateCamera();
+		return _camera.lock().get();
 	}
-	Log(LOG_ERROR, "State", "Camera expired");
-	return nullptr;
 }
-std::shared_ptr<Entity> State::GetCameraEntity(){
+Entity* State::GetCameraEntity(){
 	return GetCamera()->GetEntity();
 }
-std::shared_ptr<Game> State::GetGame(){
-	if(auto p = _game.lock()){
-		return p;
-	}
-	Log(LOG_ERROR, "State", "Game expired");
-	return nullptr;
+Game* State::GetGame(){
+	return _game;
 }
-void State::SetGame(const std::shared_ptr<Game>& game){
+void State::SetGame(Game* game){
 	_game = game;
 }
 
@@ -44,10 +42,8 @@ void State::Start(){
 	// scene
 	_scene = Scene::Create();
 	// camera
-	std::shared_ptr<Entity> cameraEntity = _scene->CreateEntity<Entity>("camera");
-	std::shared_ptr<Camera> camera = Camera::Create();
-	cameraEntity->SetCamera(camera);
-	_cameraEntity = cameraEntity;
+	Entity* cameraEntity = _scene->CreateEntity<Entity>("camera").get();
+	_camera = cameraEntity->CreateCamera();
 }
 
 void State::Update(){

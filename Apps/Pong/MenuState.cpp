@@ -31,7 +31,7 @@ void MenuState::OnUpdate(){
 	if(ClientJoiner::IsEveryoneReady() && ClientJoiner::GetNumTakenSlots() > 0){
 		if(startTimerRunning){
 			if(startTimer.IsFinished()){
-				std::shared_ptr<Pong> pong = GetGame<Pong>();
+				Pong* pong = static_cast<Pong*>(GetGame());
 				// start pong
 				std::shared_ptr<GameState> state = pong->SetState<GameState>();
 				// pass clients

@@ -79,7 +79,7 @@ void MenuState::OnUpdate(){
 			p->SetParent(GetScene()->GetRoot());
 		}
 	}
-	std::shared_ptr<Camera> camera = GetCamera();
+	Camera* camera = GetCamera();
 	camera->SimpleJoystickMove();
 	camera->SimpleArrowsRotate();
 	camera->SimpleArrowsZoom();

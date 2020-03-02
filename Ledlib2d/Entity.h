@@ -63,8 +63,8 @@ public:
 
 	void SetUpdateEnabled(bool b);
 
-	void SetCamera(const std::shared_ptr<Camera>& camera);
-	std::shared_ptr<Camera> GetCamera();
+	std::shared_ptr<Camera>& CreateCamera();
+	std::shared_ptr<Camera>& GetCamera();
 
 	void SetCollider(const std::shared_ptr<Collider>& collider);
 	std::shared_ptr<Collider> GetCollider();

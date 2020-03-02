@@ -36,7 +36,7 @@ void GameState::OnStart(){
 
 }
 void GameState::OnUpdate(){
-	std::shared_ptr<Entity> camera = GetCameraEntity();
+	Entity* camera = GetCameraEntity();
 	glm::vec3 eulers;
 	eulers.y = sinf(Time::sinceStart*ex1)*ex11;
 	eulers.x = cosf(Time::sinceStart*ey1)*ey11;

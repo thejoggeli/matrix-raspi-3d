@@ -85,11 +85,13 @@ void Entity::SetUpdateEnabled(bool b){
 	_updateEnabled = b;
 }
 
-void Entity::SetCamera(const std::shared_ptr<Camera>& camera){
-	_camera = camera;
-	_camera->SetEntity(shared_from_this());
+std::shared_ptr<Camera>& Entity::CreateCamera(){
+	if(!_camera){
+		_camera = std::make_shared<Camera>(this);
+	}
+	return _camera;
 }
-std::shared_ptr<Camera> Entity::GetCamera(){
+std::shared_ptr<Camera>& Entity::GetCamera(){
 	return _camera;
 }
 

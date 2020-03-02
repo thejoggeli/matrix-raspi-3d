@@ -11,28 +11,18 @@
 
 namespace Ledlib {
 
-Camera::Camera(){}
-
-std::shared_ptr<Camera> Camera::Create(){
-	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-	camera->SetOrthographic();
-	return camera;
-}
-std::shared_ptr<Entity> Camera::GetEntity(){
-	if(auto p = entity.lock()){
-		return p;
-	}
-	Log(LOG_ERROR, "Camera", "Entity expired");
-	return nullptr;
-}
-void Camera::SetEntity(const std::shared_ptr<Entity>& entity){
+Camera::Camera(Entity* entity){
 	this->entity = entity;
+	SetOrthographic();
+}
+Entity* Camera::GetEntity(){
+	return entity;
 }
 
 void Camera::SimpleJoystickMove(float sensitivity){
 	for(auto& client: ClientManager::GetAllCients()){
 		if(client->IsKeyDown(KeyCode::LeftJoystick)){
-			std::shared_ptr<Entity> entity = GetEntity();
+			Entity* entity = GetEntity();
 			Vector2f joy = client->GetJoystickPosition(KeyCode::LeftJoystick);
 			glm::vec3 dir = entity->GetWorldRotation() * glm::vec3(joy.x, joy.y, 0);
 			dir *= sensitivity;
@@ -45,7 +35,7 @@ void Camera::SimpleJoystickMove(float sensitivity){
 void Camera::SimpleJoystickRotate(float sensitivity){
 	for(auto& client: ClientManager::GetAllCients()){
 		if(client->IsKeyDown(KeyCode::LeftJoystick)){
-			std::shared_ptr<Entity> entity = GetEntity();
+			Entity* entity = GetEntity();
 			Vector2f joy = client->GetJoystickPosition(KeyCode::LeftJoystick);
 			joy *= sensitivity;
 			entity->Rotate(Numbers::Pi * Time::deltaTime * -joy.x);
@@ -56,7 +46,7 @@ void Camera::SimpleJoystickRotate(float sensitivity){
 void Camera::SimpleJoystickZoom(float sensitivity){
 	for(auto& client: ClientManager::GetAllCients()){
 		if(client->IsKeyDown(KeyCode::LeftJoystick)){
-			std::shared_ptr<Entity> entity = GetEntity();
+			Entity* entity = GetEntity();
 			Vector2f joy = client->GetJoystickPosition(KeyCode::LeftJoystick);
 			joy *= sensitivity;
 			entity->SetScale(entity->scale.x + entity->scale.x * Time::deltaTime * -joy.y);
@@ -71,7 +61,7 @@ void Camera::SimpleArrowsMove(float sensitivity){
 	if(ClientManager::IsKeyDown(KeyCode::Up)) dir.y = 1;
 	if(ClientManager::IsKeyDown(KeyCode::Down)) dir.y = -1;
 	if(glm::length(dir) != 0.0f){
-		std::shared_ptr<Entity> entity = GetEntity();
+		Entity* entity = GetEntity();
 		dir = glm::normalize(dir);
 		dir = entity->GetWorldRotation() * dir;
 		dir *= entity->scale;
@@ -80,21 +70,21 @@ void Camera::SimpleArrowsMove(float sensitivity){
 }
 void Camera::SimpleArrowsRotate(float sensitivity){
 	if(ClientManager::IsKeyDown(KeyCode::Left)){
-		std::shared_ptr<Entity> entity = GetEntity();
+		Entity* entity = GetEntity();
 		entity->Rotate(Numbers::Pi * Time::deltaTime * sensitivity);
 	}
 	if(ClientManager::IsKeyDown(KeyCode::Right)){
-		std::shared_ptr<Entity> entity = GetEntity();
+		Entity* entity = GetEntity();
 		entity->Rotate(-Numbers::Pi * Time::deltaTime * sensitivity);
 	}
 }
 void Camera::SimpleArrowsZoom(float sensitivity){
 	if(ClientManager::IsKeyDown(KeyCode::Up)){
-		std::shared_ptr<Entity> entity = GetEntity();
+		Entity* entity = GetEntity();
 		entity->SetScale(entity->scale.x - entity->scale.x * Time::deltaTime * sensitivity);
 	}
 	if(ClientManager::IsKeyDown(KeyCode::Down)){
-		std::shared_ptr<Entity> entity = GetEntity();
+		Entity* entity = GetEntity();
 		entity->SetScale(entity->scale.x + entity->scale.x * Time::deltaTime * sensitivity);
 	}
 }

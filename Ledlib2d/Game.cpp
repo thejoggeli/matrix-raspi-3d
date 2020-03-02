@@ -66,7 +66,7 @@ void Game::Loop(){
 		activeState->OnLateUpdate();
 		Gfx::RenderPrepare();
 		activeState->OnRender();
-		Gfx::Render(activeState->GetScene().get(), activeState->GetCamera().get());
+		Gfx::Render(activeState->GetScene(), activeState->GetCamera());
 		activeState->OnAfterRender();
 		Gfx::UpdatePixelBuffer();
 		LedMatrixLibrary::Render();
@@ -98,20 +98,20 @@ std::shared_ptr<Game> Game::GetInstance(){
 	return instance;
 }
 
-std::shared_ptr<Camera> Game::GetCameraFromState(){
+Camera* Game::GetCameraFromState(){
 	return instance->activeState->GetCamera();
 }
 
-std::shared_ptr<Entity> Game::GetCameraEntityFromState(){
+Entity* Game::GetCameraEntityFromState(){
 	return instance->activeState->GetCameraEntity();
 }
 
-std::shared_ptr<Scene> Game::GetSceneFromState(){
+Scene* Game::GetSceneFromState(){
 	return instance->activeState->GetScene();
 }
 
 std::shared_ptr<State> Game::SetState(const std::shared_ptr<State>& state){
-	state->SetGame(shared_from_this());
+	state->SetGame(this);
 	if(activeState == nullptr){
 		activeState = state;
 	} else {

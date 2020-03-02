@@ -28,7 +28,7 @@ void MenuState::OnStart(){
 }
 void MenuState::OnExit(){
 	RemoteSfx::StopMusic(0);
-	GetGame<FlappyBird>()->birdBitmap = GetBirdBitmap();
+	static_cast<FlappyBird*>(GetGame())->birdBitmap = GetBirdBitmap();
 }
 void MenuState::OnUpdate(){
 	showHighscore = ClientManager::IsKeyDown(KeyCode::A);
@@ -114,7 +114,7 @@ void MenuState::OnRender(){
 		Gfx::SetTextPosition(TextAlign::Center, TextBaseline::Middle);
 		Gfx::SetTextColor(ColorRgb::WHITE);
 		Gfx::DrawText("HIGHSCORE", 0, +4);
-		int highscore = GetGame<FlappyBird>()->highscore;
+		int highscore = static_cast<FlappyBird*>(GetGame())->highscore;
 		Gfx::DrawText(std::to_string(highscore), 0, -4);
 	}
 	Gfx::Restore();

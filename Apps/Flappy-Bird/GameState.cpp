@@ -37,7 +37,7 @@ void GameState::OnStart(){
 
 	GetScene()->EnableCollision("bird", "pipe");
 	std::shared_ptr<BirdEntity> bird = GetScene()->CreateEntity<BirdEntity>("bird");
-	Bitmap* bitmap = GetGame<FlappyBird>()->birdBitmap;
+	Bitmap* bitmap = static_cast<FlappyBird*>(GetGame())->birdBitmap;
 	if(bitmap == nullptr) bitmap = ResourceManager::GetBitmap("bird-yellow");
 	bird->bitmap = bitmap;
 	birds.Add(bird);
@@ -51,13 +51,13 @@ void GameState::OnStart(){
 
 }
 void GameState::OnExit(){
-	FlappyBird* game = GetGame<FlappyBird>().get();
+	FlappyBird* game = static_cast<FlappyBird*>(GetGame());
 	if(score > game->highscore){
 		game->highscore = score;
 	}
 }
 void GameState::OnUpdate(){
-	std::shared_ptr<Entity> camera = GetCamera()->GetEntity();
+	Entity* camera = GetCamera()->GetEntity();
 	if(state == STATE_PLAYING){
 		camera->Translate(Time::deltaTime * 20.0f, 0);
 		while(camera->position.x+Gfx::right*2 > nextPipePosition){
@@ -156,7 +156,7 @@ void GameState::OnUpdate(){
 	Gfx::SetClearColor(red, green, blue);
 }
 void GameState::OnRender(){
-	std::shared_ptr<Entity> camera = GetCamera()->GetEntity();
+	Entity* camera = GetCamera()->GetEntity();
 	Gfx::SetBitmapColor(0.75f, 0.75f, 0.75f);
 	float clouds_offset = -Numbers::Mod(camera->position.x*0.6f, 64.0f);
 	for(float i = 0; i < Gfx::width*2; i += 64.0f){
@@ -170,7 +170,7 @@ void GameState::OnRender(){
 }
 
 void GameState::OnAfterRender(){
-	std::shared_ptr<Entity> camera = GetCamera()->GetEntity();
+	Entity* camera = GetCamera()->GetEntity();
 	// game over
 	if(state == STATE_OUTRO){
 		ColorRgb color = backgroundColor;
