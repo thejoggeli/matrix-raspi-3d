@@ -1,16 +1,21 @@
 var canvas, ctx;
 
-var main = function(){}
-var update = function(){}
-var draw = function(){}
-
 function Haf(){};
-Haf.width = 0;
-Haf.height = 0;
-Haf.scale = 1;
-Haf.canvases = [];
-Haf.started = false;
-Haf.setup = function(params){
+Haf.installed = false;
+Haf.install = function(params){
+//	console.log("Haf: installing");
+	if(Haf.installed){
+		console.error("Haf already installed ... uninstaling first");
+		Haf.uninstall();
+	}
+	Haf.onResize = function(){}
+	Haf.onUpdate = function(){}
+	Haf.onRender = function(){}
+	Haf.width = 0;
+	Haf.height = 0;
+	Haf.scale = 1;
+	Haf.canvases = [];
+	Haf.started = false;
 	Haf.inputOverlay = $("<div id='haf-input-overlay'>");
 	Haf.inputOverlay.attr("tabindex", -1);
 	$("body").append(Haf.inputOverlay);
@@ -20,14 +25,27 @@ Haf.setup = function(params){
 	Haf.height = def(params, "height", 1024);
 	Haf.createCanvas({autoClear:true});
 	Haf.getCanvas(0).setActive();
+	Haf.requestAnimationFrameId = null;
 	$(Haf.getCanvas(0).element).focus();
-	$(window).on("resize orientationchange", function(){
-		Haf.resize();
-	});
+	$(window).on("resize orientationchange", Haf.resize);
 	CollisionManager.buildMatrix();
 	Haf.resize();
-	Input.setup();
+	Input.install();
 	Haf.inputOverlay.focus();
+	Haf.installed = true;
+}
+Haf.uninstall = function(){
+//	console.log("Haf: uninstalling");
+	$(window).off("resize orientationchange", Haf.resize);
+	canvas = null;
+	ctx = null;
+	for(var i in Haf.canvases){
+		Haf.canvases[i].element.remove();
+	}
+	Input.uninstall();
+	window.cancelAnimationFrame(Haf.requestAnimationFrameId);
+	Haf.inputOverlay.remove();
+	Haf.installed = false;
 }
 Haf.start = function(){
 	if(Haf.started){
@@ -35,7 +53,7 @@ Haf.start = function(){
 		return;
 	}
 	Time.start();
-	window.requestAnimationFrame(Haf.frame);
+	Haf.requestAnimationFrameId = window.requestAnimationFrame(Haf.frame);
 	Haf.started = true;
 }
 Haf.resume = function(){
@@ -44,7 +62,7 @@ Haf.resume = function(){
 	} else if (Haf.paused){
 		Input.clear();
 		Haf.paused = false;
-		window.requestAnimationFrame(Haf.frame);
+		Haf.requestAnimationFrameId = window.requestAnimationFrame(Haf.frame);
 	}
 }
 Haf.pause = function(){
@@ -75,6 +93,7 @@ Haf.createCanvas = function(params){
 	return canvas;
 }
 Haf.resize = function(){
+//	console.log("Haf: resize");
 	Haf.width = document.documentElement.clientWidth/document.documentElement.clientHeight * Haf.height;
 	var canvas;
 	for(var x in Haf.canvases){
@@ -86,11 +105,14 @@ Haf.resize = function(){
 	var $hi = Haf.inputOverlay;
 	$hi.width(document.documentElement.clientWidth);
 	$hi.height(document.documentElement.clientHeight);
+	Haf.onResize();
 }
 Haf.frame = function(){
+	if(!Haf.installed || Haf.paused) return;
 	Time.update();
 	Input.update();
-	Haf.update();
+	Haf.onUpdate();
+	if(!Haf.installed | Haf.paused) return;	
 	for(var x in Haf.canvases){
 		if(Haf.canvases[x].autoClear){
 			if(Haf.canvases[x].clearColor != null){
@@ -104,7 +126,7 @@ Haf.frame = function(){
 			Haf.canvases[x].transform();
 		}
 	}
-	Haf.render();
+	Haf.onRender();
 	for(var x in Haf.canvases){
 		if(Haf.canvases[x].autoTransform){
 			Haf.canvases[x].untransform();
@@ -112,9 +134,7 @@ Haf.frame = function(){
 	}
 	
 	Input.clearFrameKeys();
-	if(!Haf.paused){
-		window.requestAnimationFrame(Haf.frame);
-	}
+	Haf.requestAnimationFrameId = window.requestAnimationFrame(Haf.frame);
 }
 Haf.setBackgroundColor = function(hex){
 	$("body").css("background", hex);
@@ -426,7 +446,7 @@ Input.mouse = {
 	downFrame: false,
 	upFrame: false,
 };
-Input.setup = function(){
+Input.install = function(){
 	for(var i = 0; i < 256; i++){
 		Input.downKeys[i] = false;
 		Input.frameDownKeys[i] = false;
@@ -501,6 +521,9 @@ Input.setup = function(){
 		Input.mouse.screen_y = e.pageY;
 		Input.updateMousePosition(e);
 	});
+}
+Input.uninstall = function(){
+	Input.clearFrameKeys();
 }
 Input.update = function(){
 	for(var t in Input.touches){

@@ -21,8 +21,6 @@ public:
 	static void AddEvent(const std::shared_ptr<Event>& event);
 	static void NextGeneration();
 	static std::shared_ptr<Event> ParseMessage(const std::string& str);
-	static std::shared_ptr<MessageEvent> GetMessageEvent(const std::string& str);
-	static std::vector<std::shared_ptr<Event>>& GetAllEvents();
 	static void Update();
 
 	static void SubscribeMessage(const std::string& message, void* obj, void (*handler)(void*, MessageEvent&));

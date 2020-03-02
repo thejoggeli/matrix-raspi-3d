@@ -5,6 +5,8 @@
 #include "Ledlib/Log.h"
 #include "Ledlib/Events/Event.h"
 #include "Ledlib/Events/EventManager.h"
+#include "Ledlib/Remote/ServerMessage.h"
+#include "Ledlib/Remote/ServerManager.h"
 #include "Ledlib2d/App.h"
 #include "Ledlib2d/Gfx/Bitmaps.h"
 #include "Ledlib2d/Resources/ResourceManager.h"
@@ -21,7 +23,8 @@ class PainterApp : public App {
 	void OnUpdate() override;
 	void OnRender() override;
 	void OnExit() override;
-	static void OnPixelMessage(void* obj, MessageEvent& message);
+	static void OnMessagePixel(void* obj, MessageEvent& message);
+	static void OnMessageRequestPixels(void* obj, MessageEvent& message);
 };
 void PainterApp::OnSetup() {
 	canvas = Bitmap::CreateEmpty(64, 32);
@@ -38,7 +41,8 @@ void PainterApp::OnSetup() {
 			canvas->image[i+3] = 255;
 		}
 	}
-	EventManager::SubscribeMessage("paint", this, &(PainterApp::OnPixelMessage));
+	EventManager::SubscribeMessage("paint", this, &PainterApp::OnMessagePixel);
+	EventManager::SubscribeMessage("request_pixels", this, &PainterApp::OnMessageRequestPixels);
 }
 void PainterApp::OnStart(){
 }
@@ -51,12 +55,29 @@ void PainterApp::OnRender() {
 void PainterApp::OnExit(){
 	EventManager::UnsubscribeMessagesAll(this);
 }
-void PainterApp::OnPixelMessage(void* obj, MessageEvent& message){
+void PainterApp::OnMessagePixel(void *obj, MessageEvent &message){
 	PainterApp* painter = (PainterApp*) obj;
 	unsigned int rgb = message.GetParamInt(0);
 	int x = message.GetParamInt(1);
 	int y = message.GetParamInt(2);
-	canvas->SetPixel(x, y, (rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF);
+	canvas->SetPixelBytes(x, y, (rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF);
+}
+void PainterApp::OnMessageRequestPixels(void *obj, MessageEvent &message){
+	ServerMessage smsg = ServerMessage("pixels");
+	int hex_len = canvas->width * canvas->height * 6;
+	std::string str(hex_len, '0');
+	static const char* digits = "0123456789ABCDEF";
+	int j = 0;
+	for (int i = 0; i < canvas->size; i += 4){
+		str[j++] = digits[(canvas->image[i+0] >> 4)&0xF];
+		str[j++] = digits[(canvas->image[i+0] >> 0)&0xF];
+		str[j++] = digits[(canvas->image[i+1] >> 4)&0xF];
+		str[j++] = digits[(canvas->image[i+1] >> 0)&0xF];
+		str[j++] = digits[(canvas->image[i+2] >> 4)&0xF];
+		str[j++] = digits[(canvas->image[i+2] >> 0)&0xF];
+	}
+	smsg.AddParam("pixel_data", str);
+	ServerManager::SendMessage(smsg, message.clientId);
 }
 
 int main(){

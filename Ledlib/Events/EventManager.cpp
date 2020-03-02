@@ -61,21 +61,6 @@ void EventManager::Update(){
 		}
 	}
 }
-
-vector<shared_ptr<Event>>& EventManager::GetAllEvents(){
-	return events;
-}
-
-shared_ptr<MessageEvent> EventManager::GetMessageEvent(const string& str){
-	for(auto const &event: events){
-		if(event->type == EventType::Message){
-			shared_ptr<MessageEvent> e = static_pointer_cast<MessageEvent>(event);
-			if(e->message == str) return e;
-		}
-	}
-	return nullptr;
-}
-
 shared_ptr<Event> EventManager::ParseMessage(const string& str){
 	shared_ptr<Event> event = nullptr;
 	// check if string length is at least 3

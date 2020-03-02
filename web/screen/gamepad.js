@@ -18,19 +18,7 @@ Gamepad.colors = {
 };
 Gamepad.touchEffects = [];
 Gamepad.lineWidth;
-Gamepad.init = function(){
-	$(window).on("resize orientationchange", function(){
-		if(Gamepad.isOpen) {
-			Gamepad.recalcButtons();
-		}
-	});
-}
-Gamepad.open = function(){
-	Haf.update = Gamepad.update;
-	Haf.render = Gamepad.render;
-	Haf.getCanvas(0).clearColor = "#111";
-	Haf.resume();
-	Haf.show();
+Gamepad.init = function(){	
 	Gamepad.buttons.up = new GamepadArrowButton({
 		label: "up", code: 10, angle:0, keyboardCode: 87,
 	});
@@ -65,14 +53,22 @@ Gamepad.open = function(){
 		code: 1,
 	});
 	Gamepad.sticks.right.enabled = false;
-	Gamepad.recalcButtons();	
+}
+Gamepad.open = function(){
+	Haf.install({height:100,});	
+	Haf.onResize = Gamepad.resize;
+	Haf.onUpdate = Gamepad.update;
+	Haf.onRender = Gamepad.render;
+	Haf.getCanvas(0).setActive();
+	Haf.getCanvas(0).clearColor = "#111";
+	Haf.start();
+	Gamepad.recalcButtons();
 }
 Gamepad.close = function(){
-	if(!Gamepad.isOpen) return;
-	Gamepad.isOpen = false;
-	open = false;
-	Haf.pause();
-	Haf.hide();
+	Haf.uninstall();
+}
+Gamepad.resize = function(){
+	Gamepad.recalcButtons();
 }
 Gamepad.update = function(){
 	for(var x in Gamepad.sticks){

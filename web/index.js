@@ -51,11 +51,6 @@ $(document).ready(function(){
 	MatrixClient.connect();	
 	MatrixClient.addEventListener(Sfx);
 	MatrixClient.addEventListener(AppManager);
-	// haf 
-	Haf.setup({
-		height:100,
-	});	
-	Haf.hide();
 	$(window).on("hashchange", function(){
 		if(HashUrl.suppressNextChangeEvent){
 			HashUrl.suppressNextChangeEvent = false;
