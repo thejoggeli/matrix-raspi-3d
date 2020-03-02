@@ -69,7 +69,7 @@ void RemoteSfx::StopMusic(int clientId){
 void RemoteSfx::OnEvent(const Event &event){
 	if(event.type == EventType::ClientConnected){
 		ServerManager::SendMessage(entryMessage, event.clientId);
-		if(autoplayMusic){
+		if(autoplayMusic && musicPlaying){
 			StartMusic(event.clientId, currentMusicName);
 		}
 	}

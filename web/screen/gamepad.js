@@ -3,8 +3,6 @@ Gamepad.debugDraw = false;
 Gamepad.buttons = {};
 Gamepad.sticks = {};
 Gamepad.cross = {};
-Gamepad.initialized = false;
-Gamepad.open = false;
 Gamepad.colors = {
 	main_button: "#ff0b00",
 	main_button_pressed: "yellow",
@@ -21,17 +19,13 @@ Gamepad.colors = {
 Gamepad.touchEffects = [];
 Gamepad.lineWidth;
 Gamepad.init = function(){
-	$(window).on("resize", function(){
-		Gamepad.recalcButtons();
+	$(window).on("resize orientationchange", function(){
+		if(Gamepad.isOpen) {
+			Gamepad.recalcButtons();
+		}
 	});
-	Gamepad.initialized = true;
 }
 Gamepad.open = function(){
-	if(Gamepad.isOpen) return;
-	Gamepad.isOpen = true;
-	if(!Gamepad.initialized){
-		Gamepad.init();
-	}	
 	Haf.update = Gamepad.update;
 	Haf.render = Gamepad.render;
 	Haf.getCanvas(0).clearColor = "#111";
@@ -144,7 +138,7 @@ Gamepad.update = function(){
 			}
 		} else if(released){
 			if(button.code == -1 && !releasedByHitboxLeave){
-				AppManager.setScreen("home");
+				ScreenManager.open("home");
 			} else {
 				MatrixClient.sendInput(1, button.code);
 			}

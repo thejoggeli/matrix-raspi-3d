@@ -21,7 +21,7 @@ Haf.setup = function(params){
 	Haf.createCanvas({autoClear:true});
 	Haf.getCanvas(0).setActive();
 	$(Haf.getCanvas(0).element).focus();
-	$(window).on("resize", function(){
+	$(window).on("resize orientationchange", function(){
 		Haf.resize();
 	});
 	CollisionManager.buildMatrix();
@@ -70,22 +70,22 @@ Haf.getCanvas = function(index){
 Haf.createCanvas = function(params){
 	var canvas = new Canvas("canvas-"+Haf.canvases.length+1, params);
 	Haf.canvases.push(canvas);
-	canvas.element.width = window.innerWidth;
-	canvas.element.height = window.innerHeight;
+	canvas.element.width = document.documentElement.clientWidth;
+	canvas.element.height = document.documentElement.clientHeight;
 	return canvas;
 }
 Haf.resize = function(){
-	Haf.width = window.innerWidth/window.innerHeight * Haf.height;
+	Haf.width = document.documentElement.clientWidth/document.documentElement.clientHeight * Haf.height;
 	var canvas;
 	for(var x in Haf.canvases){
 		canvas = Haf.canvases[x];
-		canvas.element.width = window.innerWidth;
-		canvas.element.height = window.innerHeight;
+		canvas.element.width = document.documentElement.clientWidth;
+		canvas.element.height = document.documentElement.clientHeight;
 		Haf.scale = canvas.element.height / Haf.height;
 	}
 	var $hi = Haf.inputOverlay;
-	$hi.width(window.innerWidth);
-	$hi.height(window.innerHeight);
+	$hi.width(document.documentElement.clientWidth);
+	$hi.height(document.documentElement.clientHeight);
 }
 Haf.frame = function(){
 	Time.update();
@@ -171,7 +171,7 @@ function Camera(){
 	this.bounds = new AABBCollider();
 }
 Camera.prototype.recalcBounds = function(){
-	var aspect = window.innerWidth/window.innerHeight;
+	var aspect = document.documentElement.clientWidth/document.documentElement.clientHeight;
 	this.bounds.position.x = this.position.x - (Haf.height*aspect*0.5) / this.zoom;
 	this.bounds.width = (Haf.height*aspect) / this.zoom;
 	this.bounds.position.y = this.position.y - (Haf.height*0.5) / this.zoom;

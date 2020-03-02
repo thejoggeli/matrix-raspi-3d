@@ -5,43 +5,11 @@
 	<link rel="icon" href="swiss.ico">
 	<link rel="stylesheet" type="text/css" href="haf.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="jquery-3.2.1.min.js"></script>
+	<script src="jquery.js"></script>
+	<script src="ledlib.js"></script>
 	<script src="haf.js"></script>
-	<script src="app.js"></script>
-	<script src="sfx.js"></script>
-	<script src="gamepad.js"></script>
-	<script src="matrix-client.js"></script>
+	<script src="index.js"></script>
 	<meta name="viewport" content="minimal-ui, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head><body>	
-	<div class="home-screen">		
-		<div class="header">
-			Matrix-Raspi:
-			<span class="connected-state">disconnected</span>
-		</div>		
-		<div class="button-row">
-			<button class="set-screen" data-screen="gamepad">Gamepad</button>
-			<button class="set-fullscreen" data-mode="enter">Fullscreen +</button>
-			<button class="set-fullscreen" data-mode="leave">Fullscreen -</button>
-		</div>
-		<div class="button-row">
-			<input type="range" min="1" max="100" value="50" class="brightness-slider">
-			<span class="brightness-label"><span class="value">0</span>%</span>
-		</div>
-		<div class="button-row">			
-			<button class="msg-btn" data-msg="launch_app" data-params='Welcome'>Welcome</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Flappy-Bird'>Flappy Bird</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Tetris'>Tetris</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Pong'>Pong</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Snake'>Snake</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Asteroids'>Asteroids</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Ledlib2d-Test'>2D Test</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Urho3D-Test'>3D Test</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Shader-Playground mandelbrot.frag'>Mandelbrot</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Shader-Playground animation.frag'>Animation</button>
-			<button class="msg-btn" data-msg="launch_app" data-params='Clock-Digital'>Clock</button>
-		</div>
-		<div class="button-row">
-			<button class="msg-btn" data-msg="quit_matrix">Quit</button>
-		</div>
-	</div>	
+	<div class="screens"></div>	
 </body></html>

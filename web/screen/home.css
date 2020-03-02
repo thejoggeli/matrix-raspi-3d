@@ -1,0 +1,8 @@
+.screens .home {padding:10px;background:#111;width:100vw;height:100vh;box-sizing:border-box;}
+.screens .home button {width:120px;height:50px;}
+.screens .home button.selected {background-color:yellow;}
+.screens .home .button-row {margin-bottom:10px;}
+.screens .home .header {font-size:32px;font-weight:bold;margin-bottom:10px;color:white;}
+.screens .home .connected-state.connected {color:lime;}
+.screens .home .connected-state.disconnected {color:red;}
+
