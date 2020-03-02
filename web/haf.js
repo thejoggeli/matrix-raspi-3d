@@ -473,9 +473,9 @@ Input.install = function(){
 	Haf.inputOverlay.on("touchstart", function(e){
 		for(var t = 0; t < e.changedTouches.length; t++){
 			var touch = e.changedTouches[t];
-			var touchWrapper = new TouchWrapper(touch);
-			Input.newTouches.push(touchWrapper);
-			Input.touches[touchWrapper.id] = touchWrapper;	
+			var touchHandle = new TouchHandle(touch);
+			Input.newTouches.push(touchHandle);
+			Input.touches[touchHandle.id] = touchHandle;	
 		}
 		e.preventDefault();
 		e.stopPropagation();
@@ -483,8 +483,8 @@ Input.install = function(){
 	Haf.inputOverlay.on("touchmove", function(e){
 		for(var t = 0; t < e.changedTouches.length; t++){		
 			var touch = e.changedTouches[t];
-			var touchWrapper = Input.touches[touch.identifier];
-			touchWrapper.screenPosition.setFloats(touch.clientX, touch.clientY);	
+			var touchHandle = Input.touches[touch.identifier];
+			touchHandle.screenPosition.setFloats(touch.clientX, touch.clientY);	
 		}
 		e.preventDefault();
 		e.stopPropagation();
@@ -492,9 +492,9 @@ Input.install = function(){
 	Haf.inputOverlay.on("touchend", function(e){
 		for(var t = 0; t < e.changedTouches.length; t++){
 			var touch = e.changedTouches[t];
-			var touchWrapper = Input.touches[touch.identifier];
-			touchWrapper.expired = true;
-			delete Input.touches[touchWrapper.id];			
+			var touchHandle = Input.touches[touch.identifier];
+			touchHandle.expired = true;
+			delete Input.touches[touchHandle.id];			
 		}	
 		e.preventDefault();
 		e.stopPropagation();
@@ -502,9 +502,9 @@ Input.install = function(){
 	Haf.inputOverlay.on("mousedown", function(e){
 		Input.mouse.isDown = true;
 		Input.mouse.downFrame = true;
-		var touchWrapper = new TouchWrapper("mouse");
-		Input.newTouches.push(touchWrapper);
-		Input.touches.mouse = touchWrapper;
+		var touchHandle = new TouchHandle("mouse");
+		Input.newTouches.push(touchHandle);
+		Input.touches.mouse = touchHandle;
 		Input.updateMousePosition(e);
 	});
 	Haf.inputOverlay.on("mouseup", function(e){
@@ -599,11 +599,11 @@ Input.mouseUp = function(){
 	return Input.mouse.upFrame;	
 }
 
-function TouchWrapper(touch){
+function TouchHandle(touch){
 	this.screenPosition = new Vector();
 	this.worldPosition = new Vector();	
 	if(touch === "mouse"){
-		this.id = "mouse_" + TouchWrapper.mouseIdCount++;
+		this.id = "mouse_" + TouchHandle.mouseIdCount++;
 		this.isMouse = true;
 		this.touch = null;
 	} else {
@@ -617,7 +617,7 @@ function TouchWrapper(touch){
 	this.expired = false;
 	this.taken = false;
 }
-TouchWrapper.mouseIdCount = 0;
+TouchHandle.mouseIdCount = 0;
 
 function Monitor(){}
 Monitor.$element;
@@ -799,19 +799,43 @@ function randomBool(trueChance){
 	return Math.random() < trueChance;
 }
 
-function rgbToHex(r, g, b) {
-		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+function Colors(){};
+Colors.h = 0;
+Colors.s = 0;
+Colors.l = 0;
+Colors.r = 0;
+Colors.g = 0;
+Colors.b = 0;
+Colors.a = 0;
+Colors.r255 = 0;
+Colors.g255 = 0;
+Colors.b255 = 0;
+Colors.a255 = 0;
+
+Colors.rgbToHex = function(r, g, b) {
+	return "#" + Colors.componentToHex(r) + Colors.componentToHex(g) + Colors.componentToHex(b);
+}
+
+Colors.rgbToHexInt = function(r, g, b) {
+	return (r << 16) + (g << 8) + b;
 }
 
 // helper function for rgbToHex()
-function componentToHex(c) {
-		var hex = c.toString(16);
-		return hex.length == 1 ? "0" + hex : hex;
+Colors.componentToHex = function(c) {
+	var hex = c.toString(16);
+	return hex.length == 1 ? "0" + hex : hex;
 }
 
-function hslToHex(h, s, l){
-		hslToRgb(h,s,l);
-	return rgbToHex(hsl_r, hsl_g, hsl_b);
+Colors.hslToHex = function(h, s, l){
+	Colors.hslToRgb(h,s,l);
+	Colors.rgbTo255(Colors.r, Colors.g, Colors.b);
+	return Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255);
+}
+
+Colors.hslToHexInt = function(h, s, l){
+	Colors.hslToRgb(h,s,l);
+	Colors.rgbTo255(Colors.r, Colors.g, Colors.b);
+	return Colors.rgbToHexInt(Colors.r255, Colors.g255, Colors.b255);
 }
 
 /*
@@ -819,25 +843,37 @@ function hslToHex(h, s, l){
  * s = saturation (0-1)
  * l = lightness (0-1)
  */
-function hslToRgb(h, s, l){
+Colors.hslToRgb = function(h, s, l){
 	h %= 1.0;
-		var r, g, b;
-		if(s == 0){
-				r = g = b = l; // achromatic
-		} else {
-				var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-				var p = 2 * l - q;
-				r = hue2rgb(p, q, h + 1/3);
-				g = hue2rgb(p, q, h);
-				b = hue2rgb(p, q, h - 1/3);
-		}
-	hsl_r = Math.round(r*255);
-	hsl_g = Math.round(g*255);
-	hsl_b = Math.round(b*255);
+	var r, g, b;
+	if(s == 0){
+		r = g = b = l; // achromatic
+	} else {
+		var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+		var p = 2 * l - q;
+		r = Colors.hue2rgb(p, q, h + 1/3);
+		g = Colors.hue2rgb(p, q, h);
+		b = Colors.hue2rgb(p, q, h - 1/3);
+	}
+	Colors.r = r;
+	Colors.g = g;
+	Colors.b = b;
+}
+Colors.hslToRgb255 = function(h, s, l){
+	Colors.hslToRgb(h, s, l);
+	Colors.rgbTo255(Colors.r, Colors.g, Colors.b);
+}
+Colors.rgbTo255 = function(r, g, b){
+	if(r < 0) r = 0;
+	if(g < 0) g = 0;
+	if(b < 0) b = 0;
+	Colors.r255 = r >= 1.0 ? 255 : Math.floor(r*256);
+	Colors.g255 = g >= 1.0 ? 255 : Math.floor(g*256);
+	Colors.b255 = b >= 1.0 ? 255 : Math.floor(b*256);
 }
 
 // helper function for hslToRgb
-function hue2rgb(p, q, t){
+Colors.hue2rgb = function(p, q, t){
 	if(t < 0) t += 1;
 	if(t < 0) t += 1;
 	if(t > 1) t -= 1;

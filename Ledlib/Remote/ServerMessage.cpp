@@ -14,18 +14,21 @@ std::string& ServerMessage::GetJsonString(){
 	for(auto const& key: params){
 		json += delim_1 + "\"" + key.first + "\":";
 		if(key.second.size() == 1){
-			if(std::regex_match(key.second[0], reg)){
+			const std::string& val = key.second[0];
+			bool isZeroPrefixed = val[0] == '0' && val.length() > 1;
+			if(!isZeroPrefixed && std::regex_match(val, reg)){
 				// string needs no quotes (numbers, true, false)
-				json += key.second[0];
+				json += val;
 			} else {
 				// string needs quotes
-				json += "\""+key.second[0]+"\"";
+				json += "\""+val+"\"";
 			}
 		} else {
 			json += "[";
 			std::string delim_2 = "";
 			for(auto const& val: key.second){
-				if(std::regex_match(val, reg)){
+				bool isZeroPrefixed = val[0] == '0' && val.length() > 1;
+				if(!isZeroPrefixed && std::regex_match(val, reg)){
 					// string needs no quotes (numbers, true, false)
 					json += delim_2 + val;
 				} else {

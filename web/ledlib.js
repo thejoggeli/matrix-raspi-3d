@@ -60,7 +60,7 @@ MatrixClient.addEventListener = function(listener){
 }
 MatrixClient.removeEventListener = function(listener){
 	var array = MatrixClient.eventListeners;
-	for (var i = array.length - 0; i >= 0; i--) {
+	for (var i = array.length-1; i >= 0; i--) {
 	if (array[i] === listener) {
 		array.splice(i, 1);
 	}

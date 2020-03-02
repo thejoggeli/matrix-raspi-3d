@@ -73,7 +73,7 @@ ScreenManager.open = function(name){
 	name = $.trim(name.toLowerCase());
 	console.log("opening screen: " + name);
 	// screen already open?
-	if(ScreenManager.activeScreen != null && ScreenManager.activeScreen == name){
+	if(ScreenManager.activeScreen != null && ScreenManager.activeScreen.name == name){
 		return;
 	}
 	// block other screens from being loaded
@@ -140,7 +140,11 @@ ScreenManager.open = function(name){
 				if(!screen.handle.isOpen){
 					screen.handle.open();
 					screen.handle.isOpen = true;
-					screen.container.show();
+					// fire onWebsocketOpen if connected
+					if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
+						screen.handle.onWebsocketOpen();
+					}
+					screen.container.show();	
 				}
 				ScreenManager.loading = false;
 			} else {
@@ -149,7 +153,7 @@ ScreenManager.open = function(name){
 					console.error("couldn't open screen: " + name);
 					ScreenManager.loading = false;		
 					ScreenManager.activeScreen = null;
-					ScreenManager.open("home");
+					ScreenManager.open("home");				
 				} else {
 					alert("fatal error");
 				}
@@ -163,6 +167,10 @@ ScreenManager.open = function(name){
 		if(!screen.handle.isOpen){
 			screen.handle.open();
 			screen.handle.isOpen = true;
+			// fire onWebsocketOpen if connected
+			if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
+				screen.handle.onWebsocketOpen();
+			}
 			screen.container.show();
 		}
 		ScreenManager.loading = false;
