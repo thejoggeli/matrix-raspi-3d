@@ -70,7 +70,7 @@ void GameState::OnUpdate(){
 			if(pipeCount%10 == 0){
 				rotating = true;
 			}
-			int prob = Numbers::Clamp(2, 20, 20-static_cast<int>(score*0.3));
+			int prob = Numbers::Clamp(2, 30, 30-static_cast<int>(score*0.3));
 			if(Numbers::Random(0, prob) == 0) moving = true;
 			if(Numbers::Random(0, prob) == 0) rotating = true;
 			float x = nextPipePosition;

@@ -3,6 +3,7 @@
 #include "Ledlib2d/Physics/PolygonCollider.h"
 #include "Ledlib2d/Gfx/Gfx.h"
 #include "Ledlib2d/Gfx/Bitmaps.h"
+#include "Ledlib2d/Gfx/Draw.h"
 #include "Ledlib/Sfx/RemoteSfx.h"
 #include "Ledlib/Remote/Client.h"
 #include "Ledlib/Remote/ClientManager.h"
@@ -50,6 +51,16 @@ void BirdEntity::OnUpdate(){
 	if(this->position.y > Gfx::top*3 || this->position.y < Gfx::bottom*3){
 		this->Destroy();
 		RemoteSfx::PlaySound(0, "die");
+		for(int i = 0; i < 25; i++){
+			auto blood = GetScene()->CreateEntity<FlappyBlood>("blood");
+			float white = Numbers::Random(0.0f, 0.2f);
+			blood->color = ColorRgb(Numbers::Random(0.8f, 1.0f), white, white);
+			blood->size = Numbers::Random(0, 7) == 0 ? 1.0f : 2.0f;
+			blood->velocity = glm::vec2(Numbers::Random(-25.0f, 25.0f), Numbers::Random(60.0f, 120.0f));
+			blood->acceleration = glm::vec2(0, -150.0f);
+			blood->SetPosition(this->position);
+			blood->angularVelocity = Numbers::Random(-2.0f, 2.0f);
+		}
 	}
 }
 
@@ -60,4 +71,28 @@ void BirdEntity::OnRender(){
 void BirdEntity::OnCollision(const CollisionData &data){
 	Destroy();
 	RemoteSfx::PlaySound(0, "bump");
+	for(int i = 0; i < 25; i++){
+		auto blood = GetScene()->CreateEntity<FlappyBlood>("blood");
+		float white = Numbers::Random(0.0f, 0.2f);
+		blood->color = ColorRgb(Numbers::Random(0.8f, 1.0f), white, white);
+		blood->size = Numbers::Random(0, 7) == 0 ? 1.0f : 2.0f;
+		blood->velocity = glm::vec2(Numbers::Random(-50.0f, 50.0f), Numbers::Random(-30.0f, 60.0f));
+		blood->acceleration = glm::vec2(0, -150.0f);
+		blood->SetPosition(this->position);
+		blood->angularVelocity = Numbers::Random(-2.0f, 2.0f);
+	}
+}
+
+void FlappyBlood::OnUpdate(){
+	velocity += acceleration * Time::deltaTime;
+	Rotate(angularVelocity*Time::deltaTime);
+	Translate(velocity*Time::deltaTime);
+	if(position.y < Gfx::bottom*10.0f){
+		Destroy();
+	}
+}
+
+void FlappyBlood::OnRender(){
+	Gfx::SetDrawColor(color);
+	Gfx::FillRect(0, 0, size, size);
 }

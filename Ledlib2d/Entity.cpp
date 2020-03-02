@@ -130,6 +130,11 @@ void Entity::SetPosition(const vec3& v){
 	_position = v;
 	SetNeedsLocalUpdate();
 }
+void Entity::SetPosition(const vec2& v){
+	_position.x = v.x;
+	_position.y = v.y;
+	SetNeedsLocalUpdate();
+}
 void Entity::Translate(float x, float y, float z){
 	_position.x += x;
 	_position.y += y;
@@ -140,8 +145,20 @@ void Entity::Translate(const glm::vec3 &v){
 	_position += v;
 	SetNeedsLocalUpdate();
 }
+void Entity::Translate(const glm::vec2 &v){
+	_position.x += v.x;
+	_position.y += v.y;
+	SetNeedsLocalUpdate();
+}
+void Entity::Move(float x, float y, float z){
+	_position += _rotation * glm::vec3(x, y, z);
+}
 void Entity::Move(const glm::vec3& v){
 	_position += _rotation * v;
+	SetNeedsLocalUpdate();
+}
+void Entity::Move(const glm::vec2& v){
+	_position += _rotation * glm::vec3(v.x, v.y, 0);
 	SetNeedsLocalUpdate();
 }
 

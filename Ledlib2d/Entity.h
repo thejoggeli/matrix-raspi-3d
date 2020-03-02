@@ -79,10 +79,13 @@ public:
 	bool HasTag(const std::string& tag);
 
 	void SetPosition(float x, float y, float z = 0);
+	void SetPosition(const glm::vec2& v);
 	void SetPosition(const glm::vec3& v);
 	void Translate(float x, float y, float z = 0);
+	void Translate(const glm::vec2& v);
 	void Translate(const glm::vec3& v);
-	void Move();
+	void Move(float x, float y, float z = 0);
+	void Move(const glm::vec2& v);
 	void Move(const glm::vec3& v);
 
 	void SetScale(float s);
