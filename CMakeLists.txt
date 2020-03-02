@@ -81,18 +81,20 @@ endfunction(urho3d_setup)
 
 # add apps
 add_app("Welcome")
+add_app("Painter")
 add_app("Urho3D-Test")
-add_app("Ledlib-Test")
-add_app("Shader-Test")
 add_app("Shader-Playground")
-add_app("Ledlib2d-Test")
 add_app("Flappy-Bird")
 add_app("Tetris")
 add_app("Pong")
 add_app("Asteroids")
 add_app("Clock-Digital")
 add_app("Snake")
-add_app("Earth")
+
+#add_app("Ledlib-Test")
+#add_app("Shader-Test")
+#add_app("Ledlib2d-Test")
+#add_app("Earth")
 
 
 

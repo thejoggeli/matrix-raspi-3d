@@ -35,12 +35,17 @@ class WelcomeApp : public App {
 	void OnStart() override;
 	void OnUpdate() override;
 	void OnRender() override;
+	static void OnMessageClientConnected(void* obj, MessageEvent& event);
 };
+void WelcomeApp::OnMessageClientConnected(void* obj, MessageEvent &event){
+	RemoteSfx::PlaySound(event.clientId, "startup");
+}
 void WelcomeApp::OnSetup() {
 	ResourceManager::LoadFontBdf("font-1", "6x10.bdf");
 	ResourceManager::LoadBitmapPng("bg", "welcome/bg.png");
 //	RemoteSfx::AddFile("hello_0", "welcome/hello_0.wav");
 	RemoteSfx::AddFile("startup", "welcome/startup.mp3");
+	EventManager::SubscribeMessage("client_connected", this, &WelcomeApp::OnMessageClientConnected);
 }
 void WelcomeApp::OnStart(){
 
@@ -49,14 +54,6 @@ void WelcomeApp::OnUpdate() {
 
 }
 void WelcomeApp::OnRender() {
-
-	auto& events = EventManager::GetAllEvents();
-	for(auto& event: events){
-		if(event->type == EventType::ClientConnected){
-		//	RemoteSfx::PlaySound(event->clientId, "hello_0");
-			RemoteSfx::PlaySound(event->clientId, "startup");
-		}
-	}
 
 	Gfx::Clear();
 

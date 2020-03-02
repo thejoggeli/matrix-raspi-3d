@@ -26,14 +26,12 @@ set(
 	"Remote/Keys.cpp"
 	"Events/Event.cpp"
 	"Events/EventManager.cpp"
-	"Events/EventListener.cpp"
 	"Display/Display.cpp"
 	"Display/DisplayManager.cpp"
 	"Display/X11Display.cpp"
 	"Display/MatrixDisplay.cpp"
 	"Display/DummyDisplay.cpp"
 	"Sfx/RemoteSfx.cpp"
-	"Sfx/RemoteSfxEventListener.cpp"
 )
 
 find_library(

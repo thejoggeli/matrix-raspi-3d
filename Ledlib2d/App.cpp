@@ -48,6 +48,7 @@ void App::Loop(){
 	// app loop
 	while(!LedMatrixLibrary::exitRequested){
 		LedMatrixLibrary::Update();
+		OnUpdate();
 		Gfx::RenderPrepare();
 		OnRender();
 		Gfx::UpdatePixelBuffer();

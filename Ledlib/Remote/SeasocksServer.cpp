@@ -104,9 +104,9 @@ void SeasocksHandler::onConnect(WebSocket* connection) {
 	// add client to client manager
 	ClientManager::AddClient(client);
 	// broadcast client connected event
-	shared_ptr<Event> event = make_shared<Event>(EventType::ClientConnected);
+	shared_ptr<MessageEvent> event = make_shared<MessageEvent>("client_connected");
 	event->clientId = client->id;
-	event->fromClient = true;
+	event->fromClient = false;
 	EventManager::AddEvent(event);
 	// add connection to vector
 	connections.push_back(connection);
@@ -131,9 +131,9 @@ void SeasocksHandler::onDisconnect(WebSocket* connection) {
 	// remove client from client manager
 	ClientManager::RemoveClient(client->id);
 	// broadcast client connected event
-	shared_ptr<Event> event = make_shared<Event>(EventType::ClientDisconnected);
+	shared_ptr<MessageEvent> event = make_shared<MessageEvent>("client_disconnected");
 	event->clientId = client->id;
-	event->fromClient = true;
+	event->fromClient = false;
 	EventManager::AddEvent(event);
 	// remove connection from vector
 	auto it = std::find(connections.begin(), connections.end(), connection);

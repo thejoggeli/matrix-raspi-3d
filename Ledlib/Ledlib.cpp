@@ -23,7 +23,7 @@ int LedMatrixLibrary::exitCounter = 0;
 
 bool LedMatrixLibrary::exitRequested = false;
 
-static shared_ptr<LedlibEventHandler> eventHandler = nullptr;
+static LedlibEventHandler eventHandler;
 static Timer fpsTimer;
 static int fpsCounter = 0;
 static float fpsInterval = 5.0f;
@@ -67,8 +67,7 @@ bool LedMatrixLibrary::Init(){
 	}
 	// ledlib event handler
 	Log(LOG_INFO, "Ledlib", "Initializing LedlibEventHandler");
-	eventHandler = make_shared<LedlibEventHandler>();
-	eventHandler->StartListening();
+	eventHandler.Subscribe();
 	// system sounds
 	RemoteSfx::AddFile("system_quit", "system/quit.mp3");
 	return true;
@@ -118,6 +117,7 @@ void LedMatrixLibrary::Render(){
 void LedMatrixLibrary::Exit(){
 	if(++exitCounter > 1) return;
 	Log(LOG_INFO, "Ledlib", "Shutting down ...");
+	eventHandler.Unsubscribe();
 	DisplayManager::Shutdown();
 	ServerManager::Shutdown();
 	Config::WriteFile(Config::Target::App);

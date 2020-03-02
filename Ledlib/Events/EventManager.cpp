@@ -1,6 +1,5 @@
 #include "EventManager.h"
 #include "Event.h"
-#include "EventListener.h"
 #include "../Log.h"
 #include "../Config.h"
 #include <algorithm>
@@ -16,10 +15,12 @@ int EventManager::initCounter = 0;
 unsigned int EventManager::eventCounterTemp = 0;
 unsigned int EventManager::eventCounterTotal = 0;
 
-static vector<EventListener*> listeners;
 static vector<shared_ptr<Event>> events;
 static vector<shared_ptr<Event>> newEvents;
 static unordered_map<string, EventType> KeyCode;
+
+static std::unordered_map<std::string, std::vector<std::pair<void*, void (*)(void*, MessageEvent&)>>> messageSubscriptions;
+
 
 bool EventManager::Init(){
 	if(++initCounter > 1) return false;
@@ -48,8 +49,15 @@ void EventManager::NextGeneration(){
 
 void EventManager::Update(){
 	for(auto& event: events){
-		for(auto const& listener: listeners){
-			listener->OnEvent(*event);
+		if(event->type == EventType::Message){
+			MessageEvent& msg = (MessageEvent&)(*event);
+			auto search = messageSubscriptions.find(msg.message);
+			if (search != messageSubscriptions.end()){
+				auto& vector = search->second;
+				for(auto& handler: vector){
+					handler.second(handler.first, msg);
+				}
+			}
 		}
 	}
 }
@@ -155,14 +163,40 @@ shared_ptr<Event> EventManager::ParseMessage(const string& str){
 	return event;
 }
 
-void EventManager::AddEventListener(EventListener* listener){
-	listeners.push_back(listener);
-	Log(LOG_DEBUG, "EventManager", iLog << "EventListener added (size=" << listeners.size() << ")");
+void EventManager::SubscribeMessage(const std::string &message, void* obj, void (*handler)(void*, MessageEvent&)){
+	std::make_pair<int, int>(5,5);
+	std::pair<void*, void (*)(void*, MessageEvent&)> pair;
+	pair = std::make_pair(obj, handler);
+	messageSubscriptions[message].push_back(pair);
 }
-void EventManager::RemoveEventListener(EventListener* listener){
-	listeners.erase(remove(listeners.begin(), listeners.end(), listener), listeners.end());
-	Log(LOG_DEBUG, "EventManager", iLog << "EventListener removed (size=" << listeners.size() << ")");
+void EventManager::UnsubscribeMessage(const std::string &message, void* obj){
+	auto search = messageSubscriptions.find(message);
+	if(search != messageSubscriptions.end()){
+		auto& vector = search->second;
+		for (auto it = vector.begin(); it != vector.end(); ) {
+			if(it->first == obj){
+				it = vector.erase(it);
+			} else {
+				++it;
+			}
+		}
+	}
 }
+void EventManager::UnsubscribeMessagesAll(void* obj){
+	auto it = messageSubscriptions.begin();
+	while(it != messageSubscriptions.end()){
+		auto& vector = it->second;
+		for (auto it = vector.begin(); it != vector.end(); ) {
+			if(it->first == obj){
+				it = vector.erase(it);
+			} else {
+				++it;
+			}
+		}
+		it++;
+	}
+}
+
 
 
 }

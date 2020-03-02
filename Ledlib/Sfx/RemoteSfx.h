@@ -4,7 +4,7 @@
 
 namespace Ledlib {
 
-class Event;
+class MessageEvent;
 
 class RemoteSfx {
 private:
@@ -17,7 +17,7 @@ public:
 	static void PlaySound(int clientId, const std::string& name, float volume = defaultVolume, float start = 0,	float end = 0);
 	static void StartMusic(int clientId, const std::string& name, float volume = defaultVolume, float start = 0, float end = 0);
 	static void StopMusic(int clientId);
-	static void OnEvent(const Event& event);
+	static void OnMessageClientConnected(void* obj, MessageEvent& event);
 };
 
 }

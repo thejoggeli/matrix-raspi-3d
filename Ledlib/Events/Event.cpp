@@ -22,8 +22,6 @@ std::string Event::EventTypeToString(EventType type){
 		case EventType::Input: return "Input";
 		case EventType::Message: return "Message";
 		case EventType::Joystick: return "Joystick";
-		case EventType::ClientConnected: return "ClientConnected";
-		case EventType::ClientDisconnected: return "ClientDisconnected";
 	}
 	return "Event";
 }

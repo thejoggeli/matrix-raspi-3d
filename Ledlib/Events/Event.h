@@ -11,8 +11,6 @@ enum class EventType {
 	Message = 0,
 	Input = 10,
 	Joystick = 15,
-	ClientConnected = 20,
-	ClientDisconnected = 21,
 };
 
 class Event {

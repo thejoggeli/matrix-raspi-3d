@@ -1,9 +1,8 @@
 #include "RemoteSfx.h"
-#include "RemoteSfxEventListener.h"
 #include "../Log.h"
 #include "../Remote/ServerManager.h"
 #include "../Remote/ServerMessage.h"
-#include "../Events/EventListener.h"
+#include "../Events/EventManager.h"
 #include "../Events/Event.h"
 
 using namespace std;
@@ -15,7 +14,7 @@ static unordered_map<string, string> namesMap;
 static string currentMusicName;
 static bool musicPlaying = false;
 
-static shared_ptr<RemoteSfxEventListener> eventListener;
+static int messageHandle;
 
 int RemoteSfx::initCounter = 0;
 const float RemoteSfx::defaultVolume = 0.5f;
@@ -24,8 +23,7 @@ bool RemoteSfx::autoplayMusic = true;
 bool RemoteSfx::Init(){
 	if(++initCounter > 1) return false;
 	Log(LOG_INFO, "RemoteSfx", "Initializing");
-	eventListener = make_shared<RemoteSfxEventListener>();
-	eventListener->StartListening();
+	EventManager::SubscribeMessage("client_connected", &messageHandle, &RemoteSfx::OnMessageClientConnected);
 	return true;
 }
 
@@ -66,12 +64,10 @@ void RemoteSfx::StopMusic(int clientId){
 	musicPlaying = false;
 }
 
-void RemoteSfx::OnEvent(const Event &event){
-	if(event.type == EventType::ClientConnected){
-		ServerManager::SendMessage(entryMessage, event.clientId);
-		if(autoplayMusic && musicPlaying){
-			StartMusic(event.clientId, currentMusicName);
-		}
+void RemoteSfx::OnMessageClientConnected(void *obj, MessageEvent &event){
+	ServerManager::SendMessage(entryMessage, event.clientId);
+	if(autoplayMusic && musicPlaying){
+		StartMusic(event.clientId, currentMusicName);
 	}
 }
 

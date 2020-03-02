@@ -205,6 +205,11 @@ AppManager.apps = {
 			ScreenManager.open("gamepad");
 		},
 	},
+	"Painter": {
+		"welcome": function(){
+			ScreenManager.open("painter");
+		},
+	},
 };
 AppManager.onWebsocketMessage = function(json){	
 	if(json.type == "welcome"){
