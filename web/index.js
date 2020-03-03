@@ -61,7 +61,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	ScreenManager.open(HashUrl.getValue("screen", "home"));
+	ScreenManager.open("home");
 });
 
 function ScreenManager(){}
@@ -144,7 +144,7 @@ ScreenManager.open = function(name){
 					if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
 						screen.handle.onWebsocketOpen();
 					}
-					screen.container.show();	
+					screen.container.show();
 				}
 				ScreenManager.loading = false;
 			} else {
@@ -153,7 +153,7 @@ ScreenManager.open = function(name){
 					console.error("couldn't open screen: " + name);
 					ScreenManager.loading = false;		
 					ScreenManager.activeScreen = null;
-					ScreenManager.open("home");				
+					ScreenManager.open("home");
 				} else {
 					alert("fatal error");
 				}
@@ -182,43 +182,62 @@ ScreenManager.open = function(name){
 
 function AppManager(){}
 AppManager.brightness = 0;
+AppManager.activeApp = null;
+
+
 AppManager.apps = {
-	"Flappy-Bird": {
-		"welcome": function(){
-			ScreenManager.open("gamepad");
-		},
-	},
-	"Pong": {
-		"welcome": function(){
-			ScreenManager.open("gamepad");			
-		},
-	},
-	"Tetris": {
-		"welcome": function(){
-			ScreenManager.open("gamepad");
-		},
-	},
-	"Ledlib2d-Test": {
-		"welcome": function(){
-			ScreenManager.open("gamepad");
-		},
-	},
-	"Snake": {
-		"welcome": function(){
-			ScreenManager.open("gamepad");
-		},
+	"Welcome": {
+		"screen": "home",
 	},
 	"Painter": {
-		"welcome": function(){
-			ScreenManager.open("painter");
-		},
+		"screen": "painter",
+	},
+	"Gallery": {
+		"screen": "gallery",
+	},
+	"Flappy-Bird": {
+		"screen": "gamepad",
+	},
+	"Pong": {
+		"screen": "gamepad",
+	},
+	"Tetris": {
+		"screen": "gamepad",
+	},
+	"Snake": {
+		"screen": "gamepad",
+	},
+	"Painter": {
+		"screen": "painter",
+	},
+	"Asteroids": {
+		"screen": "gamepad",
+	},
+	"Urho3D-Test": {
+		"screen": "gamepad",
+	},
+	"Shader-Playground": {
+		"screen": "gamepad",
 	},
 };
+AppManager.startApp = function(app){
+	if(AppManager.activeApp == app){
+		if(AppManager.apps[app] !== undefined && AppManager.apps[app].screen !== undefined){
+			ScreenManager.open(AppManager.apps[app].screen);
+		}		
+	} else {
+		MatrixClient.sendMessage("launch_app", app);
+	}
+}
 AppManager.onWebsocketMessage = function(json){	
 	if(json.type == "welcome"){
+		AppManager.activeApp = json.app;
 		AppManager.brightness = json.brightness;
 		if(AppManager.apps[json.app] !== undefined && AppManager.apps[json.app].welcome !== undefined){
 			AppManager.apps[json.app].welcome();
+		}
+		if(AppManager.apps[json.app] !== undefined && AppManager.apps[json.app].screen !== undefined){
+			ScreenManager.open(AppManager.apps[json.app].screen);
 		} else {
 			ScreenManager.open("home");
 		}
@@ -227,6 +246,7 @@ AppManager.onWebsocketMessage = function(json){
 	}
 }
 AppManager.onWebsocketClose = function(){
+	AppManager.activeApp = null;
 	ScreenManager.open("home");
 }
 

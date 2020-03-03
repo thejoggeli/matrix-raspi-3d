@@ -19,16 +19,18 @@ Painter.open = function(){
 	Haf.onUpdate = Painter.update;
 	Haf.onRender = Painter.render;
 	Haf.getCanvas(0).setActive();
-	Haf.getCanvas(0).clearColor = "#111";
+	Haf.getCanvas(0).clearColor = "#222";
 	Haf.start();
 	MatrixClient.addEventListener(Painter);
-	Painter.touches = [];		
+	Painter.touches = [];
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
 	Painter.color = {
 		r: Colors.r255,
 		g: Colors.g255,
 		b: Colors.b255,
 	};
+	Painter.introTimerDuration = 4.0;
+	Painter.introTimer = Painter.introTimerDuration;
 }
 Painter.close = function(){
 	MatrixClient.removeEventListener(Painter);
@@ -37,7 +39,10 @@ Painter.close = function(){
 Painter.resize = function(){
 	
 }
-Painter.update = function(){		
+Painter.update = function(){
+	if(Painter.introTimer > 0.0){
+		Painter.introTimer -= Time.deltaTime;
+	}
 	for(var i in Input.newTouches){		
 		var touch = Input.newTouches[i];
 		if(touch.taken) continue;
@@ -74,6 +79,22 @@ Painter.render = function(){
 		}
 	}
 	ctx.restore();
+	if(Painter.introTimer > 0.0){
+		ctx.save();
+		ctx.globalAlpha = Math.sin(Math.PI*Painter.introTimer/Painter.introTimerDuration);
+		var scale = Math.sin(Math.PI*Painter.introTimer/Painter.introTimerDuration)*1.5;
+		ctx.scale(scale, scale);
+		ctx.rotate(Math.sin(Math.PI*Painter.introTimer/Painter.introTimerDuration*2.0)*0.1);
+		ctx.fillStyle = "white";
+		ctx.strokeStyle = "black";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = "12px Arial";
+		ctx.lineWidth = 1.0;
+		ctx.strokeText("draw something!", 0, 0);
+		ctx.fillText("draw something!", 0, 0);
+		ctx.restore();
+	}
 }
 Painter.onWebsocketOpen = function(){
 	MatrixClient.sendMessage("request_pixels");
@@ -134,7 +155,9 @@ PainterTouch.prototype.transform = function(p){
 		p.y *= Painter.width/Haf.width;
 	}	
 	p.x += Painter.width/2;
-	p.y += Painter.height/2;	
+	p.y += Painter.height/2;
+	p.x = Numbers.clamp(p.x, 0, 63);
+	p.y = Numbers.clamp(p.y, 0, 31);
 }
 PainterTouch.prototype.update = function(){
 	if(this.expired){
@@ -150,41 +173,38 @@ PainterTouch.prototype.update = function(){
 	p1.y = this.touch.worldPosition.y;
 	
 	this.transform(p1);
+		
+	var rgb = (Painter.color.r<<16)|(Painter.color.g<<8)|Painter.color.b;
 	
-	if(p1.x >= 0 && p1.x < Painter.width && p1.y >= 0 && p1.y <= Painter.height){
-		
-		var rgb = (Painter.color.r<<16)|(Painter.color.g<<8)|Painter.color.b;
-		
-		p2.x = this.last.x;
-		p2.y = this.last.y;
-		
-		var step = 0.25;
-		var dx = p1.x-p2.x;
-		var dy = p1.y-p2.y;
-		var dist = Math.sqrt(dx*dx+dy*dy);
-		if(dist == 0){
-			p3.x = Math.floor(p1.x);
-			p3.y = Math.floor(p1.y);
+	p2.x = this.last.x;
+	p2.y = this.last.y;
+	
+	var step = 0.25;
+	var dx = p1.x-p2.x;
+	var dy = p1.y-p2.y;
+	var dist = Math.sqrt(dx*dx+dy*dy);
+	if(dist == 0){
+		p3.x = Math.floor(p1.x);
+		p3.y = Math.floor(p1.y);
+		if(Painter.setPixelColor(p3.x, p3.y, Painter.color.r, Painter.color.g, Painter.color.b)){
+			MatrixClient.sendMessage("paint", [
+				rgb, p3.x, p3.y
+			]);				
+		}
+	} else {
+		var dirx = (p2.x-p1.x)/dist;
+		var diry = (p2.y-p1.y)/dist;
+		for(var s = 0; s <= dist; s+=step){
+			p3.x = Math.floor(p1.x + dirx * s);
+			p3.y = Math.floor(p1.y + diry * s);
 			if(Painter.setPixelColor(p3.x, p3.y, Painter.color.r, Painter.color.g, Painter.color.b)){
 				MatrixClient.sendMessage("paint", [
 					rgb, p3.x, p3.y
 				]);				
 			}
-		} else {
-			var dirx = (p2.x-p1.x)/dist;
-			var diry = (p2.y-p1.y)/dist;
-			for(var s = 0; s <= dist; s+=step){
-				p3.x = Math.floor(p1.x + dirx * s);
-				p3.y = Math.floor(p1.y + diry * s);
-				if(Painter.setPixelColor(p3.x, p3.y, Painter.color.r, Painter.color.g, Painter.color.b)){
-					MatrixClient.sendMessage("paint", [
-						rgb, p3.x, p3.y
-					]);				
-				}
-			}				
-		}
-		this.last.x = p1.x;
-		this.last.y = p1.y;
+		}				
 	}
+	this.last.x = p1.x;
+	this.last.y = p1.y;
 	
 }

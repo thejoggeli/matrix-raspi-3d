@@ -18,7 +18,7 @@ Gamepad.colors = {
 };
 Gamepad.touchEffects = [];
 Gamepad.lineWidth;
-Gamepad.init = function(){	
+Gamepad.createButtons = function(){	
 	Gamepad.buttons.up = new GamepadArrowButton({
 		label: "up", code: 10, angle:0, keyboardCode: 87,
 	});
@@ -54,6 +54,7 @@ Gamepad.init = function(){
 	});
 	Gamepad.sticks.right.enabled = false;
 }
+Gamepad.init = function(){}
 Gamepad.open = function(){
 	Haf.install({height:100,});	
 	Haf.onResize = Gamepad.resize;
@@ -62,6 +63,7 @@ Gamepad.open = function(){
 	Haf.getCanvas(0).setActive();
 	Haf.getCanvas(0).clearColor = "#111";
 	Haf.start();
+	Gamepad.createButtons();
 	Gamepad.recalcButtons();
 }
 Gamepad.close = function(){

@@ -432,21 +432,21 @@ Canvas.prototype.clear = function(){
 }
 
 function Input(){}
-Input.handlers = {keyDown:[], keyUp:[]};
-Input.downKeys = [];
-Input.frameDownKeys = [];
-Input.frameUpKeys = [];
-Input.newTouches = [];
-Input.touches = {};
-Input.hasFrameKeys = false;
-Input.mouse = {
-	screenPosition: new Vector(),
-	worldPosition: new Vector(),
-	isDown: false,
-	downFrame: false,
-	upFrame: false,
-};
 Input.install = function(){
+	Input.handlers = {keyDown:[], keyUp:[]};
+	Input.downKeys = [];
+	Input.frameDownKeys = [];
+	Input.frameUpKeys = [];
+	Input.newTouches = [];
+	Input.touches = {};
+	Input.hasFrameKeys = false;
+	Input.mouse = {
+		screenPosition: new Vector(),
+		worldPosition: new Vector(),
+		isDown: false,
+		downFrame: false,
+		upFrame: false,
+	};
 	for(var i = 0; i < 256; i++){
 		Input.downKeys[i] = false;
 		Input.frameDownKeys[i] = false;

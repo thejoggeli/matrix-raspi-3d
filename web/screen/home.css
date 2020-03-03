@@ -1,8 +1,23 @@
-.screens .home {padding:10px;background:#111;width:100vw;height:100vh;box-sizing:border-box;}
+.screens .home {padding:10px;background:#111;width:100%;box-sizing:border-box;text-align:center;margin-bottom:300px;}
 .screens .home button {width:120px;height:50px;}
 .screens .home button.selected {background-color:yellow;}
-.screens .home .button-row {margin-bottom:10px;}
+.screens .home .admin-row,
+.screens .home .app-row{margin-top:10px;}
+.screens .home .app-row.active {}
+.screens .home .msg-btn,
+.screens .home .app-btn {width:100%;background:white;border:0;font-size:16px;}
+.screens .home .app-btn.active {background:lime;;}
+.screens .home .msg-btn:active,
+.screens .home .app-btn:active {background:yellow;}
 .screens .home .header {font-size:32px;font-weight:bold;margin-bottom:10px;color:white;}
 .screens .home .connected-state.connected {color:lime;}
 .screens .home .connected-state.disconnected {color:red;}
 
+@media screen and (max-width: 450px) {
+    .screens .home .header {font-size:28px;}
+}
+
+
+@media screen and (max-width: 400px) {
+    .screens .home .header {font-size:24px;}
+}

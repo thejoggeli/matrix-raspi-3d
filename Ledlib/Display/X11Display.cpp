@@ -111,7 +111,7 @@ void X11Display::Sync() {
 			i += pitch;
 		}
 	}
-	usleep(10000);
+	usleep(3200);
 }
 
 void X11Display::Shutdown(){

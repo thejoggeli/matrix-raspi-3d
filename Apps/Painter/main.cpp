@@ -4,6 +4,7 @@
 #include "Ledlib/Config.h"
 #include "Ledlib/Log.h"
 #include "Ledlib/Time.h"
+#include "Ledlib/Math/Numbers.h"
 #include "Ledlib/Events/Event.h"
 #include "Ledlib/Events/EventManager.h"
 #include "Ledlib/Remote/ServerMessage.h"
@@ -19,6 +20,7 @@ using namespace Ledlib;
 
 std::shared_ptr<Bitmap> canvas;
 static const char* digits = "0123456789ABCDEF";
+float lastInputTime = 0.0f;
 
 class PainterApp : public App {
 	void OnSetup() override;
@@ -54,9 +56,9 @@ void PainterApp::OnStart(){
 void PainterApp::OnUpdate() {
 }
 void PainterApp::OnRender() {
-
 	canvas->Update();
-	Gfx::SetBitmapColor(1, 1, 1, Time::deltaTime);
+//	float alpha = (Time::sinceStart - lastInputTime) > 1.0f ? 1.0f : 0.015f;
+//	Gfx::SetBitmapColor(1, 1, 1, alpha);
 	Gfx::DrawBitmap(canvas.get(), 0, 0);
 }
 void PainterApp::OnExit(){
@@ -81,6 +83,7 @@ void PainterApp::OnMessagePixel(void *obj, MessageEvent &message){
 	smsg.AddParam("x", x);
 	smsg.AddParam("y", y);
 	ServerManager::SendMessage(smsg);
+	lastInputTime = Time::sinceStart;
 }
 void PainterApp::OnMessageRequestPixels(void *obj, MessageEvent &message){
 	ServerMessage smsg = ServerMessage("pixels");
