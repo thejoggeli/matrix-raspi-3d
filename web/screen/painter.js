@@ -89,7 +89,7 @@ Painter.render = function(){
 		ctx.strokeStyle = "black";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = "12px Arial";
+		ctx.font = (60/Haf.scale)+"pt Arial";
 		ctx.lineWidth = 1.0;
 		ctx.strokeText("draw something!", 0, 0);
 		ctx.fillText("draw something!", 0, 0);

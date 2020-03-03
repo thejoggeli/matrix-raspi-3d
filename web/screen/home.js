@@ -1,13 +1,15 @@
 function Home(){}
 Home.init = function(){
 	$(document).on("click", ".home .app-btn", function(){
+		$(this).addClass("semi-active");
 		AppManager.startApp($(this).data("app"));
 	});
 	var $apps = $(".home .apps");
-	for(var name in AppManager.apps){
-		var app = AppManager.apps[name];
+	for(var key in AppManager.apps){
+		var handle = AppManager.apps[key];
+		var name = handle.name;
 		var $row = $("<div class='app-row'>");
-		var $btn = $("<button class='app-btn' data-app='"+name+"'>");
+		var $btn = $("<button class='app-btn' data-app='"+key+"'>");
 		$btn.html(name);
 		$row.append($btn);
 		$apps.append($row);

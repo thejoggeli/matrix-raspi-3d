@@ -187,36 +187,43 @@ AppManager.activeApp = null;
 
 AppManager.apps = {
 	"Welcome": {
+		"name": "Welcome",
 		"screen": "home",
 	},
 	"Painter": {
+		"name": "Painter",
 		"screen": "painter",
 	},
 	"Gallery": {
+		"name": "Gallery",
 		"screen": "gallery",
 	},
 	"Flappy-Bird": {
+		"name": "Flappy Bird",
 		"screen": "gamepad",
 	},
 	"Pong": {
+		"name": "Pong",
 		"screen": "gamepad",
 	},
 	"Tetris": {
+		"name": "Tetris",
 		"screen": "gamepad",
 	},
 	"Snake": {
+		"name": "Snake",
 		"screen": "gamepad",
 	},
-	"Painter": {
-		"screen": "painter",
-	},
 	"Asteroids": {
+		"name": "Snake",
 		"screen": "gamepad",
 	},
 	"Urho3D-Test": {
+		"name": "3D-Test",
 		"screen": "gamepad",
 	},
 	"Shader-Playground": {
+		"name": "Mandelbrot",
 		"screen": "gamepad",
 	},
 };
@@ -224,7 +231,7 @@ AppManager.startApp = function(app){
 	if(AppManager.activeApp == app){
 		if(AppManager.apps[app] !== undefined && AppManager.apps[app].screen !== undefined){
 			ScreenManager.open(AppManager.apps[app].screen);
-		}		
+		}
 	} else {
 		MatrixClient.sendMessage("launch_app", app);
 	}
