@@ -23,7 +23,7 @@ void LedlibEventHandler::Unsubscribe(){
 
 void LedlibEventHandler::OnMessageClientConnected(void* obj, MessageEvent& event){
 	if(!event.fromClient){
-		int clientId = event.GetParamInt(0);
+		int clientId = event.clientId;
 		ServerMessage welcomeMessage = ServerMessage("welcome");
 		welcomeMessage.AddParam("brightness", DisplayManager::GetBrightness());
 		welcomeMessage.AddParam("app", Strings::GetAppName());
