@@ -15,10 +15,14 @@ Painter.init = function(){
 	PainterPenTouch.init();
 	PainterTools.init();
 	$("#painter .tool-button").on("click", function(){
-		PainterTools.selectTool($(this).data("tool"));
+		if($(this).data("tool") != "home"){
+			PainterTools.selectTool($(this).data("tool"));
+		}
 	});
-		
-		
+	$("#painter .tool-button[data-tool='home']").on("click", function(){
+		ScreenManager.open("home");
+	});
+			
 //	Painter.$rose = $("#painter .rose");
 //	Painter.onRoseDragInit();
 
@@ -72,6 +76,7 @@ Painter.open = function(){
 	Haf.inputOverlay.on("mousedown touchstart", function(){
 		$("#painter .toolbar-overlay").hide();
 	});
+	$("#painter .toolbar-overlay").hide();
 	Haf.start();
 	MatrixClient.addEventListener(Painter);
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
@@ -249,7 +254,6 @@ PainterTools.init = function(){
 	$("#painter .open-overlay").on("click", function(){
 		$("#painter .toolbar-overlay").show();	
 	});
-	$("#painter .toolbar-overlay").hide();	
 	PainterTools.colors = [];
 	var hue_steps = 20;
 	var hue_step = 1/hue_steps;
@@ -320,6 +324,7 @@ PainterTools.close = function(){
 	PainterTools.tools = null;
 }
 PainterTools.selectTool = function(tool){
+	if(tool == "home") return;
 	$("#painter .toolbar-label-extra").hide();
 	$("#painter .tool-button").removeClass("selected");
 	$("#painter .tool-options").hide();
@@ -461,7 +466,7 @@ PainterToolsBucket.prototype.floodFill = function(nx, ny, tc, rc){
 } 
 
 function PainterToolsEraser(){
-	this.savedSize = 5;
+	this.savedSize = 8;
 	this.name = "Erase";
 }
 PainterToolsEraser.prototype.onSelect = function(){

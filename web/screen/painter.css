@@ -74,7 +74,7 @@
     justify-content: flex-start;
     align-content: stretch;
     align-items: flex-start;
-    min-width:300px;
+    min-width:350px;
     max-width:100vw;
 }
 #painter .toolbar-overlay-label-container {	

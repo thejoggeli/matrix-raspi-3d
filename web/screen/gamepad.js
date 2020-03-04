@@ -44,7 +44,7 @@ Gamepad.createButtons = function(){
 		label: "SELECT", code: 21, keyboardCode: 79,
 	}); 
 	Gamepad.buttons.menu = new GamepadMidButton({
-		label: "MENU", code: -1, keyboardCode: 77,
+		label: "HOME", code: -1, keyboardCode: 77,
 	}); 
 	Gamepad.sticks.left = new GamepadStick({
 		code: 0,
