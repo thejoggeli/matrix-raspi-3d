@@ -1,10 +1,10 @@
 function Home(){}
 Home.init = function(){
-	$(document).on("click", ".home .app-btn", function(){
+	$(document).on("click", "#home .app-btn", function(){
 		$(this).addClass("semi-active");
 		AppManager.startApp($(this).data("app"));
 	});
-	var $apps = $(".home .apps");
+	var $apps = $("#home .apps");
 	for(var key in AppManager.apps){
 		var handle = AppManager.apps[key];
 		var name = handle.name;
@@ -25,15 +25,15 @@ Home.close = function(){
 	MatrixClient.removeEventListener(Home);
 }
 Home.updateActiveApp = function(){
-	$(".home .app-row").removeClass("active");
-	$(".home .app-btn").removeClass("active");
-	$(".home .app-row").removeClass("semi-active");
-	$(".home .app-btn").removeClass("semi-active");
+	$("#home .app-row").removeClass("active");
+	$("#home .app-btn").removeClass("active");
+	$("#home .app-row").removeClass("semi-active");
+	$("#home .app-btn").removeClass("semi-active");
 	var activeApp = AppManager.activeApp;
 	if(activeApp == null) return;
-	var $btn = $(".home .app-btn[data-app='"+activeApp+"']");
+	var $btn = $("#home .app-btn[data-app='"+activeApp+"']");
 	$btn.addClass("active");
-	$btn.closest(".home .app-row").addClass("active");
+	$btn.closest("#home .app-row").addClass("active");
 	console.log($btn);
 }
 Home.updateConnectedMode = function(){

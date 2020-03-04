@@ -82,6 +82,7 @@ endfunction(urho3d_setup)
 # add apps
 add_app("Welcome")
 add_app("Painter")
+add_app("Gallery")
 add_app("Urho3D-Test")
 add_app("Shader-Playground")
 add_app("Flappy-Bird")

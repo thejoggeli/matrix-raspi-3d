@@ -1,1 +1,18 @@
-.gallery {color:yellow;}
+#gallery {
+	color:yellow;
+	background:blue;
+	width:100%;
+	margin:0;padding:0;
+	border:0;
+	position:relative;
+}
+#gallery > canvas {
+	display:block;
+	background:red;
+	margin:0;padding:0;
+}
+#gallery > .fff {
+	position:absolute;
+	background:lime;
+	right:0;top:0;
+}

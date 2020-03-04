@@ -1,33 +1,31 @@
-.screens .home {padding:10px;background:#111;width:100%;box-sizing:border-box;text-align:center;margin-bottom:300px;}
-.screens .home button {width:120px;height:50px;}
-.screens .home button.selected {background-color:yellow;}
-.screens .home .admin-row,
-.screens .home .app-row{margin-top:10px;}
-.screens .home .app-row.active {}
-.screens .home .msg-btn,
-.screens .home .app-btn {width:100%;background:white;border:0;font-size:16px;}
-.screens .home .app-btn.active {background:lime;}
-.screens .home .msg-btn.semi-active,
-.screens .home .app-btn.semi-active {background:yellow;}
-.screens .home .header {font-size:32px;font-weight:bold;margin-bottom:10px;color:white;margin-top:10px}
-.screens .home .connected-state.connected {color:lime;}
-.screens .home .connected-state.disconnected {color:red;}
-.screens .home .brightness-row {margin-bottom:15px;margin-top:20px}
-.screens .home .apps {margin-bottom:20px;}
-.screens .home .apps-head {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;}
-.screens .home .admin-head {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;}
-.screens .home .brightness-label {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;margin-top:25px;}
+#home {padding:10px;background:#111;width:100%;box-sizing:border-box;text-align:center;margin-bottom:300px;}
+#home button {width:120px;height:50px;}
+#home button.selected {background-color:yellow;}
+#home .admin-row,
+#home .app-row{margin-top:10px;}
+#home .app-row.active {}
+#home .msg-btn,
+#home .app-btn {width:100%;background:white;border:0;font-size:16px;}
+#home .app-btn.active {background:lime;}
+#home .msg-btn.semi-active,
+#home .app-btn.semi-active {background:yellow;}
+#home .header {font-size:32px;font-weight:bold;margin-bottom:10px;color:white;margin-top:10px}
+#home .connected-state.connected {color:lime;}
+#home .connected-state.disconnected {color:red;}
+#home .brightness-row {margin-bottom:15px;margin-top:20px}
+#home .apps {margin-bottom:20px;}
+#home .apps-head {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;}
+#home .admin-head {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;}
+#home .brightness-label {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;margin-top:25px;}
 @media screen and (max-width: 450px) {
-    .screens .home .header {font-size:28px;}
+    #home .header {font-size:28px;}
 }
 
 
 @media screen and (max-width: 400px) {
-    .screens .home .header {font-size:24px;}
+    #home .header {font-size:24px;}
 }
 
-
-/* Brightness label */
 
 /* Brightness Slider */
 input[type=range].brightness-slider {

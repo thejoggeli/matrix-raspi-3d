@@ -2,7 +2,8 @@ var canvas, ctx;
 
 function Haf(){};
 Haf.installed = false;
-Haf.install = function(params){
+Haf.install = function(_params){
+	var params = _params === undefined ? {} : _params;
 //	console.log("Haf: installing");
 	if(Haf.installed){
 		console.error("Haf already installed ... uninstaling first");
@@ -18,12 +19,13 @@ Haf.install = function(params){
 	Haf.started = false;
 	Haf.inputOverlay = $("<div id='haf-input-overlay'>");
 	Haf.inputOverlay.attr("tabindex", -1);
-	$("body").append(Haf.inputOverlay);
+	Haf.$container = params.container === undefined ? $("body") : $(params.container);
+	Haf.$container.append(Haf.inputOverlay);
 	Haf.camera = new Camera();
 	Haf.title = def(params, "title", "no title");
 	Haf.width = def(params, "width", 0);
 	Haf.height = def(params, "height", 1024);
-	Haf.createCanvas({autoClear:true});
+	Haf.createCanvas({autoClear:params.autoClear||true, container:Haf.$container});
 	Haf.getCanvas(0).setActive();
 	Haf.requestAnimationFrameId = null;
 	$(Haf.getCanvas(0).element).focus();
@@ -35,6 +37,7 @@ Haf.install = function(params){
 	Haf.installed = true;
 }
 Haf.uninstall = function(){
+	Haf.installed = false;
 //	console.log("Haf: uninstalling");
 	$(window).off("resize orientationchange", Haf.resize);
 	canvas = null;
@@ -45,7 +48,6 @@ Haf.uninstall = function(){
 	Input.uninstall();
 	window.cancelAnimationFrame(Haf.requestAnimationFrameId);
 	Haf.inputOverlay.remove();
-	Haf.installed = false;
 }
 Haf.start = function(){
 	if(Haf.started){
@@ -85,26 +87,30 @@ Haf.hide = function(){
 Haf.getCanvas = function(index){
 	return Haf.canvases[index];
 }
-Haf.createCanvas = function(params){
+Haf.createCanvas = function(_params){
+	var params = _params === undefined ? {} : _params;
+	if(params.container === undefined){
+		params.container = Haf.$container;
+	}
 	var canvas = new Canvas("canvas-"+Haf.canvases.length+1, params);
 	Haf.canvases.push(canvas);
-	canvas.element.width = document.documentElement.clientWidth;
-	canvas.element.height = document.documentElement.clientHeight;
+//	canvas.element.width = document.documentElement.clientWidth;
+//	canvas.element.height = document.documentElement.clientHeight;
 	return canvas;
 }
 Haf.resize = function(){
-//	console.log("Haf: resize");
-	Haf.width = document.documentElement.clientWidth/document.documentElement.clientHeight * Haf.height;
-	var canvas;
+	var containerWidth = Haf.$container.innerWidth();
+	var containerHeight = Haf.$container.innerHeight();
+	Haf.width = containerWidth/containerHeight * Haf.height;	
 	for(var x in Haf.canvases){
-		canvas = Haf.canvases[x];
-		canvas.element.width = document.documentElement.clientWidth;
-		canvas.element.height = document.documentElement.clientHeight;
+		var canvas = Haf.canvases[x];
+		canvas.element.width = containerWidth;
+		canvas.element.height = containerHeight;
 		Haf.scale = canvas.element.height / Haf.height;
 	}
 	var $hi = Haf.inputOverlay;
-	$hi.width(document.documentElement.clientWidth);
-	$hi.height(document.documentElement.clientHeight);
+	$hi.width(containerWidth);
+	$hi.height(containerHeight);
 	Haf.onResize();
 }
 Haf.frame = function(){
@@ -112,7 +118,7 @@ Haf.frame = function(){
 	Time.update();
 	Input.update();
 	Haf.onUpdate();
-	if(!Haf.installed | Haf.paused) return;	
+	if(!Haf.installed || Haf.paused) return;	
 	for(var x in Haf.canvases){
 		if(Haf.canvases[x].autoClear){
 			if(Haf.canvases[x].clearColor != null){
@@ -191,7 +197,7 @@ function Camera(){
 	this.bounds = new AABBCollider();
 }
 Camera.prototype.recalcBounds = function(){
-	var aspect = document.documentElement.clientWidth/document.documentElement.clientHeight;
+	var aspect = Haf.width/Haf.height;
 	this.bounds.position.x = this.position.x - (Haf.height*aspect*0.5) / this.zoom;
 	this.bounds.width = (Haf.height*aspect) / this.zoom;
 	this.bounds.position.y = this.position.y - (Haf.height*0.5) / this.zoom;
@@ -401,13 +407,9 @@ function Canvas(id, params){
 	this.autoClear = def(params, "autoClear", true);
 	this.autoTransform = def(params, "autoTransform", true);
 	this.element = document.createElement("canvas");
-	this.element.id = id; 
-	this.element.style.zIndex = def(params, "zIndex", 0);
-	this.element.style.position = "absolute";
-	this.element.style.left = 0;
-	this.element.style.top = 0;
-	$("body").append(this.element);
+	$(params.container).append(this.element);
 	this.ctx = this.element.getContext("2d");
+	this.autoResize = params.autoResize === undefined ? true : params.autoResize;
 	extendedCtx(this.ctx);
 }
 Canvas.prototype.setActive = function(){
@@ -432,7 +434,7 @@ Canvas.prototype.clear = function(){
 }
 
 function Input(){}
-Input.install = function(){
+Input.install = function(params){
 	Input.handlers = {keyDown:[], keyUp:[]};
 	Input.downKeys = [];
 	Input.frameDownKeys = [];
@@ -500,20 +502,24 @@ Input.install = function(){
 		e.stopPropagation();
 	});
 	Haf.inputOverlay.on("mousedown", function(e){
-		Input.mouse.isDown = true;
-		Input.mouse.downFrame = true;
-		var touchHandle = new TouchHandle("mouse");
-		Input.newTouches.push(touchHandle);
-		Input.touches.mouse = touchHandle;
-		Input.updateMousePosition(e);
+		if(e.which == 1){
+			Input.mouse.isDown = true;
+			Input.mouse.downFrame = true;
+			var touchHandle = new TouchHandle("mouse");
+			Input.newTouches.push(touchHandle);
+			Input.touches.mouse = touchHandle;
+			Input.updateMousePosition(e);
+		}
 	});
 	Haf.inputOverlay.on("mouseup", function(e){
-		Input.mouse.isDown = false;
-		Input.mouse.upFrame = true;
-		Input.updateMousePosition(e);
-		if(Input.touches.mouse !== undefined){
-			Input.touches.mouse.expired = true;
-			delete Input.touches.mouse;
+		if(e.which == 1){
+			Input.mouse.isDown = false;
+			Input.mouse.upFrame = true;
+			Input.updateMousePosition(e);
+			if(Input.touches.mouse !== undefined){
+				Input.touches.mouse.expired = true;
+				delete Input.touches.mouse;
+			}
 		}
 	});
 	Haf.inputOverlay.on("mousemove ", function(e){			

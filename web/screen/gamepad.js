@@ -56,7 +56,7 @@ Gamepad.createButtons = function(){
 }
 Gamepad.init = function(){}
 Gamepad.open = function(){
-	Haf.install({height:100,});	
+	Haf.install({height:100, container:$("#gamepad")});
 	Haf.onResize = Gamepad.resize;
 	Haf.onUpdate = Gamepad.update;
 	Haf.onRender = Gamepad.render;

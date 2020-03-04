@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	Fullscreen.install();
 	$(document).on("mousedown touchstart", ".inp-btn", function(){
 		MatrixClient.sendInput(0, $(this).data("keycode"));
 		$(this).data("pressed", true);
@@ -47,7 +48,6 @@ $(document).ready(function(){
 	$(document).on("fullscreenchange mozfullscreenchange webkitfullscreenchange msfullscreenchange", function(){
 		Fullscreen.onChange();
 	});
-	Fullscreen.onChange();
 	MatrixClient.connect();	
 	MatrixClient.addEventListener(Sfx);
 	MatrixClient.addEventListener(AppManager);
@@ -89,6 +89,7 @@ ScreenManager.open = function(name){
 		if(ScreenManager.activeScreen.handle.isOpen)
 			ScreenManager.activeScreen.handle.close();
 			ScreenManager.activeScreen.container.hide();
+			console.log(ScreenManager.activeScreen.container);
 		ScreenManager.activeScreen.handle.isOpen = false;
 	}
 	// check if already loaded
@@ -116,6 +117,7 @@ ScreenManager.open = function(name){
 			})
 		).then(function(){
 			if(script){
+				ScreenManager.loading = false;
 				// handle success		
 				var $container = null;		
 				if(html != null){
@@ -138,25 +140,28 @@ ScreenManager.open = function(name){
 					screen.handle.isInitialized = true;
 				}
 				if(!screen.handle.isOpen){
+					window.scrollTo(0, 0);
+					screen.container.show();
 					screen.handle.open();
 					screen.handle.isOpen = true;
+					Fullscreen.refresh();
 					// fire onWebsocketOpen if connected
 					if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
 						screen.handle.onWebsocketOpen();
 					}
-					screen.container.show();
 				}
-				ScreenManager.loading = false;
 			} else {
+				alert("fatal error");
+				window.location.reload();
 				// handle failure
-				if(name != "home"){
+			/*	if(name != "home"){
 					console.error("couldn't open screen: " + name);
 					ScreenManager.loading = false;		
 					ScreenManager.activeScreen = null;
 					ScreenManager.open("home");
 				} else {
 					alert("fatal error");
-				}
+				} */
 			}
 			if(ScreenManager.queuedScreen != null){
 				ScreenManager.open(ScreenManager.queuedScreen);
@@ -165,13 +170,15 @@ ScreenManager.open = function(name){
 	} else {
 		var screen = ScreenManager.activeScreen = ScreenManager.screens[name];
 		if(!screen.handle.isOpen){
+			window.scrollTo(0, 0);
+			screen.container.show();
 			screen.handle.open();
 			screen.handle.isOpen = true;
+			Fullscreen.refresh();
 			// fire onWebsocketOpen if connected
 			if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
 				screen.handle.onWebsocketOpen();
 			}
-			screen.container.show();
 		}
 		ScreenManager.loading = false;
 		if(ScreenManager.queuedScreen != null){
@@ -258,45 +265,49 @@ AppManager.onWebsocketClose = function(){
 }
 
 function Fullscreen(){}
-Fullscreen.updateButtons = function(){
-	if(Fullscreen.isEnabled()){
-		$(".set-fullscreen[data-mode=enter]").hide();
-		$(".set-fullscreen[data-mode=leave]").show();	
-	} else {		
-		$(".set-fullscreen[data-mode=enter]").show();
-		$(".set-fullscreen[data-mode=leave]").hide();	
+Fullscreen.timeouts = [];
+Fullscreen.createTimeouts = function(){}
+Fullscreen.install = function(){
+	$(window).on("resize", function(e){
+		if($(".fullscreen:visible").length > 0){
+			window.scrollTo(0, -1);
+			var w = window.innerWidth;			
+			var h = window.innerHeight;
+			$(".fullscreen").width(w);
+			$(".fullscreen").height(h);
+			window.scrollTo(0, 0);
+		}
+	});
+/*	$(window).on("scroll", function(e){
+		if($(".fullscreen:visible").length > 0){
+			Fullscreen.refresh();			
+		}
+	}); */
+	$(window).on("orientationchange", function(e){
+		if($(".fullscreen:visible").length > 0){
+			Fullscreen.refresh();			
+		}
+	});	 
+}
+Fullscreen.refresh = function(){
+	$(window).trigger("resize");	
+	// clear timeouts
+	for(var i in Fullscreen.timeouts){
+		clearTimeout(Fullscreen.timeouts[i]);		
 	}
+	Fullscreen.timeouts = [];
+	// create new timeouts	
+	Fullscreen.timeouts.push(setTimeout(function(){
+		$(window).trigger("resize");			
+	}, 250));
+	Fullscreen.timeouts.push(setTimeout(function(){
+		$(window).trigger("resize");			
+	}, 500));
+	Fullscreen.timeouts.push(setTimeout(function(){
+		$(window).trigger("resize");			
+	}, 1000));
 }
-Fullscreen.isEnabled = function(){
-	var doc = window.document;
-	var docEl = doc.documentElement;
-	if(doc.fullscreenElement || doc.mozFullScreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement) {
-		return true;
-	}
-	return false;
-};
-Fullscreen.enter = function(){
-	var doc = window.document;
-	var docEl = doc.documentElement;
-	var enter = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-	enter.call(docEl);
-}
-Fullscreen.leave = function(){
-	var doc = window.document;
-	var docEl = doc.documentElement;
-	var leave = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-	leave.call(doc);
-}
-Fullscreen.toggle = function(){
-	if(Fullscreen.isEnabled()){
-		Fullscreen.leave();
-	} else {
-		Fullscreen.enter();
-	}
-}
-Fullscreen.onChange = function(){
-	Fullscreen.updateButtons();
-}
+
 
 function HashUrl(){}
 HashUrl.suppressNextChangeEvent = false;
