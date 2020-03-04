@@ -76,7 +76,7 @@ Painter.open = function(){
 	Haf.inputOverlay.on("mousedown touchstart", function(){
 		$("#painter .toolbar-overlay").hide();
 	});
-	$("#painter .toolbar-overlay").hide();
+	$("#painter .toolbar-overlay").show();
 	Haf.start();
 	MatrixClient.addEventListener(Painter);
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
@@ -255,8 +255,6 @@ PainterTools.init = function(){
 		$("#painter .toolbar-overlay").show();	
 	});
 	PainterTools.colors = [];
-	var hue_steps = 20;
-	var hue_step = 1/hue_steps;
 	var lig_steps = 5;
 	var lig_step = 1/(lig_steps-1);
 	for(var l = 0; l < lig_steps; l++){
@@ -268,10 +266,37 @@ PainterTools.init = function(){
 			b255: Colors.b255,
 			hex: Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255),
 			rgb: (Colors.r255<<16)|(Colors.g255<<8)|Colors.b255,
-		});		
+		});
 	}
 	PainterTools.colorWhite = PainterTools.colors[0];
 	PainterTools.colorBlack = PainterTools.colors[lig_steps-1];
+		
+	var hsls = [
+		[0, 	1.0, 	0.5], // red
+		[30,	1.0, 	0.5], // red-orange
+		[60,	1.0, 	0.5], // yellow
+		[90,	1.0, 	0.5], // green yellowish
+		[180, 	1.0, 	0.5], // cyan
+		[210, 	1.0, 	0.5], // cyan-blue
+		[240, 	1.0, 	0.5], // blue
+		[270, 	1.0, 	0.5], // purple
+		[300,	1.0, 	0.5], // magenta
+		[330,	1.0, 	0.5], // magenta-red	
+	];	
+	for(var h = 0; h < hsls.length; h++){
+		Colors.hslToRgb255(hsls[h][0]/360.0, hsls[h][1], hsls[h][2]);
+		PainterTools.colors.push({
+			r255: Colors.r255,
+			g255: Colors.g255,
+			b255: Colors.b255,
+			hex: Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255),
+			rgb: (Colors.r255<<16)|(Colors.g255<<8)|Colors.b255,
+		});				
+	}
+	
+	/*
+	var hue_steps = 24;
+	var hue_step = 1/hue_steps;
 	for(var h = 0; h < hue_steps; h++){
 		var hue = h*hue_step;
 		Colors.hslToRgb255(hue, 1, 0.5);
@@ -283,6 +308,8 @@ PainterTools.init = function(){
 			rgb: (Colors.r255<<16)|(Colors.g255<<8)|Colors.b255,
 		});		
 	}
+	*/ 
+	
 	var $boxes = $("#painter .color-boxes");
 	var $row = null;
 	for(var i in PainterTools.colors){
@@ -307,7 +334,7 @@ PainterTools.init = function(){
 	$("#painter .sizepicker input[type=range]").on("input", function(){
 		PainterTools.selectSize($(this).val());
 	});
-	PainterTools.selectColor(randomInt(lig_steps, lig_steps+hue_steps));
+	PainterTools.selectColor(randomInt(lig_steps, lig_steps+hsls.length));
 }
 PainterTools.open = function(){	
 	PainterTools.selectedSize = 1;
