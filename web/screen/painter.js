@@ -221,10 +221,12 @@ Painter.onWebsocketMessage = function(json){
 		var right = left+json.w;
 		var len = json.rgb.length-1; // h suffix
 		for(var i = 0; i < len; i+=6){
-			var r = parseInt(json.rgb.charAt(i+0)+json.rgb.charAt(i+1), 16);
-			var g = parseInt(json.rgb.charAt(i+2)+json.rgb.charAt(i+3), 16);
-			var b = parseInt(json.rgb.charAt(i+4)+json.rgb.charAt(i+5), 16);
-			Painter.setPixelColor(x, y, r, g, b);
+			if(json.rgb.charAt(i) != "-"){
+				var r = parseInt(json.rgb.charAt(i+0)+json.rgb.charAt(i+1), 16);
+				var g = parseInt(json.rgb.charAt(i+2)+json.rgb.charAt(i+3), 16);
+				var b = parseInt(json.rgb.charAt(i+4)+json.rgb.charAt(i+5), 16);
+				Painter.setPixelColor(x, y, r, g, b);
+			}
 			x++;
 			if(x >= right){
 				x = left;
@@ -418,6 +420,10 @@ PainterToolsPen.prototype.update = function(){
 function PainterToolsBucket(){
 	this.v1 = new Vector();
 	this.name = "Fill";
+	this.affected_map = new Array(Painter.width);
+	for(var i = 0; i < Painter.width; i++){
+		this.affected_map[i] = new Array(Painter.height);
+	}
 }
 PainterToolsBucket.prototype.onSelect = function(){
 	$("#painter .tool-options.colorpicker").show();	
@@ -432,8 +438,7 @@ PainterToolsBucket.prototype.update = function(){
 	if(Input.newTouches.length > 0){
 		touch = Input.newTouches[0];
 	}	
-	
-	
+		
 	if(touch){
 		this.v1.x = touch.worldPosition.x;
 		this.v1.y = touch.worldPosition.y;
@@ -442,25 +447,46 @@ PainterToolsBucket.prototype.update = function(){
 		var ny = Math.floor(this.v1.y);
 		var tc = Painter.pixels[nx][ny];
 		var rc = PainterTools.selectedColor;
+		
+		this.bounds_left = Painter.width;
+		this.bounds_right = 0;
+		this.bounds_top = Painter.height;
+		this.bounds_bottom = 0;
+		for(var i = 0; i < Painter.width; i++){
+			for(var j = 0; j < Painter.height; j++){				
+				this.affected_map[i][j] = false;
+			}
+		}
+		
 		this.floodFill(nx, ny, tc.rgb, rc.rgb);
 						
 		var chunk_size = 16;
 		var data = null;
-		for(var cx = 0; cx < Painter.width; cx += chunk_size){
-			for(var cy = 0; cy < Painter.height; cy += chunk_size){
-				data = new Array(chunk_size*chunk_size+4);
+		var right = this.bounds_right+1;
+		var bottom = this.bounds_bottom+1;
+		for(var cx = this.bounds_left; cx < right; cx += chunk_size){
+			var chunk_w = cx+chunk_size < right ? chunk_size : (right-cx)
+			console.log("w", chunk_w);
+			for(var cy = this.bounds_top; cy < bottom; cy += chunk_size){
+				var chunk_h = cy+chunk_size < bottom ? chunk_size : (bottom-cy)
+				console.log("h", chunk_h);
+				data = new Array(chunk_w*chunk_h+4);
 				data[0] = cx; // x offset
 				data[1] = cy; // y offset
-				data[2] = chunk_size; // width
-				data[3] = chunk_size; // height
+				data[2] = chunk_w; // width
+				data[3] = chunk_h; // height
 				var i = 4;
-				for(var x = 0; x < chunk_size; x++){
-					for(var y = 0; y < chunk_size; y++){
-						data[i++] = Painter.pixels[cx+x][cy+y].rgb;
+				for(var x = 0; x < chunk_w; x++){
+					for(var y = 0; y < chunk_h; y++){
+						if(this.affected_map[cx+x][cy+y]){
+							data[i++] = Painter.pixels[cx+x][cy+y].rgb;
+						} else {
+							data[i++] = "-";
+						}
 					}
 				}
 				MatrixClient.sendMessage("pixels_chunk", data);
-			}			
+			}
 		} 
 		/*
 		var pixels = new Array(Painter.width*Painter.height);
@@ -484,6 +510,11 @@ PainterToolsBucket.prototype.floodFill = function(nx, ny, tc, rc){
 		// 2. ElseIf the color of node is not equal to target-color, return.
 		return;
 	} else {
+		this.affected_map[nx][ny] = true;		
+		if(nx < this.bounds_left)	this.bounds_left = nx;
+		if(nx > this.bounds_right)	this.bounds_right = nx;
+		if(ny < this.bounds_top)	this.bounds_top = ny;
+		if(ny > this.bounds_bottom)	this.bounds_bottom = ny;
 		Painter.setPixelColor(nx, ny, (rc>>16)&0xFF, (rc>>8)&0xFF, rc&0xFF);
 		if(nx > 0) 					this.floodFill(nx-1, ny, tc, rc);
 		if(nx < Painter.width-1) 	this.floodFill(nx+1, ny, tc, rc);
@@ -535,11 +566,16 @@ function PainterPenTouch(touch, color, size){
 	this.p2 = new Vector();
 	this.last = new Vector(this.touch.worldPosition.x, this.touch.worldPosition.y);
 	Painter.transform(this.last);
-	this.canceled = false;
+	this.canceled = false;	
+	this.affected_map = new Array(Painter.width);
+	for(var i = 0; i < Painter.width; i++){
+		this.affected_map[i] = new Array(Painter.height);
+	}
 }
 PainterPenTouch.init = function(){
 	var stamps = PainterPenTouch.stamps = {};
-	for(var i = 2; i <= 16; i++){
+	var max = parseInt($("#painter .sizepicker input[type=range]").attr("max"));
+	for(var i = 1; i <= max; i++){
 		var radius = i/2.0;
 		var stamp = new Array(i);
 		var radius_sqr = (radius-0.1)*(radius-0.1);
@@ -558,32 +594,26 @@ PainterPenTouch.init = function(){
 	}
 }
 PainterPenTouch.prototype.applyStamp = function(x, y){
-	if(this.size == 1){	
-		if(Painter.setPixelColor(x, y, this.color.r255, this.color.g255, this.color.b255)){
-			MatrixClient.sendMessage("pixel", [
-				this.color.rgb, x, y
-			]);				
-		}
-	} else {
-		var stamp = PainterPenTouch.stamps[this.size];
-		var x_left = x-Math.floor(this.size/2);
-		var y_top = y-Math.floor(this.size/2);
-		for(var i = 0; i < this.size; i++){
-			var xx = x_left+i;
-			if(xx < 0 || xx >= Painter.width) continue;
-			for(var j = 0; j < this.size; j++){
-				var yy = y_top+j;
-				if(yy < 0 || yy >= Painter.height) continue;
-				if(stamp[i][j] != 0){
-					if(Painter.setPixelColor(xx, yy, this.color.r255, this.color.g255, this.color.b255)){
-						MatrixClient.sendMessage("pixel", [
-							this.color.rgb, xx, yy
-						]);
-					}
+	var stamp = PainterPenTouch.stamps[this.size];
+	var x_left = x-Math.floor(this.size/2);
+	var y_top = y-Math.floor(this.size/2);	
+	for(var i = 0; i < this.size; i++){
+		var xx = x_left+i;
+		if(xx < 0 || xx >= Painter.width) continue;
+		for(var j = 0; j < this.size; j++){
+			var yy = y_top+j;
+			if(yy < 0 || yy >= Painter.height) continue;
+			if(stamp[i][j] != 0){
+				if(Painter.setPixelColor(xx, yy, this.color.r255, this.color.g255, this.color.b255)){
+					this.affected_map[xx][yy] = true;
+					if(xx < this.bounds_left)	this.bounds_left = xx;
+					if(xx > this.bounds_right)	this.bounds_right = xx;
+					if(yy < this.bounds_top)	this.bounds_top = yy;
+					if(yy > this.bounds_bottom)	this.bounds_bottom = yy;
 				}
-			}			
+			}
 		}
-	}
+	}	
 }
 PainterPenTouch.prototype.update = function(){
 	if(this.touch.expired || this.canceled){
@@ -609,14 +639,54 @@ PainterPenTouch.prototype.update = function(){
 	var dx = p1.x-p2.x;
 	var dy = p1.y-p2.y;
 	var dist = Math.sqrt(dx*dx+dy*dy);
-	if(dist == 0){
+			
+	this.bounds_left = Painter.width;
+	this.bounds_right = 0;
+	this.bounds_top = Painter.height;
+	this.bounds_bottom = 0;
+	if(this.size > 1){	
+		for(var i = 0; i < Painter.width; i++){
+			for(var j = 0; j < Painter.height; j++){				
+				this.affected_map[i][j] = false;
+			}
+		}
+	}
+	
+	if(dist == 0){	
 		this.applyStamp(Math.floor(p1.x), Math.floor(p1.y));
 	} else {
 		var dirx = (p2.x-p1.x)/dist;
 		var diry = (p2.y-p1.y)/dist;
 		for(var s = 0; s <= dist; s+=step){
 			this.applyStamp(Math.floor(p1.x + dirx * s), Math.floor(p1.y + diry * s));
-		}				
+		}
+	}
+	
+	this.bounds_width = this.bounds_right-this.bounds_left+1;
+	this.bounds_height = this.bounds_bottom-this.bounds_top+1;
+	
+	if(this.bounds_width == 1 && this.bounds_height == 1){
+		MatrixClient.sendMessage("pixel", [
+			this.color.rgb, this.bounds_left, this.bounds_top,
+		]);		
+	} else if(this.bounds_width > 0 && this.bounds_height > 0){
+		console.log("CASE 2222222222");
+		var data = new Array(this.bounds_width*this.bounds_height+4);
+		var k = 4;
+		data[0] = this.bounds_left;
+		data[1] = this.bounds_top;
+		data[2] = this.bounds_width;
+		data[3] = this.bounds_height;
+		for(var i = this.bounds_left; i <= this.bounds_right; i++){
+			for(var j = this.bounds_top; j <= this.bounds_bottom; j++){
+				if(this.affected_map[i][j]){
+					data[k++] = Painter.pixels[i][j].rgb;
+				} else {
+					data[k++] = "-";
+				}
+			}
+		}
+		MatrixClient.sendMessage("pixels_chunk", data);
 	}
 	this.last.x = p1.x;
 	this.last.y = p1.y;

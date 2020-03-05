@@ -12,6 +12,9 @@ static char timeBuffer[32];
 static char prefixBuffer[64];
 static char prefixBufferPadding[] = ".............";
 
+static const int max_str_len = 150;
+static const int max_str_len_cut = max_str_len-4;
+
 LogConcator LogConcator::instance = LogConcator();
 
 int LogLevels::initCounter = 0;
@@ -48,16 +51,30 @@ void Log(LogLevel level, const std::string& source, const std::string& str){
 	int padLen = sizeof(prefixBufferPadding) - source.length();
 	if(padLen < 0) padLen = 0;
 	sprintf(prefixBuffer, "[%s][%s%*.*s]", timeBuffer, source.c_str(), padLen, padLen, prefixBufferPadding);
-	switch(level){
-	case LOG_INFO:
-		if(LogLevels::info) cout << prefixBuffer << " INFO: " << str << endl;
-		break;
-	case LOG_DEBUG:
-		if(LogLevels::debug) cout << prefixBuffer << " DEBUG: " << str << endl;
-		break;
-	case LOG_ERROR:
-		if(LogLevels::error) cerr << prefixBuffer << " ERROR: " << str << endl;
-		break;
+	if(str.length() > max_str_len){
+		switch(level){
+		case LOG_INFO:
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << " ..." << endl;
+			break;
+		case LOG_DEBUG:
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << " ..." << endl;
+			break;
+		case LOG_ERROR:
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << " ..." << endl;
+			break;
+		}
+	} else {
+		switch(level){
+		case LOG_INFO:
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str << endl;
+			break;
+		case LOG_DEBUG:
+			if(LogLevels::debug) cout << prefixBuffer << " DEBUG: " << str << endl;
+			break;
+		case LOG_ERROR:
+			if(LogLevels::error) cerr << prefixBuffer << " ERROR: " << str << endl;
+			break;
+		}
 	}
 }
 

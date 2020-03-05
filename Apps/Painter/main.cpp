@@ -124,7 +124,7 @@ void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
 	// prepare pixels_chunk to all clients
 	ServerMessage smsg = ServerMessage("pixels_chunk");
 	int hex_len = w0*h0*6+1;
-	std::string str(hex_len, '0');
+	std::string str(hex_len, '-');
 	str[hex_len-1] = 'h';
 	// apply chunk
 	int i = 4;
@@ -133,14 +133,17 @@ void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
 	const int align_step2 = w0*h0*6;
 	for(int x = x0; x < w; x++){
 		for(int y = y0; y < h; y++){
-			unsigned int rgb = message.GetParamInt(i++);
-			canvas->SetPixelBytes(x, y, (rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF);
-			str[j+0] = digits[(rgb >> 20)&0xF];
-			str[j+1] = digits[(rgb >> 16)&0xF];
-			str[j+2] = digits[(rgb >> 12)&0xF];
-			str[j+3] = digits[(rgb >> 8)&0xF];
-			str[j+4] = digits[(rgb >> 4)&0xF];
-			str[j+5] = digits[(rgb >> 0)&0xF];
+			if(message.GetParam(i) != "-"){
+				unsigned int rgb = message.GetParamInt(i);
+				canvas->SetPixelBytes(x, y, (rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF);
+				str[j+0] = digits[(rgb >> 20)&0xF];
+				str[j+1] = digits[(rgb >> 16)&0xF];
+				str[j+2] = digits[(rgb >> 12)&0xF];
+				str[j+3] = digits[(rgb >> 8)&0xF];
+				str[j+4] = digits[(rgb >> 4)&0xF];
+				str[j+5] = digits[(rgb >> 0)&0xF];
+			}
+			i += 1;
 			j += align_step;
 		}
 		j -= align_step2;
