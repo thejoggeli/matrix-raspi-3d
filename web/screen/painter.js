@@ -76,7 +76,7 @@ Painter.open = function(){
 	Haf.inputOverlay.on("mousedown touchstart", function(){
 		$("#painter .toolbar-overlay").hide();
 	});
-	$("#painter .toolbar-overlay").show();
+	$("#painter .toolbar-overlay").hide();
 	Haf.start();
 	MatrixClient.addEventListener(Painter);
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
