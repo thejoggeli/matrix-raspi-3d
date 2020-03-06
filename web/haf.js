@@ -472,64 +472,78 @@ Input.install = function(params){
 		Input.frameUpKeys[e.keyCode] = true;
 		Input.hasFrameKeys = true;
 	});	
-	Haf.inputOverlay.on("touchstart", function(e){
-		for(var t = 0; t < e.changedTouches.length; t++){
-			var touch = e.changedTouches[t];
-			var touchHandle = new TouchHandle(touch);
-			Input.newTouches.push(touchHandle);
-			Input.touches[touchHandle.id] = touchHandle;	
-		}
-		e.preventDefault();
-		e.stopPropagation();
-	});
-	Haf.inputOverlay.on("touchmove", function(e){
-		for(var t = 0; t < e.changedTouches.length; t++){		
-			var touch = e.changedTouches[t];
-			var touchHandle = Input.touches[touch.identifier];
-			touchHandle.screenPosition.setFloats(touch.clientX, touch.clientY);	
-		}
-		e.preventDefault();
-		e.stopPropagation();
-	});
-	Haf.inputOverlay.on("touchend", function(e){
-		for(var t = 0; t < e.changedTouches.length; t++){
-			var touch = e.changedTouches[t];
-			var touchHandle = Input.touches[touch.identifier];
-			touchHandle.expired = true;
-			delete Input.touches[touchHandle.id];			
-		}	
-		e.preventDefault();
-		e.stopPropagation();
-	});
-	Haf.inputOverlay.on("mousedown", function(e){
-		if(e.which == 1){
-			Input.mouse.isDown = true;
-			Input.mouse.downFrame = true;
-			var touchHandle = new TouchHandle("mouse");
-			Input.newTouches.push(touchHandle);
-			Input.touches.mouse = touchHandle;
-			Input.updateMousePosition(e);
-		}
-	});
-	Haf.inputOverlay.on("mouseup", function(e){
-		if(e.which == 1){
-			Input.mouse.isDown = false;
-			Input.mouse.upFrame = true;
-			Input.updateMousePosition(e);
-			if(Input.touches.mouse !== undefined){
-				Input.touches.mouse.expired = true;
-				delete Input.touches.mouse;
-			}
-		}
-	});
-	Haf.inputOverlay.on("mousemove ", function(e){			
-		Input.mouse.screen_x = e.pageX;
-		Input.mouse.screen_y = e.pageY;
-		Input.updateMousePosition(e);
-	});
+	Haf.inputOverlay.on("mousedown ", Input.handleMouseDown);
+	Haf.inputOverlay.on("mouseup ", Input.handleMouseUp);
+	Haf.inputOverlay.on("mousemove ", Input.handleMouseMove);
+	Haf.inputOverlay.on("touchstart", Input.handleTouchStart);
+	Haf.inputOverlay.on("touchend", Input.handleTouchEnd);
+	Haf.inputOverlay.on("touchmove", Input.handleTouchMove);
 }
 Input.uninstall = function(){
 	Input.clearFrameKeys();
+}
+Input.handleMouseDown = function(e){
+	if(e.which == 1){
+		Input.mouse.isDown = true;
+		Input.mouse.downFrame = true;
+		var touchHandle = new TouchHandle("mouse");
+		Input.newTouches.push(touchHandle);
+		Input.touches.mouse = touchHandle;
+		Input.updateMousePosition(e);
+	}	
+}
+Input.handleMouseUp = function(e){
+	if(e.which == 1){
+		Input.updateMousePosition(e);
+		Input.mouse.isDown = false;
+		Input.mouse.upFrame = true;
+		if(Input.touches.mouse !== undefined){
+			Input.touches.mouse.expired = true;
+			delete Input.touches.mouse;
+		}
+	}	
+}
+Input.handleMouseMove = function(e){
+	Input.updateMousePosition(e);
+	Input.mouse.screen_x = e.pageX;
+	Input.mouse.screen_y = e.pageY;
+	if(e.target != Haf.inputOverlay && e.which != 1){
+		Input.mouse.isDown = false;
+		Input.mouse.upFrame = true;
+		if(Input.touches.mouse !== undefined){
+			Input.touches.mouse.expired = true;
+			delete Input.touches.mouse;
+		}
+	}
+}
+Input.handleTouchStart = function(e){
+	for(var t = 0; t < e.changedTouches.length; t++){
+		var touch = e.changedTouches[t];
+		var touchHandle = new TouchHandle(touch);
+		Input.newTouches.push(touchHandle);
+		Input.touches[touchHandle.id] = touchHandle;	
+	}
+	e.preventDefault();
+	e.stopPropagation();	
+}
+Input.handleTouchEnd = function(e){
+	for(var t = 0; t < e.changedTouches.length; t++){
+		var touch = e.changedTouches[t];
+		var touchHandle = Input.touches[touch.identifier];
+		touchHandle.expired = true;
+		delete Input.touches[touchHandle.id];			
+	}	
+	e.preventDefault();
+	e.stopPropagation();	
+}
+Input.handleTouchMove = function(e){
+	for(var t = 0; t < e.changedTouches.length; t++){		
+		var touch = e.changedTouches[t];
+		var touchHandle = Input.touches[touch.identifier];
+		touchHandle.screenPosition.setFloats(touch.clientX, touch.clientY);	
+	}
+	e.preventDefault();
+	e.stopPropagation();	
 }
 Input.update = function(){
 	for(var t in Input.touches){

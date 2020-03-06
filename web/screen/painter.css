@@ -202,7 +202,7 @@
 #painter .tool-options-button span{
 	margin:auto;
 }
-#painter .tool-options.sizepicker .range-container{
+#painter .tool-options .range-container {
 	padding:10px;
 }
 #painter .tool-options-label {font-weight:bold;text-align:center;padding:10px;font-size:16px;background:#333;border-bottom:2px solid black;border-top:2px solid black;}
@@ -234,18 +234,53 @@
 #painter .tool-options.colorpicker .color-box.selected {
 	border:2px solid white;
 }
+#painter .tool-options.colorpicker .lightness-container {
+	display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+	margin:10px;
+}
+#painter .tool-options.colorpicker .lightness-container .lightness-button:last-child {
+	border-right:2px solid black;
+}
+#painter .tool-options.colorpicker .lightness-button {
+	margin-bottom:0;
+	background:#333;color:white;
+	font-size:16px;font-weight:bold;
+	display:block;
+	width:auto;
+	height:60px;
+	box-sizing:border-box;
+	border:2px solid black;
+	border-right:0;
+	border-radius:0;	
+	display:flex;
+	cursor:pointer;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: stretch;
+}
+#painter .tool-options.colorpicker .lightness-button span {
+	margin:auto;
+}
+#painter .tool-options.colorpicker .lightness-button.selected {
+	background:black;
+}
 
 /* Brightness Slider */
 
-#painter .tools .sizepicker input[type=range] {
+#painter .tools input[type=range] {
   -webkit-appearance: none;
   width:100%;
   margin: 7.3px 0;
 }
-#painter .tools .sizepicker input[type=range]:focus {
+#painter .tools input[type=range]:focus {
   outline: none;
 }
-#painter .tools .sizepicker input[type=range]::-webkit-slider-runnable-track {
+#painter .tools input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 11.4px;
   cursor: pointer;
@@ -253,7 +288,7 @@
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
-#painter .tools .sizepicker input[type=range]::-webkit-slider-thumb {
+#painter .tools input[type=range]::-webkit-slider-thumb {
   border: 1.8px solid #00001e;
   height: 26px;
   width: 26px;
@@ -263,10 +298,10 @@
   -webkit-appearance: none;
   margin-top: -7.5px;
 }
-#painter .tools .sizepicker input[type=range]:focus::-webkit-slider-runnable-track {
+#painter .tools input[type=range]:focus::-webkit-slider-runnable-track {
   background: rgba(51, 51, 51, 1);
 }
-#painter .tools .sizepicker input[type=range]::-moz-range-track {
+#painter .tools input[type=range]::-moz-range-track {
   width: 100%;
   height: 11.4px;
   cursor: pointer;
@@ -274,7 +309,7 @@
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
-#painter .tools .sizepicker input[type=range]::-moz-range-thumb {
+#painter .tools input[type=range]::-moz-range-thumb {
   border: 1.8px solid #00001e;
   height: 26px;
   width: 26px;
@@ -282,7 +317,7 @@
   background: #ffffff;
   cursor: pointer;
 }s
-#painter .tools .sizepicker input[type=range]::-ms-track {
+#painter .tools input[type=range]::-ms-track {
   width: 100%;
   height: 11.4px;
   cursor: pointer;
@@ -290,18 +325,18 @@
   border-color: transparent;
   color: transparent;
 }
-#painter .tools .sizepicker input[type=range]::-ms-fill-lower {
+#painter .tools input[type=range]::-ms-fill-lower {
   background: rgba(51, 51, 51, 1);
   border: 0.2px solid #010101;
   border-radius: 2.6px;
 }
-#painter .tools .sizepicker input[type=range]::-ms-fill-upper {
+#painter .tools input[type=range]::-ms-fill-upper {
   background: rgba(51, 51, 51, 1);
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-#painter .tools .sizepicker input[type=range]::-ms-thumb {
+#painter .tools input[type=range]::-ms-thumb {
   border: 1.8px solid #00001e;
   height: 26px;
   width: 26px;
@@ -310,10 +345,10 @@
   cursor: pointer;
   height: 11.4px;
 }
-#painter .tools .sizepicker input[type=range]:focus::-ms-fill-lower {
+#painter .tools input[type=range]:focus::-ms-fill-lower {
   background: rgba(51, 51, 51, 1);
 }
-#painter .tools .sizepicker input[type=range]:focus::-ms-fill-upper {
+#painter .tools input[type=range]:focus::-ms-fill-upper {
   background: rgba(51, 51, 51, 1);
 }
 

@@ -75,7 +75,7 @@ Painter.open = function(){
 			PainterTools.selectTool("pen");
 		}
 	});
-//	$("#painter .toolbar-overlay").hide();
+	$("#painter .toolbar-overlay").hide();
 	Haf.start();
 	MatrixClient.addEventListener(Painter);
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
@@ -238,7 +238,6 @@ Painter.onWebsocketMessage = function(json){
 	}
 }
 Painter.updateUndoRedo = function(undo, redo){
-	console.log(undo, redo);
 	if(undo > 0){
 		$("#painter .undo").removeClass("disabled");
 	} else {
@@ -275,60 +274,55 @@ PainterTools.init = function(){
 		$("#painter .toolbar-overlay").show();	
 	});
 	PainterTools.colors = [];
+	PainterTools.grayColors = [];
+	PainterTools.hueColors = [];
 	var lig_steps = 5;
 	var lig_step = 1/(lig_steps-1);
 	for(var l = 0; l < lig_steps; l++){
-		var lig = 1-l*lig_step;
-		Colors.hslToRgb255(0, 0, lig);
-		PainterTools.colors.push({
+		var color = {
+			index: l,
+			hue: 0,
+			saturation: 0,
+			lightness: 1-l*lig_step,
 			r255: Colors.r255,
 			g255: Colors.g255,
 			b255: Colors.b255,
 			hex: Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255),
 			rgb: (Colors.r255<<16)|(Colors.g255<<8)|Colors.b255,
-		});
+		};
+		PainterTools.colors.push(color);
+		PainterTools.grayColors.push(color);
 	}
 	PainterTools.colorWhite = PainterTools.colors[0];
 	PainterTools.colorBlack = PainterTools.colors[lig_steps-1];
-		
+			
 	var hsls = [
-		[0, 	1.0, 	0.5], // red
-		[30,	1.0, 	0.5], // red-orange
-		[60,	1.0, 	0.5], // yellow
-		[90,	1.0, 	0.5], // green yellowish
-		[180, 	1.0, 	0.5], // cyan
-		[210, 	1.0, 	0.5], // cyan-blue
-		[240, 	1.0, 	0.5], // blue
-		[270, 	1.0, 	0.5], // purple
-		[300,	1.0, 	0.5], // magenta
-		[330,	1.0, 	0.5], // magenta-red	
-	];	
+		0, 	 	// red
+		30,	 	// red-orange
+		60,	 	// yellow
+		90,	 	// green yellowish
+		180, 	// cyan
+		210, 	// cyan-blue
+		240, 	// blue
+		270, 	// purple
+		300,	// magenta
+		330,	// magenta-red	
+	];
 	for(var h = 0; h < hsls.length; h++){
-		Colors.hslToRgb255(hsls[h][0]/360.0, hsls[h][1], hsls[h][2]);
-		PainterTools.colors.push({
-			r255: Colors.r255,
-			g255: Colors.g255,
-			b255: Colors.b255,
-			hex: Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255),
-			rgb: (Colors.r255<<16)|(Colors.g255<<8)|Colors.b255,
-		});				
+		var color = {
+			index: h+lig_steps,
+			hue: hsls[h]/360.0,
+			saturation: 0,
+			lightness: 0,
+			r255: 0, 
+			g255: 0, 
+			b255: 0,
+			hex: "#000000",
+			rgb: 0,
+		};		
+		PainterTools.colors.push(color);
+		PainterTools.hueColors.push(color);
 	}
-	
-	/*
-	var hue_steps = 24;
-	var hue_step = 1/hue_steps;
-	for(var h = 0; h < hue_steps; h++){
-		var hue = h*hue_step;
-		Colors.hslToRgb255(hue, 1, 0.5);
-		PainterTools.colors.push({
-			r255: Colors.r255,
-			g255: Colors.g255,
-			b255: Colors.b255,
-			hex: Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255),
-			rgb: (Colors.r255<<16)|(Colors.g255<<8)|Colors.b255,
-		});		
-	}
-	*/ 
 	
 	var $boxes = $("#painter .color-boxes");
 	var $row = null;
@@ -337,35 +331,42 @@ PainterTools.init = function(){
 			$row = $("<div class='color-box-row'>");
 			$boxes.append($row);
 		}
-		var $box = $("<div class='color-box'>");
-		$box.data("red", PainterTools.colors[i].r255);
-		$box.data("green", PainterTools.colors[i].g255);
-		$box.data("blue", PainterTools.colors[i].b255);
-		$box.data("hex", PainterTools.colors[i].hex);
+		var $box = $("<div class='color-box'>");	
 		$box.data("index", i);
-		$box.css("background-color", PainterTools.colors[i].hex);
-		
+		PainterTools.colors[i].$box = $box;	
 		$row.append($box);
 	}
+		
 	$($boxes.find(".color-box")[0]).addClass("white");
 	$("#painter .color-boxes").on("click", ".color-box", function(){
 		PainterTools.selectColor($(this).data("index"));
 	});
 	$("#painter .sizepicker input[type=range]").on("input", function(){
-		PainterTools.selectSize($(this).val());
+		PainterTools.selectSize(parseInt($(this).val()));
+	});
+/*	$("#painter .colorpicker .lightness").on("input", function(){
+		PainterTools.setLightness(parseFloat($(this).val()));
+	});
+	$("#painter .colorpicker .saturation").on("input", function(){
+		PainterTools.setSaturation(parseFloat($(this).val()));
+	}); */
+	$("#painter .colorpicker .lightness-button").on("click", function(){
+		PainterTools.setLightness(parseFloat($(this).data("value")));
 	});
 	PainterTools.selectColor(randomInt(lig_steps, lig_steps+hsls.length));
 }
 PainterTools.open = function(){	
 	PainterTools.selectedSize = 1;
 	PainterTools.selectedTool = null;
+	PainterTools.setLightness(0.5);
+	PainterTools.setSaturation(1.0);
 	PainterTools.tools = {
 		pen: new PainterToolsPen(),
 		bucket: new PainterToolsBucket(),
 		eraser: new PainterToolsEraser(),
 		menu: new PainterToolsMenu(),
 	}
-	PainterTools.selectTool("pen");
+	PainterTools.selectTool("pen");	
 }
 PainterTools.close = function(){
 	PainterTools.selectedTool.onUnselect();
@@ -388,7 +389,45 @@ PainterTools.selectColor = function(index){
 	$("#painter .color-box").removeClass("selected");
 	$($("#painter .color-boxes .color-box")[index]).addClass("selected");
 	PainterTools.selectedColor = PainterTools.colors[index];
-	$("#painter .toolbar-label-extra-color").css("background", PainterTools.colors[index].hex);
+	PainterTools.updateColorPreview();
+}
+PainterTools.setLightness = function(lightness){
+	for(var i in PainterTools.hueColors){
+		PainterTools.hueColors[i].lightness = lightness;
+	}
+//	$("#painter .colorpicker .lightness").val(lightness);
+//	$("#painter .colorpicker .lightness-value").text(Math.round(lightness*100)+"%");
+	$("#painter .colorpicker .lightness-button").removeClass("selected");
+	$("#painter .colorpicker .lightness-button[data-value='"+roundToFixed(lightness, 1)+"']").addClass("selected");
+	PainterTools.updateColors();
+	PainterTools.updateColorPreview();
+}
+PainterTools.setSaturation  = function(saturation){	
+	console.log(saturation);
+	for(var i in PainterTools.hueColors){
+		PainterTools.hueColors[i].saturation = saturation;
+	}
+//	$("#painter .colorpicker .saturation").val(saturation);
+//	$("#painter .colorpicker .saturation-value").text(Math.round(saturation*100)+"%");
+	PainterTools.updateColors();
+	PainterTools.updateColorPreview();
+}
+PainterTools.updateColors = function(){
+	for(var i in PainterTools.colors){
+		var color = PainterTools.colors[i];
+		var $box = color.$box;
+		console.log(color.hue, color.saturation, color.lightness)
+		Colors.hslToRgb255(color.hue, color.saturation, color.lightness);
+		color.r255 = Colors.r255;
+		color.g255 = Colors.g255;
+		color.b255 = Colors.b255;
+		color.hex = Colors.rgbToHex(Colors.r255, Colors.g255, Colors.b255);
+		color.rgb = (color.r255<<16)|(color.g255<<8)|color.b255
+		$box.css("background-color", color.hex);	
+	}	
+}
+PainterTools.updateColorPreview = function(){
+	$("#painter .toolbar-label-extra-color").css("background", PainterTools.selectedColor.hex);	
 }
 PainterTools.selectSize = function(size){
 	PainterTools.selectedSize = size;
@@ -646,7 +685,6 @@ PainterPenTouch.init = function(){
 		for(var x = 0; x < i; x++){
 			stamp[x] = new Array(i);
 			var xo = x+off;
-			if(i==2) console.log(xo);
 			for(var y = 0; y < i; y++){
 				var yo = y+off;
 				var dist_sqr = xo*xo+yo*yo;
@@ -736,7 +774,6 @@ PainterPenTouch.prototype.update = function(){
 		]);		
 		this.firstSend = false;
 	} else if(this.bounds_width > 0 && this.bounds_height > 0){
-		console.log("CASE 2222222222");
 		var data = new Array(this.bounds_width*this.bounds_height+5);
 		var k = 5;
 		data[0] = saveBit;
