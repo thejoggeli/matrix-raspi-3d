@@ -1,9 +1,11 @@
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 #include "Ledlib/Config.h"
 #include "Ledlib/Log.h"
 #include "Ledlib/Time.h"
+#include "Ledlib/Display/DisplayManager.h"
 #include "Ledlib/Math/Numbers.h"
 #include "Ledlib/Events/Event.h"
 #include "Ledlib/Events/EventManager.h"
@@ -18,6 +20,11 @@
 using namespace std;
 using namespace Ledlib;
 
+const int maxUndoSteps = 32;
+int undoStepsAvailable = 0;
+int redoStepsAvailable = 0;
+int undoPointer = maxUndoSteps-1;
+std::vector<uint8_t*> undoPixels;
 std::shared_ptr<Bitmap> canvas;
 static const char* digits = "0123456789ABCDEF";
 float lastInputTime = 0.0f;
@@ -28,13 +35,23 @@ class PainterApp : public App {
 	void OnUpdate() override;
 	void OnRender() override;
 	void OnExit() override;
+	static void PushUndo();
+	static void PopUndo();
+	static void PopRedo();
+	static void SendPixels(int clientId);
 	static void OnMessagePixel(void* obj, MessageEvent& message);
 	static void OnMessagePixels(void* obj, MessageEvent& message);
 	static void OnMessagePixelsChunk(void* obj, MessageEvent& message);
 	static void OnMessageRequestPixels(void* obj, MessageEvent& message);
+	static void OnMessageUndo(void* obj, MessageEvent& message);
+	static void OnMessageRedo(void* obj, MessageEvent& message);
 };
 void PainterApp::OnSetup() {
-	canvas = Bitmap::CreateEmpty(64, 32);
+	canvas = Bitmap::CreateEmpty(DisplayManager::width, DisplayManager::height);
+	for(int i = 0; i < maxUndoSteps; i++){
+		uint8_t* pixels_ptr = new uint8_t[canvas->size];
+		undoPixels.push_back(pixels_ptr);
+	}
 //	Bitmap* hi = ResourceManager::LoadBitmapPng("hi", "painter/hi.png");
 	Bitmap* hi = nullptr;
 	if(hi){
@@ -53,6 +70,8 @@ void PainterApp::OnSetup() {
 	EventManager::SubscribeMessage("pixels", this, &PainterApp::OnMessagePixels);
 	EventManager::SubscribeMessage("pixels_chunk", this, &PainterApp::OnMessagePixelsChunk);
 	EventManager::SubscribeMessage("request_pixels", this, &PainterApp::OnMessageRequestPixels);
+	EventManager::SubscribeMessage("undo", this, &PainterApp::OnMessageUndo);
+	EventManager::SubscribeMessage("redo", this, &PainterApp::OnMessageRedo);
 	Gfx::SetAutoClear(false);
 }
 void PainterApp::OnStart(){
@@ -66,14 +85,85 @@ void PainterApp::OnRender() {
 	Gfx::DrawBitmap(canvas.get(), 0, 0);
 }
 void PainterApp::OnExit(){
+	for(int i = 0; i < maxUndoSteps; i++){
+		delete[] undoPixels[i];
+	}
+	undoPixels.clear();
 	EventManager::UnsubscribeMessagesAll(this);
 }
+void PainterApp::PushUndo(){
+	// point to next undo bin
+	undoPointer++;
+	if(undoPointer >= maxUndoSteps){
+		undoPointer = 0;
+	}
+	// copy pixels from canvas buffer to undo bin
+	std::copy(canvas->image, canvas->image+canvas->size, undoPixels[undoPointer]);
+	// update available
+	redoStepsAvailable = 0;
+	if(undoStepsAvailable < maxUndoSteps-1){
+		undoStepsAvailable++;
+	}
+	Log(LOG_INFO, "Painter", iLog << "PushUndo / Pointer=" << undoPointer << " / Undo=" << undoStepsAvailable << " / Redo=" << redoStepsAvailable);
+}
+void PainterApp::PopUndo(){
+	if(undoStepsAvailable < 1){
+		Log(LOG_INFO, "Painter", iLog << "PopUndo / Nothing to pop");
+		return;
+	}
+	// if first undo, push current state to make redo possible
+	if(redoStepsAvailable == 0){
+		// point to next undo bin
+		int pushUndoPointer = undoPointer+1;
+		if(pushUndoPointer >= maxUndoSteps){
+			pushUndoPointer = 0;
+		}
+		// copy pixels from canvas buffer to undo bin
+		std::copy(canvas->image, canvas->image+canvas->size, undoPixels[pushUndoPointer]);
+	}
+	// update available
+	undoStepsAvailable--;
+	redoStepsAvailable++;
+	// copy pixels from undo bin to canvas buffer
+	std::copy(undoPixels[undoPointer], undoPixels[undoPointer]+canvas->size, canvas->image);
+	// point to previous undo bin
+	undoPointer--;
+	if(undoPointer < 0){
+		undoPointer = maxUndoSteps-1;
+	}
+	Log(LOG_INFO, "Painter", iLog << "PushUndo / Pointer=" << undoPointer << " / Undo=" << undoStepsAvailable << " / Redo=" << redoStepsAvailable);
+}
+void PainterApp::PopRedo(){
+	if(redoStepsAvailable < 1){
+		Log(LOG_INFO, "Painter", iLog << "PopRedo / Nothing to pop");
+		return;
+	}
+	// point to next undo bin
+	undoPointer++;
+	if(undoPointer >= maxUndoSteps){
+		undoPointer = 0;
+	}
+	// update available
+	redoStepsAvailable--;
+	undoStepsAvailable++;
+	// copy pixels from redo bin to canvas buffer
+	int redoPointer = undoPointer+1;
+	if(redoPointer >= maxUndoSteps){
+		redoPointer = 0;
+	}
+	std::copy(undoPixels[redoPointer], undoPixels[redoPointer]+canvas->size, canvas->image);
+	Log(LOG_INFO, "Painter", iLog << "PushUndo / Pointer=" << undoPointer << " / Undo=" << undoStepsAvailable << " / Redo=" << redoStepsAvailable);
+}
 void PainterApp::OnMessagePixel(void *obj, MessageEvent &message){
-	PainterApp* painter = (PainterApp*) obj;
-	unsigned int rgb = message.GetParamInt(0);
-	int x = message.GetParamInt(1);
-	int y = message.GetParamInt(2);
+	bool save = message.GetParamInt(0);
+	if(save){
+		PainterApp::PushUndo();
+	}
+	unsigned int rgb = message.GetParamInt(1);
+	int x = message.GetParamInt(2);
+	int y = message.GetParamInt(3);
 	canvas->SetPixelBytes(x, y, (rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF);
+	// respond
 	ServerMessage smsg = ServerMessage("pixel");
 	std::string rgbhex(7, '0');
 	rgbhex[6] = 'h';
@@ -86,10 +176,13 @@ void PainterApp::OnMessagePixel(void *obj, MessageEvent &message){
 	smsg.AddParam("rgb", rgbhex);
 	smsg.AddParam("x", x);
 	smsg.AddParam("y", y);
+	smsg.AddParam("undo", undoStepsAvailable);
+	smsg.AddParam("redo", redoStepsAvailable);
 	ServerManager::SendMessage(smsg);
 	lastInputTime = Time::sinceStart;
 }
 void PainterApp::OnMessagePixels(void *obj, MessageEvent &message){
+	PainterApp::PushUndo();
 	int i = 0;
 	for(int x = 0; x < 64; x++){
 		for(int y = 0; y < 32; y++){
@@ -112,13 +205,19 @@ void PainterApp::OnMessagePixels(void *obj, MessageEvent &message){
 		str[j++] = digits[(canvas->image[i+2] >> 0)&0xF];
 	}
 	smsg.AddParam("rgb", str);
+	smsg.AddParam("undo", undoStepsAvailable);
+	smsg.AddParam("redo", redoStepsAvailable);
 	ServerManager::SendMessage(smsg);
 }
 void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
-	int x0 = message.GetParamInt(0);
-	int y0 = message.GetParamInt(1);
-	int w0 = message.GetParamInt(2);
-	int h0 = message.GetParamInt(3);
+	bool save = message.GetParamInt(0);
+	if(save){
+		PainterApp::PushUndo();
+	}
+	int x0 = message.GetParamInt(1);
+	int y0 = message.GetParamInt(2);
+	int w0 = message.GetParamInt(3);
+	int h0 = message.GetParamInt(4);
 	int w = x0+w0;
 	int h = y0+h0;
 	// prepare pixels_chunk to all clients
@@ -127,7 +226,7 @@ void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
 	std::string str(hex_len, '-');
 	str[hex_len-1] = 'h';
 	// apply chunk
-	int i = 4;
+	int i = 5;
 	int j = 0;
 	const int align_step = w0*6;
 	const int align_step2 = w0*h0*6;
@@ -154,10 +253,22 @@ void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
 	smsg.AddParam("y", y0);
 	smsg.AddParam("w", w0);
 	smsg.AddParam("h", h0);
+	smsg.AddParam("undo", undoStepsAvailable);
+	smsg.AddParam("redo", redoStepsAvailable);
 	ServerManager::SendMessage(smsg);
 }
 void PainterApp::OnMessageRequestPixels(void *obj, MessageEvent &message){
-	// send pixels to client
+	SendPixels(message.clientId);
+}
+void PainterApp::OnMessageUndo(void *obj, MessageEvent &message){
+	PainterApp::PopUndo();
+	SendPixels(0);
+}
+void PainterApp::OnMessageRedo(void *obj, MessageEvent &message){
+	PainterApp::PopRedo();
+	SendPixels(0);
+}
+void PainterApp::SendPixels(int clientId){
 	ServerMessage smsg = ServerMessage("pixels");
 	int hex_len = canvas->width * canvas->height * 6 + 1;
 	std::string str(hex_len, '0');
@@ -172,7 +283,9 @@ void PainterApp::OnMessageRequestPixels(void *obj, MessageEvent &message){
 		str[j++] = digits[(canvas->image[i+2] >> 0)&0xF];
 	}
 	smsg.AddParam("rgb", str);
-	ServerManager::SendMessage(smsg, message.clientId);
+	smsg.AddParam("undo", undoStepsAvailable);
+	smsg.AddParam("redo", redoStepsAvailable);
+	ServerManager::SendMessage(smsg, clientId);
 }
 
 int main(){

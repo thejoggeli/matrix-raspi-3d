@@ -30,7 +30,13 @@
 				<div class="tool-button pen" data-tool="pen"><span>Draw</span></div>
 				<div class="tool-button bucket" data-tool="bucket"><span>Fill</span></div>
 				<div class="tool-button eraser" data-tool="eraser"><span>Erase</span></div>			
-				<div class="tool-button home" data-tool="home"><span>Home</span></div>			
+				<div class="tool-button menu" data-tool="menu">
+						<svg viewBox="0 0 100 80" width="32" height="32">
+							<rect width="100" height="16" rx="8" ry="8" style="fill:white"></rect>
+							<rect y="30" width="100" height="16" rx="8" ry="8" style="fill:white"></rect>
+							<rect y="60" width="100" height="16" rx="8" ry="8" style="fill:white"></rect>
+						</svg>		
+				</div>
 			</div>
 			
 			<div class="tool-options sizepicker">
@@ -42,6 +48,18 @@
 			<div class="tool-options colorpicker">
 				<div class="tool-options-label">Color</div>
 				<div class="color-boxes"></div>
+			</div>
+			<div class="tool-options menu">
+				<div class="tool-options-button-container">
+					<div class="tool-options-button undo disabled" ><span>Undo</span></div>
+					<div class="tool-options-button redo disabled"><span>Redo</span></div>
+				</div>				
+				<div class="tool-options-button-container">
+					<div class="tool-options-button save disabled"><span>Save</span></div>
+				</div>
+				<div class="tool-options-button-container">
+					<div class="tool-options-button home"><span>Home</span></div>
+				</div>
 			</div>
 			
 			<!--

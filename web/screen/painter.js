@@ -13,14 +13,10 @@ Painter.init = function(){
 		}
 	}
 	PainterPenTouch.init();
+	PainterToolsMenu.init();
 	PainterTools.init();
 	$("#painter .tool-button").on("click", function(){
-		if($(this).data("tool") != "home"){
-			PainterTools.selectTool($(this).data("tool"));
-		}
-	});
-	$("#painter .tool-button[data-tool='home']").on("click", function(){
-		ScreenManager.open("home");
+		PainterTools.selectTool($(this).data("tool"));		
 	});
 			
 //	Painter.$rose = $("#painter .rose");
@@ -75,8 +71,11 @@ Painter.open = function(){
 	Haf.getCanvas(0).clearColor = "black";
 	Haf.inputOverlay.on("mousedown touchstart", function(){
 		$("#painter .toolbar-overlay").hide();
+		if(PainterTools.selectedTool == PainterTools.tools.menu){
+			PainterTools.selectTool("pen");
+		}
 	});
-	$("#painter .toolbar-overlay").hide();
+//	$("#painter .toolbar-overlay").hide();
 	Haf.start();
 	MatrixClient.addEventListener(Painter);
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
@@ -199,6 +198,7 @@ Painter.onWebsocketMessage = function(json){
 		var g = parseInt(json.rgb.charAt(2)+json.rgb.charAt(3), 16);
 		var b = parseInt(json.rgb.charAt(4)+json.rgb.charAt(5), 16);
 		Painter.setPixelColor(x, y, r, g, b);		
+		Painter.updateUndoRedo(json.undo, json.redo);
 	} else if(json.type == "pixels"){
 		var x = 0;
 		var y = 0;
@@ -214,6 +214,7 @@ Painter.onWebsocketMessage = function(json){
 				y++;
 			}
 		}
+		Painter.updateUndoRedo(json.undo, json.redo);
 	} else if(json.type == "pixels_chunk"){
 		var x = json.x;
 		var y = json.y;
@@ -233,6 +234,20 @@ Painter.onWebsocketMessage = function(json){
 				y++;
 			}
 		}
+		Painter.updateUndoRedo(json.undo, json.redo);
+	}
+}
+Painter.updateUndoRedo = function(undo, redo){
+	console.log(undo, redo);
+	if(undo > 0){
+		$("#painter .undo").removeClass("disabled");
+	} else {
+		$("#painter .undo").addClass("disabled");
+	}
+	if(redo > 0){
+		$("#painter .redo").removeClass("disabled");
+	} else {
+		$("#painter .redo").addClass("disabled");
 	}
 }
 Painter.setPixelColor = function(x, y, r, g, b){
@@ -251,7 +266,10 @@ Painter.setPixelColor = function(x, y, r, g, b){
 function PainterTools(){}
 PainterTools.init = function(){
 	$("#painter .close-overlay").on("click", function(){
-		$("#painter .toolbar-overlay").hide();
+		$("#painter .toolbar-overlay").hide();		
+		if(PainterTools.selectedTool == PainterTools.tools.menu){
+			PainterTools.selectTool("pen");
+		}
 	});
 	$("#painter .open-overlay").on("click", function(){
 		$("#painter .toolbar-overlay").show();	
@@ -345,6 +363,7 @@ PainterTools.open = function(){
 		pen: new PainterToolsPen(),
 		bucket: new PainterToolsBucket(),
 		eraser: new PainterToolsEraser(),
+		menu: new PainterToolsMenu(),
 	}
 	PainterTools.selectTool("pen");
 }
@@ -353,7 +372,6 @@ PainterTools.close = function(){
 	PainterTools.tools = null;
 }
 PainterTools.selectTool = function(tool){
-	if(tool == "home") return;
 	$("#painter .toolbar-label-extra").hide();
 	$("#painter .tool-button").removeClass("selected");
 	$("#painter .tool-options").hide();
@@ -464,18 +482,21 @@ PainterToolsBucket.prototype.update = function(){
 		var data = null;
 		var right = this.bounds_right+1;
 		var bottom = this.bounds_bottom+1;
+		var firstChunk = true;
 		for(var cx = this.bounds_left; cx < right; cx += chunk_size){
 			var chunk_w = cx+chunk_size < right ? chunk_size : (right-cx)
 			console.log("w", chunk_w);
 			for(var cy = this.bounds_top; cy < bottom; cy += chunk_size){
 				var chunk_h = cy+chunk_size < bottom ? chunk_size : (bottom-cy)
+				var saveBit = firstChunk ? 1 : 0;
 				console.log("h", chunk_h);
-				data = new Array(chunk_w*chunk_h+4);
-				data[0] = cx; // x offset
-				data[1] = cy; // y offset
-				data[2] = chunk_w; // width
-				data[3] = chunk_h; // height
-				var i = 4;
+				data = new Array(chunk_w*chunk_h+5);
+				data[0] = saveBit;
+				data[1] = cx; // x offset
+				data[2] = cy; // y offset
+				data[3] = chunk_w; // width
+				data[4] = chunk_h; // height
+				var i = 5;
 				for(var x = 0; x < chunk_w; x++){
 					for(var y = 0; y < chunk_h; y++){
 						if(this.affected_map[cx+x][cy+y]){
@@ -486,6 +507,7 @@ PainterToolsBucket.prototype.update = function(){
 					}
 				}
 				MatrixClient.sendMessage("pixels_chunk", data);
+				firstChunk = false;
 			}
 		} 
 		/*
@@ -522,6 +544,46 @@ PainterToolsBucket.prototype.floodFill = function(nx, ny, tc, rc){
 		if(ny < Painter.height-1) 	this.floodFill(nx, ny+1, tc, rc);		
 	}
 } 
+
+function PainterToolsMenu(){
+	this.name = "Menu";
+}
+PainterToolsMenu.init = function(){
+	$("#painter .tool-options.menu .undo").on("click", function(){
+		if(!$(this).hasClass("disabled")){
+			PainterToolsMenu.undo();
+		}
+	});
+	$("#painter .tool-options.menu .redo").on("click", function(){
+		if(!$(this).hasClass("disabled")){
+			PainterToolsMenu.redo();
+		}
+	});
+	$("#painter .tool-options.menu .save").on("click", function(){
+		if(!$(this).hasClass("disabled")){
+			PainterToolsMenu.save();
+		}
+	});
+	$("#painter .tool-options.menu .home").on("click", function(){
+		ScreenManager.open("home");
+	});
+}
+PainterToolsMenu.prototype.onSelect = function(){
+	$("#painter .tool-options.menu").show();	
+}
+PainterToolsMenu.prototype.onUnselect = function(){
+}
+PainterToolsMenu.prototype.update = function(){
+}
+PainterToolsMenu.save = function(){
+	alert("todo");
+}
+PainterToolsMenu.undo = function(){
+	MatrixClient.sendMessage("undo");
+}
+PainterToolsMenu.redo = function(){
+	MatrixClient.sendMessage("redo");
+}
 
 function PainterToolsEraser(){
 	this.savedSize = 8;
@@ -571,6 +633,7 @@ function PainterPenTouch(touch, color, size){
 	for(var i = 0; i < Painter.width; i++){
 		this.affected_map[i] = new Array(Painter.height);
 	}
+	this.firstSend = true;
 }
 PainterPenTouch.init = function(){
 	var stamps = PainterPenTouch.stamps = {};
@@ -665,18 +728,22 @@ PainterPenTouch.prototype.update = function(){
 	this.bounds_width = this.bounds_right-this.bounds_left+1;
 	this.bounds_height = this.bounds_bottom-this.bounds_top+1;
 	
+	var saveBit = this.firstSend ? 1 : 0;
+	
 	if(this.bounds_width == 1 && this.bounds_height == 1){
 		MatrixClient.sendMessage("pixel", [
-			this.color.rgb, this.bounds_left, this.bounds_top,
+			saveBit, this.color.rgb, this.bounds_left, this.bounds_top,
 		]);		
+		this.firstSend = false;
 	} else if(this.bounds_width > 0 && this.bounds_height > 0){
 		console.log("CASE 2222222222");
-		var data = new Array(this.bounds_width*this.bounds_height+4);
-		var k = 4;
-		data[0] = this.bounds_left;
-		data[1] = this.bounds_top;
-		data[2] = this.bounds_width;
-		data[3] = this.bounds_height;
+		var data = new Array(this.bounds_width*this.bounds_height+5);
+		var k = 5;
+		data[0] = saveBit;
+		data[1] = this.bounds_left;
+		data[2] = this.bounds_top;
+		data[3] = this.bounds_width;
+		data[4] = this.bounds_height;
 		for(var i = this.bounds_left; i <= this.bounds_right; i++){
 			for(var j = this.bounds_top; j <= this.bounds_bottom; j++){
 				if(this.affected_map[i][j]){
@@ -687,6 +754,7 @@ PainterPenTouch.prototype.update = function(){
 			}
 		}
 		MatrixClient.sendMessage("pixels_chunk", data);
+		this.firstSend = false;
 	}
 	this.last.x = p1.x;
 	this.last.y = p1.y;

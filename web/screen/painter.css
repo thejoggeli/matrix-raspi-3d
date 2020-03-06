@@ -11,6 +11,7 @@
 #painter .toolbar-target {
 	background:#333;border-left:2px solid black;
 	text-align:center;position:relative;	
+	cursor:pointer;
 }
 #painter .toolbar-target:active {
 	background:#666;
@@ -100,6 +101,7 @@
     border-left:2px solid black;
     min-width:32px;
     max-width:32px;
+	cursor:pointer;
 }
 
 #painter .toolbar-overlay-left:active {
@@ -127,6 +129,11 @@
 
 #painter .tools-head > .tool-button span {
 	margin: auto;
+	display:block;
+}
+#painter .tools-head > .tool-button svg {
+	margin: auto;
+	display:block;
 }
 #painter .tools-head > .tool-button:active {
 	background:#666;
@@ -146,12 +153,55 @@
     border:0;
     border-right:2px solid black;
     display: flex; 
+	cursor:pointer;
 }
 #painter .tools-head > .tool-button:last-child {
 	border-right:0;
 }
 
 #painter .tool-options {}
+#painter .tool-options.menu {border-top:2px solid black;}
+#painter .tool-options-button-container {
+	display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+	margin:10px;
+}
+#painter .tool-options-button-container .tool-options-button:last-child {
+	border-right:2px solid black;
+}
+#painter .tool-options-button {
+	margin-bottom:0;
+	background:#333;color:white;
+	font-size:16px;font-weight:bold;
+	display:block;
+	width:auto;
+	height:60px;
+	box-sizing:border-box;
+	border:2px solid black;
+	border-right:0;
+	border-radius:0;	
+	display:flex;
+	cursor:pointer;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: stretch;
+}
+#painter .tool-options-button.disabled:active,
+#painter .tool-options-button.disabled {
+	cursor:default;
+	background:#999;
+	color:#ccc;
+}
+#painter .tool-options-button:active {
+	background:#666;
+}
+#painter .tool-options-button span{
+	margin:auto;
+}
 #painter .tool-options.sizepicker .range-container{
 	padding:10px;
 }
@@ -176,6 +226,7 @@
     margin:5px;
     box-sizing:border-box;
     border:2px solid #333;
+	cursor:pointer;
 }
 #painter .tool-options.colorpicker .color-box.white.selected {
 	border:2px solid red;

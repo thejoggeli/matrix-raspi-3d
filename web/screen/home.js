@@ -39,24 +39,24 @@ Home.updateActiveApp = function(){
 Home.updateConnectedMode = function(){
 	var mode = MatrixClient.isConnected();
 	if(mode){
-		$("button").prop("disabled", false);
-		$(".connected-state").text("connected");
-		$(".connected-state").addClass("connected");
-		$(".connected-state").removeClass("disconnected");
+		$("#home button").prop("disabled", false);
+		$("#home .connected-state").text("connected");
+		$("#home .connected-state").addClass("connected");
+		$("#home .connected-state").removeClass("disconnected");
 	} else {
-		$("button").prop("disabled", true);
-		$(".connected-state").text("disconnected");
-		$(".connected-state").addClass("disconnected");
-		$(".connected-state").removeClass("connected");
+		$("#home button").prop("disabled", true);
+		$("#home .connected-state").text("disconnected");
+		$("#home .connected-state").addClass("disconnected");
+		$("#home .connected-state").removeClass("connected");
 	}
 	Home.updateWindowTitle ();	
 }
 Home.onWebsocketOpen = function(){}
 Home.onWebsocketClose = function(){
-	$(".app-row").removeClass("active");
-	$(".app-btn").removeClass("active");
-	$(".app-row").removeClass("semi-active");
-	$(".app-btn").removeClass("semi-active");	
+	$("#home .app-row").removeClass("active");
+	$("#home .app-btn").removeClass("active");
+	$("#home .app-row").removeClass("semi-active");
+	$("#home .app-btn").removeClass("semi-active");	
 }
 Home.onWebsocketChange = function(){
 	Home.updateConnectedMode();	
@@ -76,8 +76,8 @@ Home.updateWindowTitle = function(){
 	document.title = "Raspi [" + connectedStr + "]";
 }
 Home.updateBrightness = function(val){
-//	$(".msg-btn[data-msg=set_brightness]").removeClass("selected");
-//	$(".msg-btn[data-msg=set_brightness][data-params="+val+"]").addClass("selected");
-	$(".brightness-slider").val(val);
-	$(".brightness-label .value").text(val);
+//	$("#home .msg-btn[data-msg=set_brightness]").removeClass("selected");
+//	$("#home .msg-btn[data-msg=set_brightness][data-params="+val+"]").addClass("selected");
+	$("#home .brightness-slider").val(val);
+	$("#home .brightness-label .value").text(val);
 }

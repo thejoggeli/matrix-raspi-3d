@@ -13,7 +13,7 @@ static char prefixBuffer[64];
 static char prefixBufferPadding[] = ".............";
 
 static const int max_str_len = 150;
-static const int max_str_len_cut = max_str_len-4;
+static const int max_str_len_cut = max_str_len-3;
 
 LogConcator LogConcator::instance = LogConcator();
 
@@ -54,13 +54,13 @@ void Log(LogLevel level, const std::string& source, const std::string& str){
 	if(str.length() > max_str_len){
 		switch(level){
 		case LOG_INFO:
-			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << " ..." << endl;
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << "..." << endl;
 			break;
 		case LOG_DEBUG:
-			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << " ..." << endl;
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << "..." << endl;
 			break;
 		case LOG_ERROR:
-			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << " ..." << endl;
+			if(LogLevels::info) cout << prefixBuffer << " INFO: " << str.substr(0, max_str_len_cut) << "..." << endl;
 			break;
 		}
 	} else {
