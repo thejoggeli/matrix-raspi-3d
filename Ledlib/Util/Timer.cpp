@@ -19,13 +19,19 @@ void Timer::Restart(bool seamless){
 	}
 }
 void Timer::Reset(){
-	startTime = endTime = duration = 0;
+	startTime = 0.0f;
+	endTime = 0.0f;
+	duration = 0.0f;
 }
 bool Timer::IsFinished(){
-	return Time::currentTime >= endTime;
+	if(duration == 0.0f) return false; // timer is reset
+	if(Time::currentTime < endTime) return false; // timer is running
+	return true;
 }
 bool Timer::IsRunning(){
-	return Time::currentTime < endTime;
+	if(duration == 0.0f) return false; // timer is reset
+	if(Time::currentTime < endTime) return true; // timer is running
+	return false;
 }
 float Timer::GetAbsoluteRemainingTime(){
 	float remaining = endTime - Time::currentTime;

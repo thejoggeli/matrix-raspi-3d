@@ -1,5 +1,5 @@
 #include "Bitmap.h"
-#include "../Util/Lodepng.h"
+#include "Ledlib/Util/Lodepng.h"
 #include "Ledlib/Log.h"
 #include "Ledlib/Util/ColorRgb.h"
 #include <GLES2/gl2.h>

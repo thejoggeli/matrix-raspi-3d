@@ -47,7 +47,7 @@ void Log(LogLevel level, const std::string& source, const std::string& str){
 	struct tm * timeinfo;
 	time(&rawtime);
 	timeinfo = localtime (&rawtime);
-	strftime(timeBuffer,sizeof(prefixBuffer),"%H:%M:%S",timeinfo);
+	strftime(timeBuffer,sizeof(timeBuffer),"%H:%M:%S",timeinfo);
 	int padLen = sizeof(prefixBufferPadding) - source.length();
 	if(padLen < 0) padLen = 0;
 	sprintf(prefixBuffer, "[%s][%s%*.*s]", timeBuffer, source.c_str(), padLen, padLen, prefixBufferPadding);

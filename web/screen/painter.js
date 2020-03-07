@@ -587,6 +587,8 @@ PainterToolsBucket.prototype.floodFill = function(nx, ny, tc, rc){
 function PainterToolsMenu(){
 	this.name = "Menu";
 }
+PainterToolsMenu.saveTimeout = null;
+PainterToolsMenu.saveTimeoutCounter = 0;
 PainterToolsMenu.init = function(){
 	$("#painter .tool-options.menu .undo").on("click", function(){
 		if(!$(this).hasClass("disabled")){
@@ -611,11 +613,29 @@ PainterToolsMenu.prototype.onSelect = function(){
 	$("#painter .tool-options.menu").show();	
 }
 PainterToolsMenu.prototype.onUnselect = function(){
+	if(PainterToolsMenu.saveTimeout != null){
+		clearInterval(PainterToolsMenu.saveTimeout);		
+		PainterToolsMenu.saveTimeout = null;
+	}
 }
 PainterToolsMenu.prototype.update = function(){
 }
 PainterToolsMenu.save = function(){
-	alert("todo");
+	if(PainterToolsMenu.saveTimeout != null) return;
+	MatrixClient.sendMessage("save_image");	
+	PainterToolsMenu.saveTimeoutCounter = 15;
+	$("#painter .save").addClass("disabled");
+	$("#painter .save span").text("Save (" + PainterToolsMenu.saveTimeoutCounter + ")");
+	PainterToolsMenu.saveTimeout = setInterval(function(){
+		PainterToolsMenu.saveTimeoutCounter--;		
+		if(PainterToolsMenu.saveTimeoutCounter == 0){
+			clearInterval(PainterToolsMenu.saveTimeout);
+			$("#painter .save").removeClass("disabled");
+			$("#painter .save span").text("Save");
+		} else {				
+			$("#painter .save span").text("Save (" + PainterToolsMenu.saveTimeoutCounter + ")");
+		}
+	}, 1000);
 }
 PainterToolsMenu.undo = function(){
 	MatrixClient.sendMessage("undo");

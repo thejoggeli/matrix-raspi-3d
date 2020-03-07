@@ -1,10 +1,14 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <sys/stat.h>
+#include <time.h>
 
 #include "Ledlib/Config.h"
 #include "Ledlib/Log.h"
 #include "Ledlib/Time.h"
+#include "Ledlib/Util/Lodepng.h"
+#include "Ledlib/Util/Timer.h"
 #include "Ledlib/Display/DisplayManager.h"
 #include "Ledlib/Math/Numbers.h"
 #include "Ledlib/Events/Event.h"
@@ -20,14 +24,17 @@
 using namespace std;
 using namespace Ledlib;
 
-const int maxUndoSteps = 32;
-int undoStepsAvailable = 0;
-int redoStepsAvailable = 0;
-int undoPointer = maxUndoSteps-1;
-std::vector<uint8_t*> undoPixels;
-std::shared_ptr<Bitmap> canvas;
+static const int maxUndoSteps = 32;
+static int undoStepsAvailable = 0;
+static int redoStepsAvailable = 0;
+static int undoPointer = maxUndoSteps-1;
+static std::vector<uint8_t*> undoPixels;
+static std::shared_ptr<Bitmap> canvas;
 static const char* digits = "0123456789ABCDEF";
-float lastInputTime = 0.0f;
+static Timer saveTimer;
+static float saveInterval = 10.0f;
+static std::string autosavePath;
+static std::string manualsavePath;
 
 class PainterApp : public App {
 	void OnSetup() override;
@@ -35,6 +42,8 @@ class PainterApp : public App {
 	void OnUpdate() override;
 	void OnRender() override;
 	void OnExit() override;
+	static void AutosaveTrigger();
+	static void SavePNG(int clientId);
 	static void PushUndo();
 	static void PopUndo();
 	static void PopRedo();
@@ -45,6 +54,7 @@ class PainterApp : public App {
 	static void OnMessageRequestPixels(void* obj, MessageEvent& message);
 	static void OnMessageUndo(void* obj, MessageEvent& message);
 	static void OnMessageRedo(void* obj, MessageEvent& message);
+	static void OnMessageSaveImage(void* obj, MessageEvent& message);
 };
 void PainterApp::OnSetup() {
 	canvas = Bitmap::CreateEmpty(DisplayManager::width, DisplayManager::height);
@@ -72,16 +82,51 @@ void PainterApp::OnSetup() {
 	EventManager::SubscribeMessage("request_pixels", this, &PainterApp::OnMessageRequestPixels);
 	EventManager::SubscribeMessage("undo", this, &PainterApp::OnMessageUndo);
 	EventManager::SubscribeMessage("redo", this, &PainterApp::OnMessageRedo);
+	EventManager::SubscribeMessage("save_image", this, &PainterApp::OnMessageSaveImage);
 	Gfx::SetAutoClear(false);
+
+	std::string web_painter_path = LEDLIB_WEB_PATH;
+	web_painter_path += "/painter/";
+	mkdir(web_painter_path.c_str(),  ACCESSPERMS);
+
+	std::string web_manualsave_path = LEDLIB_WEB_PATH;
+	web_manualsave_path += "/painter/save/";
+	mkdir(web_manualsave_path.c_str(), ACCESSPERMS);
+
+	std::string web_autosave_path = LEDLIB_WEB_PATH;
+	web_autosave_path += "/painter/autosave/";
+	mkdir(web_autosave_path.c_str(), ACCESSPERMS);
+
+	std::string web_autosave_daily_path = LEDLIB_WEB_PATH;
+	time_t rawtime;
+	struct tm * timeinfo;
+	time(&rawtime);
+	timeinfo = localtime (&rawtime);
+	char timeBuffer[32];
+	strftime(timeBuffer,sizeof(timeBuffer),"%Y-%m-%d",timeinfo);
+	web_autosave_daily_path += "/painter/autosave/";
+	web_autosave_daily_path += timeBuffer;
+	web_autosave_daily_path += "/";
+	mkdir(web_autosave_daily_path.c_str(), ACCESSPERMS);
+
+	Log(web_autosave_daily_path);
+
+	Log(LOG_INFO, "Painter", iLog << "daily dir is " << timeBuffer);
+
+	manualsavePath = web_manualsave_path;
+	autosavePath = web_autosave_daily_path;
+
 }
 void PainterApp::OnStart(){
 }
 void PainterApp::OnUpdate() {
+	if(saveTimer.IsFinished()){
+		saveTimer.Reset();
+		PainterApp::SavePNG(0);
+	}
 }
 void PainterApp::OnRender() {
 	canvas->Update();
-//	float alpha = (Time::sinceStart - lastInputTime) > 1.0f ? 1.0f : 0.015f;
-//	Gfx::SetBitmapColor(1, 1, 1, alpha);
 	Gfx::DrawBitmap(canvas.get(), 0, 0);
 }
 void PainterApp::OnExit(){
@@ -90,6 +135,31 @@ void PainterApp::OnExit(){
 	}
 	undoPixels.clear();
 	EventManager::UnsubscribeMessagesAll(this);
+}
+void PainterApp::OnMessageSaveImage(void *obj, MessageEvent &message){
+	SavePNG(message.clientId);
+}
+void PainterApp::AutosaveTrigger(){
+	if(!saveTimer.IsRunning()){
+		saveTimer.Start(saveInterval);
+		Log(LOG_INFO, "Painter", iLog << "autosave PNG in " << saveInterval << " seconds");
+	}
+}
+void PainterApp::SavePNG(int clientId){
+	if(clientId == 0){
+		uint64_t time_start = Time::GetRealTimeMillisecondsInt();
+		std::string name = std::to_string(Time::GetRealTimeSecondsInt()) + ".png";
+		lodepng::encode(autosavePath+name, canvas->image, canvas->width, canvas->height);
+		uint64_t duration = Time::GetRealTimeMillisecondsInt()-time_start;
+		Log(LOG_INFO, "Painter", iLog << "autosave PNG as " << name << " (" << duration << "ms)");
+	} else {
+		uint64_t time_start = Time::GetRealTimeMillisecondsInt();
+		std::string name = std::to_string(Time::GetRealTimeSecondsInt());
+		name += "_" + std::to_string(clientId) + ".png";
+		lodepng::encode(manualsavePath+name, canvas->image, canvas->width, canvas->height);
+		uint64_t duration = Time::GetRealTimeMillisecondsInt()-time_start;
+		Log(LOG_INFO, "Painter", iLog << "save PNG as " << name << " (" << duration << "ms) (client=" << clientId << ")");
+	}
 }
 void PainterApp::PushUndo(){
 	// point to next undo bin
@@ -179,7 +249,7 @@ void PainterApp::OnMessagePixel(void *obj, MessageEvent &message){
 	smsg.AddParam("undo", undoStepsAvailable);
 	smsg.AddParam("redo", redoStepsAvailable);
 	ServerManager::SendMessage(smsg);
-	lastInputTime = Time::sinceStart;
+	PainterApp::AutosaveTrigger();
 }
 void PainterApp::OnMessagePixels(void *obj, MessageEvent &message){
 	PainterApp::PushUndo();
@@ -208,6 +278,7 @@ void PainterApp::OnMessagePixels(void *obj, MessageEvent &message){
 	smsg.AddParam("undo", undoStepsAvailable);
 	smsg.AddParam("redo", redoStepsAvailable);
 	ServerManager::SendMessage(smsg);
+	PainterApp::AutosaveTrigger();
 }
 void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
 	bool save = message.GetParamInt(0);
@@ -256,6 +327,7 @@ void PainterApp::OnMessagePixelsChunk(void *obj, MessageEvent &message){
 	smsg.AddParam("undo", undoStepsAvailable);
 	smsg.AddParam("redo", redoStepsAvailable);
 	ServerManager::SendMessage(smsg);
+	PainterApp::AutosaveTrigger();
 }
 void PainterApp::OnMessageRequestPixels(void *obj, MessageEvent &message){
 	SendPixels(message.clientId);
@@ -263,10 +335,12 @@ void PainterApp::OnMessageRequestPixels(void *obj, MessageEvent &message){
 void PainterApp::OnMessageUndo(void *obj, MessageEvent &message){
 	PainterApp::PopUndo();
 	SendPixels(0);
+	PainterApp::AutosaveTrigger();
 }
 void PainterApp::OnMessageRedo(void *obj, MessageEvent &message){
 	PainterApp::PopRedo();
 	SendPixels(0);
+	PainterApp::AutosaveTrigger();
 }
 void PainterApp::SendPixels(int clientId){
 	ServerMessage smsg = ServerMessage("pixels");

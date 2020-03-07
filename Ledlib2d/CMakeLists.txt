@@ -30,7 +30,6 @@ set(
 	"Physics/PolygonCollider.cpp"
 	"Physics/CircleCollider.cpp"
 	"Physics/PointCollider.cpp"
-	"Util/Lodepng.cpp"
 )
 
 

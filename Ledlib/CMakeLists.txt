@@ -32,6 +32,7 @@ set(
 	"Display/MatrixDisplay.cpp"
 	"Display/DummyDisplay.cpp"
 	"Sfx/RemoteSfx.cpp"
+	"Util/Lodepng.cpp"
 )
 
 find_library(

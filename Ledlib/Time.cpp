@@ -22,7 +22,7 @@ void Time::Start(){
 	struct timespec spec;
 	clock_gettime(CLOCK_REALTIME, &spec);
 	startTimeOffsetInt = static_cast<uint32_t>(spec.tv_sec);
-	startTimeOffsetFloat = static_cast<float>(spec.tv_nsec/1e6)/1.0e3f;
+	startTimeOffsetFloat = static_cast<float>(spec.tv_nsec/1.0e9f);
 
 	// start
 	startTime = GetOffsetTimeSecondsFloat();

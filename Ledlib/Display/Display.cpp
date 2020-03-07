@@ -28,4 +28,3 @@ void Display::SetBrightness(int percent){
 void Display::Shutdown(){}
 
 }
-
