@@ -345,3 +345,18 @@ HashUrl.jsonToUrl = function(json){
 	var query = $.param(json);
 	window.location.hash = query;
 }
+
+
+function Cookie(){}
+Cookie.write = function(key, val){
+	$.cookie(key, val, {expires: 365, path: '/'});
+}
+Cookie.read = function(key, def){
+	var c = $.cookie(key);
+	if(c === undefined){
+		if(def === undefined) 
+			return null;
+		return def;
+	}
+	return c;
+}

@@ -403,7 +403,6 @@ PainterTools.setLightness = function(lightness){
 	PainterTools.updateColorPreview();
 }
 PainterTools.setSaturation  = function(saturation){	
-	console.log(saturation);
 	for(var i in PainterTools.hueColors){
 		PainterTools.hueColors[i].saturation = saturation;
 	}
@@ -416,7 +415,6 @@ PainterTools.updateColors = function(){
 	for(var i in PainterTools.colors){
 		var color = PainterTools.colors[i];
 		var $box = color.$box;
-		console.log(color.hue, color.saturation, color.lightness)
 		Colors.hslToRgb255(color.hue, color.saturation, color.lightness);
 		color.r255 = Colors.r255;
 		color.g255 = Colors.g255;
@@ -610,7 +608,15 @@ PainterToolsMenu.init = function(){
 	});
 }
 PainterToolsMenu.prototype.onSelect = function(){
-	$("#painter .tool-options.menu").show();	
+	$("#painter .tool-options.menu").show();
+	var now = (new Date()).getTime();
+	PainterToolsMenu.saveTimeoutCounter = Cookie.read("painter_save_counter", now);
+	if(PainterToolsMenu.saveTimeoutCounter > now){
+		PainterToolsMenu.startSaveTimeout();
+	} else {
+		$("#painter .save").removeClass("disabled");
+		$("#painter .save span").text("Save");		
+	}
 }
 PainterToolsMenu.prototype.onUnselect = function(){
 	if(PainterToolsMenu.saveTimeout != null){
@@ -623,19 +629,27 @@ PainterToolsMenu.prototype.update = function(){
 PainterToolsMenu.save = function(){
 	if(PainterToolsMenu.saveTimeout != null) return;
 	MatrixClient.sendMessage("save_image");	
-	PainterToolsMenu.saveTimeoutCounter = 15;
+	PainterToolsMenu.saveTimeoutCounter = (new Date()).getTime() + 15*1000;
+	Cookie.write("painter_save_counter", PainterToolsMenu.saveTimeoutCounter);
+	PainterToolsMenu.startSaveTimeout();
+}
+PainterToolsMenu.startSaveTimeout = function(){
+	if(PainterToolsMenu.saveTimeout != null) return;
 	$("#painter .save").addClass("disabled");
-	$("#painter .save span").text("Save (" + PainterToolsMenu.saveTimeoutCounter + ")");
+	var rem = (PainterToolsMenu.saveTimeoutCounter-(new Date()).getTime())/1000.0;
+	$("#painter .save span").text("Save (" + roundToFixed(rem, 1) + ")");	
 	PainterToolsMenu.saveTimeout = setInterval(function(){
-		PainterToolsMenu.saveTimeoutCounter--;		
-		if(PainterToolsMenu.saveTimeoutCounter == 0){
-			clearInterval(PainterToolsMenu.saveTimeout);
+		var now = (new Date()).getTime();
+		var remaining = (PainterToolsMenu.saveTimeoutCounter-now)/1000.0;
+		if(remaining <= 0){
 			$("#painter .save").removeClass("disabled");
 			$("#painter .save span").text("Save");
-		} else {				
-			$("#painter .save span").text("Save (" + PainterToolsMenu.saveTimeoutCounter + ")");
+			clearInterval(PainterToolsMenu.saveTimeout)		
+			PainterToolsMenu.saveTimeout = null;
+		} else {
+			$("#painter .save span").text("Save (" + roundToFixed(remaining, 1) + ")");			
 		}
-	}, 1000);
+	}, 100);	
 }
 PainterToolsMenu.undo = function(){
 	MatrixClient.sendMessage("undo");

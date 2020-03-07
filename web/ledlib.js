@@ -196,4 +196,3 @@ Sfx.loadFile = function(name, start, end, volume){
 	audio._def_end = end;
 	audio._def_volume = volume;
 }
-
