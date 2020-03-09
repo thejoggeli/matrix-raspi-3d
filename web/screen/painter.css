@@ -290,13 +290,13 @@
 }
 #painter .tools input[type=range]::-webkit-slider-thumb {
   border: 1.8px solid #00001e;
-  height: 26px;
-  width: 26px;
-  border-radius: 15px;
+  height: 32px;
+  width: 32px;
+  border-radius:100px;
   background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -7.5px;
+  margin-top: -10.5px;
 }
 #painter .tools input[type=range]:focus::-webkit-slider-runnable-track {
   background: rgba(51, 51, 51, 1);

@@ -1,4 +1,5 @@
 function Gamepad(){}
+Gamepad.repaintRequired = false;
 Gamepad.debugDraw = false;
 Gamepad.buttons = {};
 Gamepad.sticks = {};
@@ -71,6 +72,7 @@ Gamepad.close = function(){
 }
 Gamepad.resize = function(){
 	Gamepad.recalcButtons();
+	Gamepad.repaintRequired = true;
 }
 Gamepad.update = function(){
 	for(var x in Gamepad.sticks){
@@ -132,13 +134,15 @@ Gamepad.update = function(){
 			if(button.code == -1){		
 				// nothing to do
 			} else {
-				MatrixClient.sendInput(0, button.code);				
+				MatrixClient.sendInput(0, button.code);			
+				Gamepad.repaintRequired = true;	
 			}
 		} else if(released){
 			if(button.code == -1 && !releasedByHitboxLeave){
 				ScreenManager.open("home");
 			} else {
 				MatrixClient.sendInput(1, button.code);
+				Gamepad.repaintRequired = true;	
 			}
 		}
 		button.update();
@@ -157,8 +161,13 @@ Gamepad.update = function(){
 	for(var x in Gamepad.touchEffects){
 		Gamepad.touchEffects[x].update();
 	}
+	
+	Haf.getCanvas(0).autoClear = Gamepad.repaintRequired;	
 }
-Gamepad.render = function(){
+Gamepad.render = function(){	
+	if(!Gamepad.repaintRequired){
+		return;
+	}		
 	/*	ctx.font = "16px Arial";
 		ctx.fillStyle = "black";
 		ctx.textBaseline = "middle";
@@ -217,6 +226,7 @@ Gamepad.render = function(){
 		ctx.fillStyle = "red";
 		ctx.fillCircle(left + radius1, top+radius3, radius3);		
 	}
+	Gamepad.repaintRequired = false;
 }
 Gamepad.recalcButtons = function(){
 	var btn = Gamepad.buttons;
@@ -297,7 +307,7 @@ Gamepad.recalcButtons = function(){
 	btn.select.setSize(mid_w, mid_h);
 	btn.menu.position.setFloats(mid_x, -cross_h/3);
 	btn.menu.setSize(mid_w, mid_h);
-	
+	Gamepad.repaintRequired = true;	
 }
 
 function TouchEffect(touch){
@@ -306,7 +316,9 @@ function TouchEffect(touch){
 	this.oldPositions = [];
 	this.oldPositionsTimer = 0;
 	this.maxLength = 15;
+	this.repaintCounter = 0;
 }
+TouchEffect.minDistance = 1
 TouchEffect.prototype.update = function(){
 	if(this.touch.expired){
 		this.oldPositionsTimer -= Time.deltaTime;
@@ -317,6 +329,7 @@ TouchEffect.prototype.update = function(){
 				this.expired = true;
 			}
 		}
+		Gamepad.repaintRequired = true;	
 	} else {
 		this.position.setVector(this.touch.worldPosition);
 		this.oldPositionsTimer -= Time.deltaTime;
@@ -328,13 +341,20 @@ TouchEffect.prototype.update = function(){
 			this.oldPositionsTimer += 1/60;
 			if(this.oldPositions.length > this.maxLength){
 				ArrayHelper.removeIndex(this.oldPositions, 0);
-			}
+			}			
 		}
+		if(Vector.getDistanceBetween(this.oldPositions[0], this.oldPositions[this.oldPositions.length-1]) >= TouchEffect.minDistance){
+			this.repaintCounter = 2
+		}
+	}
+	if(this.repaintCounter > 0){
+		this.repaintCounter--;
+		Gamepad.repaintRequired = true;	
 	}
 }
 TouchEffect.prototype.render = function(){
 	if(this.oldPositions.length > 1){
-		if(Vector.getDistanceBetween(this.oldPositions[0], this.oldPositions[this.oldPositions.length-1]) < 1){
+		if(Vector.getDistanceBetween(this.oldPositions[0], this.oldPositions[this.oldPositions.length-1]) < TouchEffect.minDistance){
 			return;
 		}
 		var lineThickness = 2;
@@ -368,6 +388,8 @@ function GamepadStick(params){
 	this.sendMoveInterval = 0.05;
 }
 GamepadStick.prototype.update = function(){
+	var old_x = this.position.x;
+	var old_y = this.position.y;
 	for(var i in Input.newTouches){
 		var touch = Input.newTouches[i];
 		if(touch.taken) continue;
@@ -380,7 +402,8 @@ GamepadStick.prototype.update = function(){
 		 	this.touchOffset.y = this.position.y - this.touch.worldPosition.y;
 		 	this.sendMoveTimer = 0;
 		 	// send joystick press event 
-			MatrixClient.sendJoystick(0, this.code); 		 	
+			MatrixClient.sendJoystick(0, this.code); 		
+			Gamepad.repaintRequired = true;	 	
 		}
 	}
 	if(this.touch != null){
@@ -392,6 +415,7 @@ GamepadStick.prototype.update = function(){
 			this.touchOffset.setFloats(0, 0);
 			// send joystick release event
 			MatrixClient.sendJoystick(1, this.code); 
+			Gamepad.repaintRequired = true;	
 		} else {
 			var ox = this.position.x;
 			var oy = this.position.y;
@@ -425,8 +449,12 @@ GamepadStick.prototype.update = function(){
 			relative_y = this.deadzone(relative_y, 0.05);
 			// send joystick move event
 			MatrixClient.sendJoystick(2, this.code, roundToFixed(relative_x, 6), roundToFixed(-relative_y, 6));
+			Gamepad.repaintRequired = true;	
 		}
 		this.sendMoveTimer -= Time.deltaTime;
+	}
+	if(old_x != this.position.x || old_y != this.position.y){		
+		Gamepad.repaintRequired = true;
 	}
 }
 GamepadStick.prototype.deadzone = function(val, dead){

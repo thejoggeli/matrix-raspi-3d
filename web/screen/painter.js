@@ -1,5 +1,6 @@
 function Painter(){}
 Painter.pixels;
+Painter.repaintRequired = true
 Painter.init = function(){
 	Painter.width = 64;
 	Painter.height = 32;
@@ -17,6 +18,12 @@ Painter.init = function(){
 	PainterTools.init();
 	$("#painter .tool-button").on("click", function(){
 		PainterTools.selectTool($(this).data("tool"));		
+	});
+	$("#painter .range-container").on("touchmove touchstart touchend", function(e){
+		if($(e.target).hasClass("range-container")){
+			e.preventDefault();
+			e.stopPropagation();
+		}
 	});
 			
 //	Painter.$rose = $("#painter .rose");
@@ -63,12 +70,16 @@ Painter.onRoseDragEnd = function(e){
 	e.preventDefault();
 } */
 Painter.open = function(){
-	Haf.install({height:100, container:$("#painter .canvas-target")});	
+	Haf.install({
+		height:100, 
+		container:$("#painter .canvas-target"), 
+	});	
 	Haf.onResize = Painter.resize;
 	Haf.onUpdate = Painter.update;
 	Haf.onRender = Painter.render;
 	Haf.getCanvas(0).setActive();
 	Haf.getCanvas(0).clearColor = "black";
+	Haf.getCanvas(0).autoClear = false;
 	Haf.inputOverlay.on("mousedown touchstart", function(){
 		$("#painter .toolbar-overlay").hide();
 		if(PainterTools.selectedTool == PainterTools.tools.menu){
@@ -82,22 +93,29 @@ Painter.open = function(){
 	Painter.introTimerDuration = 5.0;
 	Painter.introTimer = Painter.introTimerDuration;
 	PainterTools.open();
+	Painter.repaintRequired = true;
 }
 Painter.close = function(){
 	MatrixClient.removeEventListener(Painter);
 	PainterTools.close();
 	Haf.uninstall();
 }
-Painter.resize = function(){
-	
+Painter.resize = function(){	
+	Painter.repaintRequired = true;
 }
 Painter.update = function(){
 	if(Painter.introTimer > 0.0){
 		Painter.introTimer -= Time.deltaTime;
+		Painter.repaintRequired = true;
 	}	
 	PainterTools.selectedTool.update();
+	Haf.getCanvas(0).autoClear = Painter.repaintRequired;
 }
 Painter.render = function(){
+	if(!Painter.repaintRequired){
+		return;
+	}
+	
 	var windowAspect = Haf.width / Haf.height;
 	ctx.save();
 	var w = Painter.width+2;
@@ -169,6 +187,7 @@ Painter.render = function(){
 		ctx.fillText("Draw Something!", 0, 0);
 		ctx.restore();
 	}
+	Painter.repaintRequired = false;
 }
 Painter.transform = function(p){
 	var windowAspect = Haf.width / Haf.height;
@@ -259,6 +278,7 @@ Painter.setPixelColor = function(x, y, r, g, b){
 	p.b255 = b;
 	p.str = "rgb(" + r + ", " + g + ", " + b + ")";
 	p.rgb = (r<<16)|(g<<8)|b;
+	Painter.repaintRequired = true;
 	return true;
 }
 

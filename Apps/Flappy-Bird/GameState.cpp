@@ -74,8 +74,10 @@ void GameState::OnUpdate(){
 			if(Numbers::Random(0, prob) == 0) moving = true;
 			if(Numbers::Random(0, prob) == 0) rotating = true;
 			float x = nextPipePosition;
-			int gap = Numbers::Random(moving&&!rotating ? 13 : 9, rotating ? 12 : 16);
-			float center = moving ? Numbers::Random(0, 0) : Numbers::Random(-15, 15);
+		//	int gap = Numbers::Random(moving&&!rotating ? 13 : 9, rotating ? 12 : 16);
+			int gap = Numbers::Random(moving&&!rotating ? 14 : 10, rotating ? 12 : 16);
+		//	float center = moving ? Numbers::Random(0, 0) : Numbers::Random(-15, 15);
+			float center = moving ? Numbers::Random(0, 0) : Numbers::Random(-13, 13);
 			int gap_top = gap%2 == 0 ? gap/2 : gap/2+1;
 			int gap_bottom = gap/2;
 			// pipe top

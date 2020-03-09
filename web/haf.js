@@ -25,7 +25,10 @@ Haf.install = function(_params){
 	Haf.title = def(params, "title", "no title");
 	Haf.width = def(params, "width", 0);
 	Haf.height = def(params, "height", 1024);
-	Haf.createCanvas({autoClear:params.autoClear||true, container:Haf.$container});
+	Haf.createCanvas({
+		autoClear:params.autoClear === undefined ? true : params.autoClear, 
+		container:Haf.$container
+	});
 	Haf.getCanvas(0).setActive();
 	Haf.requestAnimationFrameId = null;
 	$(Haf.getCanvas(0).element).focus();
