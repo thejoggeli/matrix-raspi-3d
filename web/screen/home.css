@@ -2,9 +2,11 @@
 #home button {width:120px;height:50px;}
 #home button.selected {background-color:yellow;}
 #home .admin-row,
+#home .admin-unlock-row,
 #home .app-row{margin-top:10px;}
 #home .app-row.active {}
 #home .msg-btn,
+#home .admin-unlock-button,
 #home .app-btn {width:100%;background:white;border:0;font-size:16px;}
 #home .app-btn.active {background:lime;}
 #home .msg-btn.semi-active,

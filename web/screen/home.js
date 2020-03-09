@@ -1,4 +1,5 @@
 function Home(){}
+Home.adminUnlocked = false;
 Home.init = function(){
 	$(document).on("click", "#home .app-btn", function(){
 		$(this).addClass("semi-active");
@@ -13,6 +14,18 @@ Home.init = function(){
 		$btn.html(name);
 		$row.append($btn);
 		$apps.append($row);
+	}
+	$("#home .admin-row").hide()
+	$("#home .admin-unlock-row").on("click", Home.adminPrompt)
+}
+Home.adminPrompt = function(){
+	var val = ""+prompt("PASSWORD");
+	if(val == "420"){
+		Home.adminUnlocked = true;
+		$("#home .admin-unlock-row").hide();
+		$("#home .admin-row").show();
+	} else {
+		alert("NEIN!!!");
 	}
 }
 Home.open = function(){
