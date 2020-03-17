@@ -34,12 +34,14 @@
 	margin-bottom:20px;
 	border-collapse:collapse;
 	width:100%;
+	vertical-align:middle;
 }
 #home .status-table td {
 	border:2px solid #111;
 	background:white;color:black;
 	padding:5px;
 	width:50%;
+	vertical-align:middle;
 }
 #home .status-table td:nth-child(1) {
 }

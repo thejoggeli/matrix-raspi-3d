@@ -1141,7 +1141,7 @@ function hzToSize(hz) {
    var sizes = ['Hz', 'KHz', 'MHz', 'GHz', 'THz'];
    if (hz == 0) return '0 Hz';
    var i = parseInt(Math.floor(Math.log(hz) / Math.log(1024)));
-   return roundToFixed(bytes / Math.pow(1024, i), 1) + ' ' + sizes[i];
+   return roundToFixed(hz / Math.pow(1024, i), 1) + ' ' + sizes[i];
 }
 
 

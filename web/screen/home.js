@@ -64,7 +64,16 @@ Home.updateConnectedMode = function(){
 	}
 	Home.updateWindowTitle ();	
 }
-Home.onWebsocketOpen = function(){}
+Home.onWebsocketOpen = function(){
+	var $loader = $("<img>");
+	$loader.attr("src", "svg/ajax-loader-black.svg")
+	$loader.attr("width", 12) 
+	$loader.attr("height", 12) 
+	$("#home .status-row .status-temp .status-value").empty().append($loader.clone())
+	$("#home .status-row .status-clock .status-value").empty().append($loader.clone())
+	$("#home .status-row .status-mem-total .status-value").empty().append($loader.clone())
+	$("#home .status-row .status-mem-used .status-value").empty().append($loader.clone())	
+}
 Home.onWebsocketClose = function(){
 	$("#home .app-row").removeClass("active");
 	$("#home .app-btn").removeClass("active");
@@ -93,7 +102,7 @@ Home.onWebsocketMessage = function(json){
 		$("#home .status-row .status-temp .status-value").text(temp)
 		$("#home .status-row .status-clock .status-value").text(clock)
 		$("#home .status-row .status-mem-total .status-value").text(mem_total)
-		$("#home .status-row .status-mem-used .status-value").text(mem_used)
+		$("#home .status-row .status-mem-used .status-value").text(mem_used) 
 	}
 }
 Home.updateWindowTitle = function(){
