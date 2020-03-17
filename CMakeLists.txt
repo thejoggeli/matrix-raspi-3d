@@ -59,7 +59,8 @@ add_subdirectory("Ledlib2d")
 
 function(post_app app_name app_source_dir app_binary_dir)
 	execute_process(COMMAND bash -c "touch ${app_binary_dir}/ledlib.app.cfg")
-	execute_process(COMMAND bash -c "chmod 666 \"${app_binary_dir}/ledlib.app.cfg\"")
+	# execute_process(COMMAND bash -c "chmod 666 \"${app_binary_dir}/ledlib.app.cfg\"")
+	execute_process(COMMAND bash -c "chmod -R 777 \"${CMAKE_SOURCE_DIR}\"")
 endfunction(post_app)
 
 function(add_app app_name)
