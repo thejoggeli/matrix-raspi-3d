@@ -118,7 +118,7 @@ void LedMatrixLibrary::Update(){
 	// staggered status update to prevent possible flicker
 	switch(fpsCounter){
 	case 1: {
-		if(Config::GetBool("is_rpi")){
+		if(Config::GetString("system") == "rpi"){
 			// poll temperature
 			FILE *fp = popen("vcgencmd measure_temp", "r");
 			if (fp == nullptr){
