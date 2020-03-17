@@ -92,12 +92,12 @@ Home.updateConnectedMode = function(){
 	var mode = MatrixClient.isConnected();
 	if(mode){
 		$("#home button").prop("disabled", false);
-		$("#home .connected-state").text("connected");
+		$("#home .connected-state").text("Online");
 		$("#home .connected-state").addClass("connected");
 		$("#home .connected-state").removeClass("disconnected");
 	} else {
 		$("#home button").prop("disabled", true);
-		$("#home .connected-state").text("disconnected");
+		$("#home .connected-state").text("Offline");
 		$("#home .connected-state").addClass("disconnected");
 		$("#home .connected-state").removeClass("connected");
 	}
