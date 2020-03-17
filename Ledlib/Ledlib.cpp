@@ -134,7 +134,7 @@ void LedMatrixLibrary::Update(){
 		if (fp == nullptr){
 			system_clock = 0.0f;
 		} else {
-			fscanf(fp, "temp=%lld'C", &system_clock);
+			fscanf(fp, "%lld", &system_clock);
 		}
 		pclose(fp);
 		break;

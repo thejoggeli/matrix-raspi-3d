@@ -70,6 +70,10 @@ Home.onWebsocketClose = function(){
 	$("#home .app-btn").removeClass("active");
 	$("#home .app-row").removeClass("semi-active");
 	$("#home .app-btn").removeClass("semi-active");	
+	$("#home .status-row .status-temp .status-value").html("&ndash;")
+	$("#home .status-row .status-clock .status-value").html("&ndash;")
+	$("#home .status-row .status-mem-total .status-value").html("&ndash;")
+	$("#home .status-row .status-mem-used .status-value").html("&ndash;")
 }
 Home.onWebsocketChange = function(){
 	Home.updateConnectedMode();	
@@ -81,6 +85,15 @@ Home.onWebsocketMessage = function(json){
 		Home.updateActiveApp();
 	} else if(json.type == "set_brightness"){
 		Home.updateBrightness(json.brightness);
+	} else if(json.type == "status"){
+		var temp = roundToFixed(json.temp, 1) + "°C"
+		var clock = hzToSize(json.clock)
+		var mem_total = bytesToSize(json.mem_total)
+		var mem_used = bytesToSize(json.mem_used)
+		$("#home .status-row .status-temp .status-value").text(temp)
+		$("#home .status-row .status-clock .status-value").text(clock)
+		$("#home .status-row .status-mem-total .status-value").text(mem_total)
+		$("#home .status-row .status-mem-used .status-value").text(mem_used)
 	}
 }
 Home.updateWindowTitle = function(){
@@ -94,3 +107,4 @@ Home.updateBrightness = function(val){
 	$("#home .brightness-slider").val(val);
 	$("#home .brightness-label .value").text(val);
 }
+

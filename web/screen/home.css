@@ -2,6 +2,7 @@
 #home button {width:120px;height:50px;}
 #home button.selected {background-color:yellow;}
 #home .admin-row,
+#home .status-row,
 #home .admin-unlock-row,
 #home .app-row{margin-top:10px;}
 #home .app-row.active {}
@@ -16,11 +17,34 @@
 #home .connected-state.disconnected {color:red;}
 #home .brightness-row {margin-bottom:15px;margin-top:20px}
 #home .apps {margin-bottom:20px;}
-#home .apps-head {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;}
+#home .apps-head,
+#home .status-head,
 #home .admin-head {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;}
 #home .brightness-label {color:white;font-weight:bold;font-size:24px;margin-bottom:5px;margin-top:25px;}
 @media screen and (max-width: 450px) {
     #home .header {font-size:28px;}
+}
+
+#home .status-row {
+	text-align:center;
+}
+#home .status-table {
+	color:white;
+	margin:0 auto;
+	margin-bottom:20px;
+	border-collapse:collapse;
+	width:100%;
+}
+#home .status-table td {
+	border:2px solid #111;
+	background:white;color:black;
+	padding:5px;
+	width:50%;
+}
+#home .status-table td:nth-child(1) {
+}
+#home .status-table td:nth-child(2) {
+	min-width:50px;
 }
 
 
