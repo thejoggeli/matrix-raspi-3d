@@ -8,10 +8,12 @@
 #include "Util/Timer.h"
 #include "Display/DisplayManager.h"
 #include "Events/EventManager.h"
+#include "Remote/ServerMessage.h"
 #include "Remote/ServerManager.h"
 #include "Remote/ClientManager.h"
 #include "Remote/Client.h"
 #include "Sfx/RemoteSfx.h"
+#include "sys/sysinfo.h"
 
 using namespace std;
 
@@ -24,9 +26,17 @@ int LedMatrixLibrary::exitCounter = 0;
 bool LedMatrixLibrary::exitRequested = false;
 
 static LedlibEventHandler eventHandler;
-static Timer fpsTimer;
+static int fps;
+static Timer statusTimer;
 static int fpsCounter = 0;
+static int event_counter = 0;
 static float fpsInterval = 5.0f;
+static float system_temperature = 0.0f;
+static long long system_clock = 0;
+static long long system_memory_total = 0;
+static long long system_memory_used = 0;
+static ServerMessage statusServerMessage("status");
+static std::string statusLogMessage;
 
 bool LedMatrixLibrary::Init(){
 	if(++initCounter > 1) return false;
@@ -79,7 +89,7 @@ void LedMatrixLibrary::Start(){
 		return;
 	}
 	Time::Start();
-	fpsTimer.Start(fpsInterval);
+	statusTimer.Start(fpsInterval);
 }
 void LedMatrixLibrary::Update(){
 	// poll network input
@@ -97,18 +107,79 @@ void LedMatrixLibrary::Update(){
 	Time::Update();
 	// fps counter
 	fpsCounter++;
-	if(fpsTimer.IsFinished()){
-		int fps = static_cast<int>(static_cast<float>(fpsCounter)/fpsInterval);
-		Log(LOG_INFO, "Matlib", iLog
+	if(statusTimer.IsFinished()){
+		fps = static_cast<int>(static_cast<float>(fpsCounter)/fpsInterval);
+		ServerMessage serverMessage = ServerMessage("status");
+		event_counter = EventManager::eventCounterTemp;
+		EventManager::eventCounterTemp = 0;
+		statusTimer.Restart();
+		fpsCounter = 0;
+	}
+	// staggered status update to prevent possible flicker
+	switch(fpsCounter){
+	case 1: {
+		// poll temperature
+		FILE *fp = popen("vcgencmd measure_temp", "r");
+		if (fp == nullptr){
+			system_temperature = 0.0f;
+		} else {
+			fscanf(fp, "temp=%f'C", &system_temperature);
+		}
+		pclose(fp);
+		break;
+	}
+	case 2: {
+		// poll clock
+		FILE *fp = popen("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq", "r");
+		if (fp == nullptr){
+			system_clock = 0.0f;
+		} else {
+			fscanf(fp, "temp=%lld'C", &system_clock);
+		}
+		pclose(fp);
+		break;
+	}
+	case 3: {
+		// poll memory
+		struct sysinfo memInfo;
+		sysinfo (&memInfo);
+		system_memory_total = memInfo.totalram;
+		system_memory_total *= memInfo.mem_unit;
+		system_memory_used = memInfo.totalram - memInfo.freeram;
+		system_memory_used *= memInfo.mem_unit;
+		break;
+	}
+	case 4:
+		// print log message
+		Log(LOG_INFO, "Ledlib", iLog
 			<< "Fps=" << fps << " / "
 			<< "Dt=" << Time::deltaTime << " / "
 			<< "Clients=" << ClientManager::GetAllCients().size() << " / "
 			<< "Connections=" << ServerManager::GetNumConnections() << " / "
 			<< "Events=" << EventManager::eventCounterTemp << "/" << EventManager::eventCounterTotal
 		);
-		EventManager::eventCounterTemp = 0;
-		fpsTimer.Restart();
-		fpsCounter = 0;
+		Log(LOG_INFO, "Ledlib", iLog
+			<< "Temp=" << system_temperature << " / "
+			<< "Clock=" << system_clock << " / "
+			<< "Memory=" << (system_memory_used/1000000L) << "M/" << (system_memory_total/1000000L) << "M"
+		);;
+		break;
+	case 5:
+		// prepare server message
+		statusServerMessage = ServerMessage("status");
+		statusServerMessage.AddParam("fps", fps);
+		statusServerMessage.AddParam("clients", ClientManager::GetAllCients().size());
+		statusServerMessage.AddParam("temp", system_temperature);
+		statusServerMessage.AddParam("clock", system_clock);
+		statusServerMessage.AddParam("mem_used", system_memory_used);
+		statusServerMessage.AddParam("mem_total", system_memory_total);
+		break;
+	case 6:
+		// send server message
+		ServerManager::SendMessage(statusServerMessage);
+		break;
+	default:
+		break;
 	}
 }
 void LedMatrixLibrary::Render(){
