@@ -69,20 +69,16 @@ Home.onWebsocketOpen = function(){
 	$loader.attr("src", "svg/ajax-loader-black.svg")
 	$loader.attr("width", 12) 
 	$loader.attr("height", 12) 
-	$("#home .status-row .status-temp .status-value").empty().append($loader.clone())
-	$("#home .status-row .status-clock .status-value").empty().append($loader.clone())
-	$("#home .status-row .status-mem-total .status-value").empty().append($loader.clone())
-	$("#home .status-row .status-mem-used .status-value").empty().append($loader.clone())	
+	$("#home .status-row .status-value").empty().append($loader.clone())
+	$("#home .status-row .status-unit").empty().append($loader.clone())
 }
 Home.onWebsocketClose = function(){
 	$("#home .app-row").removeClass("active");
 	$("#home .app-btn").removeClass("active");
 	$("#home .app-row").removeClass("semi-active");
 	$("#home .app-btn").removeClass("semi-active");	
-	$("#home .status-row .status-temp .status-value").html("&ndash;")
-	$("#home .status-row .status-clock .status-value").html("&ndash;")
-	$("#home .status-row .status-mem-total .status-value").html("&ndash;")
-	$("#home .status-row .status-mem-used .status-value").html("&ndash;")
+	$("#home .status-row .status-value").html("&ndash;")
+	$("#home .status-row .status-value").html("&ndash;")
 }
 Home.onWebsocketChange = function(){
 	Home.updateConnectedMode();	
@@ -95,14 +91,24 @@ Home.onWebsocketMessage = function(json){
 	} else if(json.type == "set_brightness"){
 		Home.updateBrightness(json.brightness);
 	} else if(json.type == "status"){
-		var temp = roundToFixed(json.temp, 1) + "°C"
-		var clock = hzToSize(json.clock)
-		var mem_total = bytesToSize(json.mem_total)
-		var mem_used = bytesToSize(json.mem_used)
+		var fps = json.fps
+		var clients = json.clients
+		var temp = roundToFixed(json.temp, 1)
+		var clock = hzToSize(json.clock).split(" ")
+		var mem_total = bytesToSize(json.mem_total).split(" ")
+		var mem_used = bytesToSize(json.mem_used).split(" ")
+		$("#home .status-row .status-fps .status-value").text(fps)
+		$("#home .status-row .status-fps .status-unit").html("")
+		$("#home .status-row .status-clients .status-value").text(clients)
+		$("#home .status-row .status-clients .status-unit").html("")
 		$("#home .status-row .status-temp .status-value").text(temp)
-		$("#home .status-row .status-clock .status-value").text(clock)
-		$("#home .status-row .status-mem-total .status-value").text(mem_total)
-		$("#home .status-row .status-mem-used .status-value").text(mem_used) 
+		$("#home .status-row .status-temp .status-unit").text("°C")
+		$("#home .status-row .status-clock .status-value").text($.trim(clock[0]))
+		$("#home .status-row .status-clock .status-unit").text($.trim(clock[1]))
+		$("#home .status-row .status-mem-total .status-value").text($.trim(mem_total[0]))
+		$("#home .status-row .status-mem-total .status-unit").text($.trim(mem_total[1]))
+		$("#home .status-row .status-mem-used .status-value").text($.trim(mem_used[0])) 
+		$("#home .status-row .status-mem-used .status-unit").text($.trim(mem_used[1])) 
 	}
 }
 Home.updateWindowTitle = function(){
