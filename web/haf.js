@@ -1140,8 +1140,8 @@ function bytesToSize(bytes) {
 function hzToSize(hz) {
    var sizes = ['Hz', 'KHz', 'MHz', 'GHz', 'THz'];
    if (hz == 0) return '0.0 Hz';
-   var i = parseInt(Math.floor(Math.log(hz) / Math.log(1024)));
-   return roundToFixed(hz / Math.pow(1024, i), 1) + ' ' + sizes[i];
+   var i = parseInt(Math.floor(Math.log(hz) / Math.log(1000)));
+   return roundToFixed(hz / Math.pow(1000, i), 1) + ' ' + sizes[i];
 }
 
 

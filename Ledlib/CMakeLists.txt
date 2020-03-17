@@ -17,6 +17,7 @@ set(
 	"Util/ClientJoinerListener.cpp"
 	"Util/ColorRgb.cpp"
 	"Util/ColorHsl.cpp"
+	"Util/FileHelper.cpp"
 	"Remote/Client.cpp"
 	"Remote/ClientManager.cpp"
 	"Remote/Server.cpp"

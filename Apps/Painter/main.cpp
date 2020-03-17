@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
-#include <sys/stat.h>
 #include <time.h>
 
 #include "Ledlib/Config.h"
@@ -9,6 +8,7 @@
 #include "Ledlib/Time.h"
 #include "Ledlib/Util/Lodepng.h"
 #include "Ledlib/Util/Timer.h"
+#include "Ledlib/Util/FileHelper.h"
 #include "Ledlib/Display/DisplayManager.h"
 #include "Ledlib/Math/Numbers.h"
 #include "Ledlib/Events/Event.h"
@@ -87,15 +87,15 @@ void PainterApp::OnSetup() {
 
 	std::string web_painter_path = LEDLIB_WEB_PATH;
 	web_painter_path += "/painter/";
-	mkdir(web_painter_path.c_str(),  ACCESSPERMS);
+	FileHelper::CreateDirectory(web_painter_path);
 
 	std::string web_manualsave_path = LEDLIB_WEB_PATH;
 	web_manualsave_path += "/painter/save/";
-	mkdir(web_manualsave_path.c_str(), ACCESSPERMS);
+	FileHelper::CreateDirectory(web_manualsave_path);
 
 	std::string web_autosave_path = LEDLIB_WEB_PATH;
 	web_autosave_path += "/painter/autosave/";
-	mkdir(web_autosave_path.c_str(), ACCESSPERMS);
+	FileHelper::CreateDirectory(web_autosave_path);
 
 	std::string web_autosave_daily_path = LEDLIB_WEB_PATH;
 	time_t rawtime;
@@ -107,11 +107,7 @@ void PainterApp::OnSetup() {
 	web_autosave_daily_path += "/painter/autosave/";
 	web_autosave_daily_path += timeBuffer;
 	web_autosave_daily_path += "/";
-	mkdir(web_autosave_daily_path.c_str(), ACCESSPERMS);
-
-	Log(web_autosave_daily_path);
-
-	Log(LOG_INFO, "Painter", iLog << "daily dir is " << timeBuffer);
+	FileHelper::CreateDirectory(web_autosave_daily_path);
 
 	manualsavePath = web_manualsave_path;
 	autosavePath = web_autosave_daily_path;

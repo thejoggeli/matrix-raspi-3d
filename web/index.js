@@ -146,9 +146,9 @@ ScreenManager.open = function(name){
 					screen.handle.isOpen = true;
 					Fullscreen.refresh();
 					// fire onWebsocketOpen if connected
-					if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
+				/*	if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
 						screen.handle.onWebsocketOpen();
-					}
+					} */
 				}
 			} else {
 				alert("fatal error");
@@ -176,9 +176,9 @@ ScreenManager.open = function(name){
 			screen.handle.isOpen = true;
 			Fullscreen.refresh();
 			// fire onWebsocketOpen if connected
-			if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
+		/*	if(screen.handle.onWebsocketOpen !== undefined && MatrixClient.isConnected()){
 				screen.handle.onWebsocketOpen();
-			}
+			} */
 		}
 		ScreenManager.loading = false;
 		if(ScreenManager.queuedScreen != null){

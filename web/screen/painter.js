@@ -94,6 +94,7 @@ Painter.open = function(){
 	Painter.introTimer = Painter.introTimerDuration;
 	PainterTools.open();
 	Painter.repaintRequired = true;
+	MatrixClient.sendMessage("request_pixels");
 }
 Painter.close = function(){
 	MatrixClient.removeEventListener(Painter);
