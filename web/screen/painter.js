@@ -88,6 +88,7 @@ Painter.open = function(){
 	});
 	$("#painter .toolbar-overlay").hide();
 	Haf.start();
+	Haf.focus();
 	MatrixClient.addEventListener(Painter);
 	Colors.hslToRgb255(randomFloat(0, 1.0), 1.0, 0.5);
 	Painter.introTimerDuration = 5.0;

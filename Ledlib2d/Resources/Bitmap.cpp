@@ -125,4 +125,23 @@ void Bitmap::SetRenderTarget(bool b){
 	}
 }
 
+void Bitmap::SetFilteringPoint(){
+	glBindTexture(GL_TEXTURE_2D, this->textureId);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
+void Bitmap::SetFilteringBilinear(){
+	glBindTexture(GL_TEXTURE_2D, this->textureId);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+}
+void Bitmap::SetFilteringTrilinear(){
+	glBindTexture(GL_TEXTURE_2D, this->textureId);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+}
+void Bitmap::GenerateMipmap(){
+	glGenerateMipmap(GL_TEXTURE_2D);
+}
+
 }

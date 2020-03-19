@@ -101,7 +101,6 @@ Home.updateConnectedMode = function(){
 		$("#home .connected-state").addClass("disconnected");
 		$("#home .connected-state").removeClass("connected");
 	}
-	Home.updateWindowTitle ();	
 }
 Home.onWebsocketOpen = function(){
 	Home.updateStatusInfo()	
@@ -127,11 +126,6 @@ Home.onWebsocketMessage = function(json){
 		Home.status = json;
 		Home.updateStatusInfo()
 	}
-}
-Home.updateWindowTitle = function(){
-	var connected = MatrixClient.isConnected();
-	var connectedStr = connected ? "connected" : "disconnected";
-	document.title = "Raspi [" + connectedStr + "]";
 }
 Home.updateBrightness = function(val){
 //	$("#home .msg-btn[data-msg=set_brightness]").removeClass("selected");

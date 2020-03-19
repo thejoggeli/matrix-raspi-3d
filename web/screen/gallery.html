@@ -1,4 +1,21 @@
-<div id="gallery" class="fullscreen">	
-	<canvas></canvas>
-	<div class="fff">fff</div>
+<div id="gallery">
+	<table style="color:white;font-size:20px;text-align:center;margin:auto;font-weight:bold;">
+		<tr>
+			<td rowspan="2"><img height="54px" src="img/baustelle.png"> </td>
+			<td style="vertical-align:bottom"> ACHTUNG </td>
+			<td rowspan="2"><img height="54px" src="img/baustelle.png"> </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top">&nbsp;BAUSTELLE&nbsp;</td>
+		</tr>	
+	</table>
+	<div class="image-drop">
+		upload image
+	</div>
+	<input class="image-upload" name="files[]" type="file" accept=".png, .jpg, .jpeg" style="display:none">
+	
+	<div class="canvas-target"></div>
+	<div class="loading-overlay"></div>
+	<button onclick="Gallery.test()" style="width:100%;margin-top:8px;height:50px">Upload</button>
+	<button onclick="ScreenManager.open('gamepad')" style="width:100%;margin-top:8px;height:50px">Gamepad</button>
 </div>

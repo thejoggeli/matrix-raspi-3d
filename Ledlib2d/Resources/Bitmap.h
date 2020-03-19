@@ -31,6 +31,16 @@ public:
 	void SetPixelBytes(int x, int y, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 	void Update();
 
+	void SetFilteringPoint();
+	void SetFilteringBilinear();
+	void SetFilteringTrilinear();
+
+	// this needs to be called if Trilinear Filtering is used
+	// in this case it will always need to be called after the
+	// texture has changed, e.g. after calling Update() or
+	// after rendering to the texture
+	void GenerateMipmap();
+
 	void SetRenderTarget(bool b);
 
 };

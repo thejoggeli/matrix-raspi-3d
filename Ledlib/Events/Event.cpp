@@ -37,6 +37,9 @@ std::string MessageEvent::GetParam(int index){
 	if(index >= params.size()) return "";
 	return params[index];
 }
+const std::string& MessageEvent::GetParamConstRef(int index){
+	return params[index];
+}
 int MessageEvent::GetParamInt(int index){
 	if(index >= params.size()) return 0;
 	return std::stoi(params[index]);

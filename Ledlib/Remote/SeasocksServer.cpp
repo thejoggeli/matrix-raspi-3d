@@ -28,7 +28,7 @@ bool SeasocksServer::Init(){
 	// server
 	std::string staticPath = LEDLIB_WEB_PATH;
 	server = make_shared<seasocks::Server>(logger);
-//	server->setClientBufferSize(20*1024); // 20kB
+//	server->setClientBufferSize(1024*1024); // 1MB
 	server->setStaticPath(staticPath.c_str());
 	handler = make_shared<SeasocksHandler>(server);
 	server->addWebSocketHandler(websocketPath.c_str(), handler);

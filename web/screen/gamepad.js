@@ -13,6 +13,8 @@ Gamepad.colors = {
 	border: "black",
 	pad: "#333",
 	pad_pressed: "yellow",
+	stick: "#eee",
+	stick_pressed: "yellow",
 	arrows: "black",	
 	arrows_pressed: "yellow",
 	mid_pad: "#aaa",
@@ -64,6 +66,7 @@ Gamepad.open = function(){
 	Haf.getCanvas(0).setActive();
 	Haf.getCanvas(0).clearColor = "#111";
 	Haf.start();
+	Haf.focus();
 	Gamepad.createButtons();
 	Gamepad.recalcButtons();
 }
@@ -477,7 +480,7 @@ GamepadStick.prototype.render = function(){
 	// draw cirlce
 	var cross = Gamepad.cross;
 	ctx.lineWidth = Gamepad.lineWidth;
-	ctx.fillStyle = this.isTouched() ? Gamepad.colors.pad_pressed : Gamepad.colors.pad;
+	ctx.fillStyle = this.isTouched() ? Gamepad.colors.stick_pressed : Gamepad.colors.stick;
 	ctx.fillCircle(this.position.x, this.position.y, this.radius);
 /*	if(!this.isTouched() && this.releaseTimer < 1){
 		ctx.globalAlpha = 1-(this.releaseTimer < 1 ? this.releaseTimer : 0);
@@ -487,6 +490,7 @@ GamepadStick.prototype.render = function(){
 	} */
 	ctx.strokeStyle = Gamepad.colors.arrows;
 	ctx.strokeCircle(this.position.x, this.position.y, this.radius);
+
 	
 }
 GamepadStick.prototype.setPosition = function(x, y){

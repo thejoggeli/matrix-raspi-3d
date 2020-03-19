@@ -18,6 +18,7 @@ set(
 	"Util/ColorRgb.cpp"
 	"Util/ColorHsl.cpp"
 	"Util/FileHelper.cpp"
+	"Util/Base64Helper.cpp"
 	"Remote/Client.cpp"
 	"Remote/ClientManager.cpp"
 	"Remote/Server.cpp"
@@ -51,16 +52,23 @@ find_library(
 	NAMES libX11.so
 	PATHS /usr/lib/arm-linux-gnueabihf
 )
+find_library(
+	libfreeimage_location
+	NAMES libfreeimage.so
+	PATHS /usr/local/lib /usr/lib
+)
 
 # print locations
 message(${libseasocks_location})
 message(${librgbmatrix_location})
 message(${libx11_location})
+message(${libfreeimage_location})
 
 # add libraries
 add_library(libseasocks SHARED IMPORTED)
 add_library(librgbmatrix SHARED IMPORTED)
 add_library(libx11 SHARED IMPORTED)
+add_library(libfreeimage SHARED IMPORTED)
 
 # set library locations
 set_property(
@@ -78,6 +86,11 @@ set_property(
 	PROPERTY IMPORTED_LOCATION
 	${libx11_location}
 )
+set_property(
+	TARGET libfreeimage
+	PROPERTY IMPORTED_LOCATION
+	${libfreeimage_location}
+)
 
 # make library
 add_library(libLedlib SHARED ${MATLIB_SOURCE_FILES})
@@ -88,6 +101,7 @@ target_link_libraries(
 	libseasocks
 	librgbmatrix
 	libx11
+	libfreeimage
 )
 
 execute_process(COMMAND bash -c "cp -rf ${CMAKE_CURRENT_SOURCE_DIR}/Config/ledlib.def.cfg ${CMAKE_CURRENT_BINARY_DIR}/ledlib.def.cfg")

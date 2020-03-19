@@ -1,6 +1,7 @@
 set(
 	LEDLIB2D_SOURCE_FILES
 	"App.cpp"
+	"AppCamera.cpp"
 	"Game.cpp"
 	"State.cpp"
 	"Scene.cpp"

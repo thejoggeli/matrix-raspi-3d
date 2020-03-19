@@ -1,4 +1,9 @@
 $(document).ready(function(){
+	Main.init()
+});
+
+function Main(){}
+Main.init = function(){
 	Fullscreen.install();
 	$(document).on("mousedown touchstart", ".inp-btn", function(){
 		MatrixClient.sendInput(0, $(this).data("keycode"));
@@ -49,6 +54,7 @@ $(document).ready(function(){
 		Fullscreen.onChange();
 	});
 	MatrixClient.connect();	
+	MatrixClient.addEventListener(Main);
 	MatrixClient.addEventListener(Sfx);
 	MatrixClient.addEventListener(AppManager);
 	$(window).on("hashchange", function(){
@@ -62,7 +68,16 @@ $(document).ready(function(){
 		}
 	});
 	ScreenManager.open("home");
-});
+	Main.updateWindowTitle()
+}
+Main.updateWindowTitle = function(){
+	var connected = MatrixClient.isConnected();
+	var connectedStr = connected ? "Online" : "Offline";
+	document.title = "LED Matrix [" + connectedStr + "]";
+}
+Main.onWebsocketChange = function(){
+	Main.updateWindowTitle()
+}
 
 function ScreenManager(){}
 ScreenManager.activeScreen = null;

@@ -29,15 +29,19 @@ Haf.install = function(_params){
 		autoClear:params.autoClear === undefined ? true : params.autoClear, 
 		container:Haf.$container
 	});
+	if(Haf.$container.css("position") == "static"){
+		console.error("Haf container position is static");
+	}
 	Haf.getCanvas(0).setActive();
 	Haf.requestAnimationFrameId = null;
-	$(Haf.getCanvas(0).element).focus();
 	$(window).on("resize orientationchange", Haf.resize);
 	CollisionManager.buildMatrix();
 	Haf.resize();
 	Input.install();
-	Haf.inputOverlay.focus();
 	Haf.installed = true;
+}
+Haf.focus = function(){
+	Haf.inputOverlay.focus();
 }
 Haf.uninstall = function(){
 	Haf.installed = false;
@@ -1144,4 +1148,15 @@ function hzToSize(hz) {
    return roundToFixed(hz / Math.pow(1000, i), 1) + ' ' + sizes[i];
 }
 
+// https://stackoverflow.com/questions/7033639/split-large-string-in-n-size-chunks-in-javascript
+function chunkSubstr(str, size) {
+  const numChunks = Math.ceil(str.length / size)
+  const chunks = new Array(numChunks)
+
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+    chunks[i] = str.substr(o, size)
+  }
+
+  return chunks
+}
 

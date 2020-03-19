@@ -34,6 +34,7 @@ public:
 	MessageEvent(const std::string& message);
 	void AddParam(const std::string& param);
 	std::string GetParam(int index);
+	const std::string& GetParamConstRef(int index);
 	int GetParamInt(int index);
 	bool GetParamBool(int index);
 	float GetParamFloat(int index);
