@@ -10,6 +10,8 @@
 #include "Ledlib/Log.h"
 #include "Ledlib/Math/Numbers.h"
 #include "Ledlib/Remote/ClientManager.h"
+#include "Ledlib/Remote/ServerManager.h"
+#include "Ledlib/Remote/ServerMessage.h"
 #include "Ledlib/Events/EventManager.h"
 #include "Ledlib/Events/Event.h"
 #include "Ledlib/Util/ColorRgb.h"
@@ -304,6 +306,9 @@ void WelcomeApp::OnMessageUploadStreamFrameData(void *obj, MessageEvent &event){
     Log(LOG_INFO, "Gallery", iLog << "UploadJPG w=" << w << ", h=" << h << " bytes=" << bytes.size());
     // add bitmap to frames
     streamingMedia->frames.push_back(WelcomeApp::CreateCanvasFromFIBITMAP(bitmap, w, h));
+    // respond
+    ServerMessage msg = ServerMessage("frame-received");
+    ServerManager::SendMessage(msg, event.clientId);
 }
 void WelcomeApp::OnMessageUploadStreamEnd(void *obj, MessageEvent &event){
     Log(LOG_INFO, "Gallery", iLog << "UploadStreamEnd, client = " << event.clientId);

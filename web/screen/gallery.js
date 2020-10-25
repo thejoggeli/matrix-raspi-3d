@@ -99,9 +99,10 @@ Gallery.open = function(){
 	$("#gallery .loading-overlay").hide()
 	$("#gallery .gamepad-button").show()
 	$("#gallery .image-upload").val("")
+	MatrixClient.addEventListener(Gallery);
 }
 Gallery.close = function(){
-	
+	MatrixClient.removeEventListener(Gallery);	
 }
 Gallery.processFiles = function(files){
 	$("#gallery .video-progress").text("0%")
@@ -199,49 +200,53 @@ Gallery.uploadImage = function(image){
 	
 }
 Gallery.uploadVideo = function(video){
-	var frame_id = -1	
-	var fps = Gallery.fps
-	var frame_duration = 1.0/fps
-	var numFrames = Math.floor(video.duration/frame_duration)
+	Gallery.video_frame_id = -1
+	Gallery.video_frame_duration = 1.0/Gallery.fps
+	Gallery.video_numFrames = Math.floor(video.duration/Gallery.video_frame_duration)
 	
 	video.width = video.videoWidth
 	video.height = video.videoHeight
 	
 	Gallery.videoCanvas.width = 64*2
 	Gallery.videoCanvas.height = 32*2
-	var $progress = $("#gallery .video-progress")
-	$progress.text("0%")
 	
 	MatrixClient.sendMessage("upload_stream_begin", []);
-	MatrixClient.sendMessage("upload_stream_meta_data", ["video", "jpg", fps, numFrames, Gallery.playbackMode == "normal" ? 0 : 1]);
+	MatrixClient.sendMessage("upload_stream_meta_data", ["video", "jpg", Gallery.fps, Gallery.video_numFrames, Gallery.playbackMode == "normal" ? 0 : 1]);
+	
+	Gallery.video = video;
 	
 	video.addEventListener("seeked", function(e){
-		console.log("video seeked, frame_id = " + frame_id)
-		if(frame_id == -1){
-			frame_id = 0
+		console.log("video seeked, frame_id = " + Gallery.video_frame_id)
+		if(Gallery.video_frame_id == -1){
+			Gallery.video_frame_id = 0
 			video.currentTime = 0.0
 		} else {
 			// current frame
-			$progress.text(Math.round(frame_id/numFrames*100) + "%")
 			Gallery.generateOffscreenImage(video)
 			Gallery.videoCtx.clearRect(0, 0, Gallery.videoCanvas.width, Gallery.videoCanvas.height)
 			Gallery.videoCtx.drawImage(Gallery.offscreen.canvas, 0, 0, Gallery.videoCanvas.width, Gallery.videoCanvas.height)
 			var dataUrl = Gallery.extractDataUrl(Gallery.offscreen.canvas, "jpg")
-			MatrixClient.sendMessage("upload_stream_frame_data", [dataUrl]);			
-			// next frame?
-			frame_id++
-			if(frame_id < numFrames){
-				// next frame
-				video.currentTime = video.duration*(1.0/numFrames)*frame_id
-			} else {
-				// done
-				$progress.text("100%")
-				Gallery.onUploadFinished()
-				MatrixClient.sendMessage("upload_stream_end");
-			}
+			MatrixClient.sendMessage("upload_stream_frame_data", [dataUrl]);
 		}
 	})	
 	video.currentTime = video.duration
+}
+Gallery.onWebsocketMessage = function(json){
+	if(json.type == "frame-received"){
+		$("#gallery .video-progress").text(Math.round(Gallery.video_frame_id/Gallery.video_numFrames*100) + "%")
+		$("#gallery .video-progress")
+		// next frame?
+		Gallery.video_frame_id++
+		if(Gallery.video_frame_id < Gallery.video_numFrames){
+			// next frame
+			Gallery.video.currentTime = Gallery.video.duration*(1.0/Gallery.video_numFrames)*Gallery.video_frame_id
+		} else {
+			// done
+			Gallery.onUploadFinished()
+			MatrixClient.sendMessage("upload_stream_end");
+			Gallery.video = null
+		}		
+	}
 }
 Gallery.onUploadFinished = function(){
 	$("#gallery .video-options").show()
