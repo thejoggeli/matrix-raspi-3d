@@ -30,6 +30,25 @@ string Trim(const string &str){
 	return string(wsfront,find_if_not(str.rbegin(),string::const_reverse_iterator(wsfront),[](int c){return isspace(c);}).base());
 }
 
+string RemoveMultipleWhitespaces(const string &in){
+    size_t pos;
+    string out = in;
+    while((pos = out.find("  ")) != string::npos){
+        out.replace(pos, 1, "");
+    }
+    return out;
+}
+
+string ReplaceAll(const std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = 0;
+    string out = str;
+    while((start_pos = out.find(from, start_pos)) != std::string::npos) {
+        out.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return out;
+}
+
 bool StartsWith(const string &str, const string &with){
 	return str.rfind(with, 0) == 0;
 }

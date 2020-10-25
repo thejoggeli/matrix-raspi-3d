@@ -69,7 +69,7 @@ Home.updateStatusInfo = function(){
 			var fps = json.fps
 			var clients = json.clients
 			var temp = roundToFixed(json.temp, 1)
-			var clock = hzToSize(json.clock).split(" ")
+			var clock = parseInt(hzToSize(json.clock).split(" "))*1000
 			var mem_total = bytesToSize(json.mem_total).split(" ")
 			var mem_used = bytesToSize(json.mem_used).split(" ")
 			$("#home .status-row .status-fps .status-value").text(fps)

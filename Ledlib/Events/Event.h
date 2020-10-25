@@ -38,6 +38,7 @@ public:
 	int GetParamInt(int index);
 	bool GetParamBool(int index);
 	float GetParamFloat(int index);
+    double GetParamDouble(int index);
 	std::string ToString();
 };
 

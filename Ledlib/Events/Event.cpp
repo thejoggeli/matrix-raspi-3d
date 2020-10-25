@@ -47,12 +47,16 @@ int MessageEvent::GetParamInt(int index){
 }
 bool MessageEvent::GetParamBool(int index){
 	if(index >= params.size()) return 0;
-	return params[index] == "0";
+    return params[index] == "0" ? false : true;
 
 }
 float MessageEvent::GetParamFloat(int index){
 	if(index >= params.size()) return 0;
 	return std::stof(params[index]);
+}
+double MessageEvent::GetParamDouble(int index){
+    if(index >= params.size()) return 0;
+    return std::stod(params[index]);
 }
 
 std::string MessageEvent::ToString(){

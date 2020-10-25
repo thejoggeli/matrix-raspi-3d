@@ -18,6 +18,8 @@ int Random(int min, int max);
 float Random(float min, float max);
 int Max(int a, int b, int c);
 int Min(int a, int b, int c);
+float Max(float a, float b);
+float Min(float a, float b);
 float Max(float a, float b, float c);
 float Min(float a, float b, float c);
 float Stepify(float value, float step);

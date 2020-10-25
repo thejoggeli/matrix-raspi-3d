@@ -57,6 +57,14 @@ int Min(int a, int b, int c){
 	if(c < b) min = c;
 	return min;
 }
+float Max(float a, float b){
+    if(a > b) return a;
+    return b;
+}
+float Min(float a, float b){
+    if(a < b) return a;
+    return b;
+}
 float Max(float a, float b, float c){
 	float max = a;
 	if(b > a) max = b;

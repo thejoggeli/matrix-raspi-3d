@@ -1,3 +1,4 @@
 git clone https://github.com/WinMerge/freeimage
 cd freeimage
+sudo make
 sudo make install
