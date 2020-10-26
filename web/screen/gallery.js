@@ -33,6 +33,9 @@ Gallery.init = function(){
 		var files = dt.files
 		Gallery.processFiles(files)
 	})
+	$("#gallery .begin-upload").on("click", function(){
+		Gallery.uploadFile()
+	})
 	var normal_str = "Normal"
 	var reverse_str = "Normal-Reverse"
 	$("#gallery .playback-mode").on("click", function(){
@@ -78,12 +81,8 @@ Gallery.init = function(){
 	})
 	$("#gallery .crop-mode").val(fill_str)
 	$("#gallery .playback-mode").val(normal_str)
-	Gallery.fps = 30
-	$(".video-fps").val(Gallery.fps)
-	$(".video-fps-value").text(Gallery.fps)
-	Gallery.scale = 8
-	$(".video-scale").val(Gallery.scale)
-	$(".video-scale-value").text(Gallery.scale)
+	Gallery.setScale(8)
+	Gallery.setFps(15)
 	Gallery.playbackMode = "normal"
 	Gallery.cropMode = "fill"
 	Gallery.offscreen = {}
@@ -92,28 +91,70 @@ Gallery.init = function(){
 	Gallery.videoCanvas = $("#gallery .video-canvas")[0];
 	Gallery.videoCtx = Gallery.videoCanvas.getContext("2d")
 }
+Gallery.setScale = function(s){
+	Gallery.scale = s
+	$(".video-scale").val(Gallery.scale)
+	$(".video-scale-value").text(Gallery.scale)
+}
+Gallery.setFps = function(fps){
+	Gallery.fps = fps
+	$(".video-fps").val(Gallery.fps)
+	$(".video-fps-value").text(Gallery.fps)
+}
 Gallery.open = function(){	
-	$("#gallery .video-options").show()
-	$("#gallery .image-drop").show()
-	$("#gallery .video-target").hide()
-	$("#gallery .loading-overlay").hide()
-	$("#gallery .gamepad-button").show()
-	$("#gallery .image-upload").val("")
+	Gallery.restoreDefaultView()
 	MatrixClient.addEventListener(Gallery);
 }
 Gallery.close = function(){
 	MatrixClient.removeEventListener(Gallery);	
 }
+Gallery.restoreDefaultView = function(){
+	$("#gallery .video-options").hide()
+	$("#gallery .image-drop").show()
+	$("#gallery .video-target").hide()
+	$("#gallery .loading-overlay").hide()
+	$("#gallery .gamepad-button").show()
+	$("#gallery .image-upload").val("")
+	$("#gallery .gallery-title").text("Gallery")
+}
 Gallery.processFiles = function(files){
-	$("#gallery .video-progress").text("0%")
-	Gallery.videoCtx.clearRect(0, 0, Gallery.videoCanvas.width, Gallery.videoCanvas.height)
 	var file = files[0]	
 	console.log("file type: " + file.type)
+	Gallery.file = file
 	$("#gallery .image-drop").hide()
-	$("#gallery .video-target").show()
+	$("#gallery .video-target").hide()
 	$("#gallery .gamepad-button").hide()
+	$("#gallery .video-options").show()
+	$("#gallery .video-options .option-row").hide()
+	if(file.type.match("^image\/.*$")){
+		$("#gallery .video-options .option-scale").show()
+		$("#gallery .video-options .option-crop").show()
+		$("#gallery .gallery-title").text("Image options")		
+		$("#gallery .video-options .begin-upload").text("Upload image")		
+		Gallery.setScale(8)
+		Gallery.setFps(1)
+	} else if(file.type.match("^video\/.*$")){
+		$("#gallery .video-options .option-scale").show()
+		$("#gallery .video-options .option-crop").show()
+		$("#gallery .video-options .option-playback").show()
+		$("#gallery .video-options .option-fps").show()
+		$("#gallery .gallery-title").text("Video options")		
+		$("#gallery .video-options .begin-upload").text("Upload video")
+		Gallery.setScale(4)
+		Gallery.setFps(15)
+	} else {
+		alert("invalid file type: " + file.type)
+		Gallery.onUploadFinished();
+	}
+}
+Gallery.uploadFile = function(){
+	var file = Gallery.file
+	Gallery.videoCtx.clearRect(0, 0, Gallery.videoCanvas.width, Gallery.videoCanvas.height)
+	$("#gallery .video-progress").text("0%")
+	$("#gallery .video-target").show()
 	$("#gallery .video-options").hide()
-	if(file.type.match("^image\/.*$")){	
+	$("#gallery .gallery-title").text("Uploading  ...")		
+	if(file.type.match("^image\/.*$")){
 		console.log("image upload")
 		// $("#gallery .loading-overlay").show()
 		var img = new Image()
@@ -148,7 +189,7 @@ Gallery.processFiles = function(files){
 		reader.readAsDataURL(file);
 	} else {
 		Gallery.onUploadFinished();
-	}
+	}	
 }
 Gallery.extractDataUrl = function(canvas, format){
 	if(format == "jpg"){
@@ -167,8 +208,8 @@ Gallery.uploadImage = function(image){
 	
 	Gallery.generateOffscreenImage(image)
 	
-	Gallery.videoCanvas.width = 64*2
-	Gallery.videoCanvas.height = 32*2
+	Gallery.videoCanvas.width = window.innerWidth - 20
+	Gallery.videoCanvas.height = Gallery.videoCanvas.width/2
 	Gallery.videoCtx.drawImage(Gallery.offscreen.canvas, 0, 0, Gallery.videoCanvas.width, Gallery.videoCanvas.height)
 	
 	// JPG Single
@@ -207,8 +248,8 @@ Gallery.uploadVideo = function(video){
 	video.width = video.videoWidth
 	video.height = video.videoHeight
 	
-	Gallery.videoCanvas.width = 64*2
-	Gallery.videoCanvas.height = 32*2
+	Gallery.videoCanvas.width = window.innerWidth - 20
+	Gallery.videoCanvas.height = Gallery.videoCanvas.width/2
 	
 	MatrixClient.sendMessage("upload_stream_begin", []);
 	MatrixClient.sendMessage("upload_stream_meta_data", ["video", "jpg", Gallery.fps, Gallery.video_numFrames, Gallery.playbackMode == "normal" ? 0 : 1]);
@@ -233,8 +274,7 @@ Gallery.uploadVideo = function(video){
 }
 Gallery.onWebsocketMessage = function(json){
 	if(json.type == "frame-received"){
-		$("#gallery .video-progress").text(Math.round(Gallery.video_frame_id/Gallery.video_numFrames*100) + "%")
-		$("#gallery .video-progress")
+		$("#gallery .gallery-title").text("Uploading ... " + Math.round(Gallery.video_frame_id/Gallery.video_numFrames*100) + "%")
 		// next frame?
 		Gallery.video_frame_id++
 		if(Gallery.video_frame_id < Gallery.video_numFrames){
@@ -249,12 +289,7 @@ Gallery.onWebsocketMessage = function(json){
 	}
 }
 Gallery.onUploadFinished = function(){
-	$("#gallery .video-options").show()
-	$("#gallery .image-drop").show()
-	$("#gallery .video-target").hide()
-	$("#gallery .loading-overlay").hide()
-	$("#gallery .gamepad-button").show()
-	$("#gallery .image-upload").val("")
+	Gallery.restoreDefaultView()	
 }
 Gallery.generateOffscreenImage = function(image){
 	if(!image){
